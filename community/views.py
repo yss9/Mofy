@@ -8,9 +8,9 @@ from .models import Board
 
 class BoardList(APIView):
     def get(self, requset):
-        reviews = Board.objects.all()
+        boards = Board.objects.all()
 
-        serializer = BoardSerializers(reviews, many=True)
+        serializer = BoardSerializers(boards, many=True)
         return Response(serializer.data)
 
 

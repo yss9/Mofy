@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Board',
+            name='community',
             fields=[
                 ('boardID', models.AutoField(primary_key=True, serialize=False)),
                 ('title', models.TextField()),
