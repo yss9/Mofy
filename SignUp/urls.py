@@ -1,7 +1,8 @@
-from django.urls import path
-from .views import RegisterUserView, CustomAuthToken
+from django.urls import path, include
+from . import views
+from rest_framework import urls
 
 urlpatterns = [
-    path('register/', RegisterUserView.as_view(), name='register'),
-    path('login/', CustomAuthToken.as_view(), name='login'),
+    path('signup/', views.UserCreate.as_view()),
+    path('api-auth/', include('rest_framework.urls')),
 ]
