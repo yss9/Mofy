@@ -1,5 +1,8 @@
+from django.contrib.auth import authenticate
 from rest_framework import serializers
-from .models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+
+from .models import User, UserData
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,3 +19,107 @@ class UserSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+
+class LoginUserSerializer(serializers.Serializer):
+    ID = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        user = authenticate(**data)
+        if user and user.is_active:
+            return user
+        raise serializers.ValidationError("Unable to log in with provided credentials.")
+
+
+class UserDataSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = UserData
+        fields = ('id', 'height', 'weight', 'shoeType', 'clothType', 'userID')
+
+
+class UserJWTSignupSerializer(serializers.ModelSerializer):
+    ID = serializers.CharField(
+        required=True,
+        write_only=True,
+        max_length=30
+    )
+
+    email = serializers.DateField(
+        required=True,
+        write_only=True,
+    )
+
+    username = serializers.CharField(
+        required=True,
+        write_only=True,
+        max_length=30
+    )
+
+    password = serializers.CharField(
+        required=True,
+        write_only=True,
+        style={'input_type': 'password'}
+    )
+
+    class Meta(object):
+        model = User
+        fields = ['ID', 'email', 'username', 'password']
+
+    def save(self, validated_data):  # 유효성 검증?
+        user = User.objects.create_user(
+            ID=validated_data['ID'],
+            email=validated_data['email'],
+            username=validated_data['username'],
+            password=validated_data['password']
+        )
+        return user
+
+    def validate(self, data):
+        ID = data.get('ID', None)
+
+        if User.objects.filter(ID=ID).exists():
+            raise serializers.ValidationError("user already exists")
+
+        return data
+
+
+class JWTLoginSerializer(serializers.ModelSerializer):
+    ID = serializers.CharField(
+        required=True,
+        write_only=True,
+    )
+
+    password = serializers.CharField(
+        required=True,
+        write_only=True,
+        style={'input_type': 'password'}
+    )
+
+    class Meta(object):
+        model = User
+        fields = ['ID', 'password']
+
+    def validate(self, data):
+        ID = data.get('ID', None)
+        password = data.get('password', None)
+
+        if User.objects.filter(ID=ID).exists():
+            user = User.objects.get(ID=ID)
+
+            if not user.check_password(password):
+                raise serializers.ValidationError("wrong password")
+        else:
+            raise serializers.ValidationError("user account not exist")
+
+        token = RefreshToken.for_user(user)
+        refresh = str(token)
+        access = str(token.access_token)
+
+        data = {
+            'user': user,
+            'refresh': refresh,
+            'access': access,
+        }
+
+        return data
