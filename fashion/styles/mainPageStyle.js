@@ -1,13 +1,17 @@
 import styled from "@emotion/styled";
 import backgroundImage from '../public/images/backgroundImg.jpg'
 export const Wrapper = styled.div`
-  width: 1250px;
+  width: 100%;
   height: 1300px;
   font-family: sans-serif;
   background-image: url("images/backgroundImg.jpg");
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   //background-attachment: fixed;
   //&::before {
   //  content: "";
@@ -28,6 +32,10 @@ export const Wrapper = styled.div`
 //float: left;
 //margin-left: 500px;
 // `
+
+export const ConsentWrapper = styled.div`
+  
+`
 export const SearchInput = styled.input`
   width: 290px;
   height: 23px;
@@ -196,6 +204,9 @@ export const Title = styled.img`
   margin-left: 150px;
   margin-top: 20px;
   float: left;
+  &:hover {
+    cursor: pointer;
+  }
 `
 
 export const TopButton = styled.button`

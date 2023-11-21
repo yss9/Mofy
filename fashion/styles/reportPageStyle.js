@@ -153,9 +153,7 @@ export const Title = styled.img`
   height: auto;
   margin-left: 520px;
   margin-top: 20px;
-  &:hover {
-    cursor: pointer;
-  }
+
 `
 export const TitleWrapper = styled.div`
     float: left;
