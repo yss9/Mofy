@@ -8,12 +8,12 @@ from .models import User, UserData
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('ID', 'email', 'username', 'password')
+        fields = ('userID', 'email', 'username', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):  # 유효성 검증?
         user = User.objects.create_user(
-            ID=validated_data['ID'],
+            userID=validated_data['userID'],
             email=validated_data['email'],
             username=validated_data['username'],
             password=validated_data['password']
@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class LoginUserSerializer(serializers.Serializer):
-    ID = serializers.CharField()
+    userID = serializers.CharField()
     password = serializers.CharField()
 
     def validate(self, data):
@@ -39,7 +39,7 @@ class UserDataSerializers(serializers.ModelSerializer):
 
 
 class UserJWTSignupSerializer(serializers.ModelSerializer):
-    ID = serializers.CharField(
+    userID = serializers.CharField(
         required=True,
         write_only=True,
         max_length=30
@@ -64,11 +64,11 @@ class UserJWTSignupSerializer(serializers.ModelSerializer):
 
     class Meta(object):
         model = User
-        fields = ['ID', 'email', 'username', 'password']
+        fields = ['userID', 'email', 'username', 'password']
 
     def save(self, validated_data):  # 유효성 검증?
         user = User.objects.create_user(
-            ID=validated_data['ID'],
+            userID=validated_data['userID'],
             email=validated_data['email'],
             username=validated_data['username'],
             password=validated_data['password']
@@ -76,16 +76,16 @@ class UserJWTSignupSerializer(serializers.ModelSerializer):
         return user
 
     def validate(self, data):
-        ID = data.get('ID', None)
+        userID = data.get('userID', None)
 
-        if User.objects.filter(ID=ID).exists():
+        if User.objects.filter(userID=userID).exists():
             raise serializers.ValidationError("user already exists")
 
         return data
 
 
 class JWTLoginSerializer(serializers.ModelSerializer):
-    ID = serializers.CharField(
+    userID = serializers.CharField(
         required=True,
         write_only=True,
     )
@@ -98,14 +98,14 @@ class JWTLoginSerializer(serializers.ModelSerializer):
 
     class Meta(object):
         model = User
-        fields = ['ID', 'password']
+        fields = ['userID', 'password']
 
     def validate(self, data):
-        ID = data.get('ID', None)
+        userID = data.get('userID', None)
         password = data.get('password', None)
 
-        if User.objects.filter(ID=ID).exists():
-            user = User.objects.get(ID=ID)
+        if User.objects.filter(userID=userID).exists():
+            user = User.objects.get(userID=userID)
 
             if not user.check_password(password):
                 raise serializers.ValidationError("wrong password")

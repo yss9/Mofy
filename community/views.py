@@ -1,3 +1,5 @@
+from datetime import date, timedelta, datetime
+
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -12,7 +14,6 @@ from .models import Board, Comment, Like, Tag, TagBoard, ReportBoardList
 class BoardList(APIView):
     def get(self, request):
         boards = Board.objects.all()
-
         serializer = BoardSerializers(boards, many=True)
         return Response(serializer.data)
 
@@ -22,7 +23,6 @@ class BoardList(APIView):
         board_serializer = BoardSerializers(data=request.data)
         if board_serializer.is_valid():
             board_serializer.save()
-            boardID = board_serializer.data['boardID']
             return Response(board_serializer.data, status=status.HTTP_201_CREATED)
         return Response(board_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -148,12 +148,20 @@ class Report(APIView):
         if reportBoard:
             return Response(status=status.HTTP_208_ALREADY_REPORTED)
         else:
-            reportBoard_serializer = ReportBoardListSerializers(data=request.data)
-            if reportBoard_serializer.is_valid():
-                reportBoard_serializer.save()
-                return Response(reportBoard_serializer.data,status=status.HTTP_201_CREATED)
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+            report_serializer = ReportBoardListSerializers(data=request.data)
+            if report_serializer.is_valid():
+                report_serializer.save()
+                return Response(report_serializer.data, status=status.HTTP_201_CREATED)
+            return Response(report_serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StyleRankView(APIView):
+    def get(self, request):
+        one_week = datetime.now() - timedelta(days=7)
+        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:3]
+        print(styleranks.values())
+        serializers = BoardSerializers(styleranks, many=True)
+        return Response(serializers.data, status=status.HTTP_200_OK)
 
 
 
