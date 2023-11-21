@@ -23,10 +23,12 @@ class BoardList(APIView):
         if board_serializer.is_valid():
             board_serializer.save()
             boardID = board_serializer.data['boardID']
-            tag_board_serializer = TagBoardSerializers(boardID)
-            tag_board_serializer.save()
             return Response(board_serializer.data, status=status.HTTP_201_CREATED)
         return Response(board_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
 class BoardDetail(APIView):
@@ -42,6 +44,8 @@ class BoardDetail(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data)
+
+
 
     def put(self, request, pk, format=None):
         board = Board.objects.get(pk=pk)
