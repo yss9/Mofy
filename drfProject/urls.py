@@ -6,5 +6,6 @@ urlpatterns = [
     path('', include('mainApp.urls')),
     path('', include('community.urls')),
     path('', include('SignUp.urls')),
+    path('', include('accounts.urls')),
 ]
 

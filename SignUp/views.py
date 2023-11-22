@@ -53,7 +53,7 @@ class AuthView(APIView):
             ID=request.data.get("ID"), password=request.data.get("password")
         )
         if user is not None:
-            userID = self.request.user.userID
+            userID = user.userID
             serializer = UserSerializer(user, many=True)
             token = TokenObtainPairSerializer.get_token(userID)
             refresh_token = str(token)

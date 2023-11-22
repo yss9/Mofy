@@ -50,7 +50,7 @@ class UserData(models.Model):
     Cloth_Choices = {
         ("vintage", "빈티지"), ("retro", "레트로"), ("minimal", "미니멀"),
         ("casual", "캐주얼"), ("street", "스트릿"), ("dandy", "댄디"),
-        ("spoty", "스포티"), ("modern", "모던"), ("feminine", "페미닌"),
+        ("spoty", "스포티"), ("urban", "모던"), ("feminine", "페미닌"), ("classic", "클래식")
     }
     clothType = MultiSelectField(max_length=20, choices=Cloth_Choices)
     Skin_Choices = {
