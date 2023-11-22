@@ -50,12 +50,15 @@ class AuthView(APIView):
 
     def post(self, request):
         user = authenticate(
-            ID=request.data.get("ID"), password=request.data.get("password")
+            userID=request.data.get("userID"), password=request.data.get("password")
         )
         if user is not None:
+<<<<<<< HEAD
             userID = user.userID
+=======
+>>>>>>> dddaf00e331c8d7fdd487b4a1cf7e50c2bc8d6de
             serializer = UserSerializer(user, many=True)
-            token = TokenObtainPairSerializer.get_token(userID)
+            token = TokenObtainPairSerializer.get_token()
             refresh_token = str(token)
             access_token = str(token.access_token)
             res = Response(

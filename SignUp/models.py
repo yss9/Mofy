@@ -4,16 +4,16 @@ from multiselectfield import MultiSelectField
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, ID, email, username, password=None):
+    def create_user(self, userID, email, username, password=None):
         if not email:
             raise ValueError('The Email field must be set')
         email = self.normalize_email(email)
-        user = self.model(ID=ID, email=email, username=username)
+        user = self.model(userID=userID, email=email, username=username)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, ID, email, username, password=None, **extra_fields):
+    def create_superuser(self, userID, email, username, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -22,12 +22,12 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self.create_user(ID, email, username, password)
+        return self.create_user(userID, email, username, password)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    userID = models.BigAutoField(primary_key=True)
-    ID = models.CharField(max_length=30, unique=True)
+    id = models.BigAutoField(primary_key=True)
+    userID = models.CharField(max_length=30, unique=True)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=30)
     is_active = models.BooleanField(default=True)
@@ -35,11 +35,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'ID'
+    USERNAME_FIELD = 'userID'
     REQUIRED_FIELDS = ['email', 'username']
 
     def __str__(self):
-        return self.ID
+        return self.userID
 
 
 class UserData(models.Model):
