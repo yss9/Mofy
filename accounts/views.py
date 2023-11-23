@@ -10,6 +10,8 @@ from django.contrib.auth.models import update_last_login
 
 from .serializers import UserSerializer
 
+from .models import User
+from django.http import JsonResponse
 
 
 @api_view(['POST'])
@@ -48,3 +50,91 @@ def login(request):
 
     return Response({'refresh_token': str(refresh),
                      'access_token': str(refresh.access_token), }, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def finduserID(request):
+    name = request.data.get('name')
+    email = request.data.get('email')
+
+    if not email or not name:
+        return JsonResponse({'error': 'Email and name are required'}, status=400)
+
+    try:
+        user = User.objects.get(email=email, name=name)
+        return JsonResponse({'user_id': user.userID})
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def reset_password_step1(request):
+    userID = request.data.get('userID', None)
+
+    if not userID:
+        return JsonResponse({'error': 'userID is required'}, status=400)
+
+    try:
+        user = User.objects.get(userID=userID)
+        # Store userID in the session
+        request.session['reset_user_id'] = user.id
+        return JsonResponse({'message': 'Step 1 successful'})
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found'}, status=404)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def reset_password_step2(request):
+    email = request.data.get('email', None)
+    name = request.data.get('name', None)
+
+    if not email or not name:
+        return JsonResponse({'error': 'email and name are required'}, status=400)
+
+    # Retrieve userID from the session
+    user_id = request.session.get('reset_user_id', None)
+    if not user_id:
+        return JsonResponse({'error': 'Invalid or expired session'}, status=400)
+
+    try:
+        user = User.objects.get(id=user_id, email=email, name=name)
+        # Store additional data in the session
+        request.session['reset_user_data'] = {'email': email, 'name': name}
+        return JsonResponse({'message': 'Step 2 successful'})
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found or invalid session'}, status=404)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def reset_password_step3(request):
+    new_password = request.data.get('new_password', None)
+
+    if not new_password:
+        return JsonResponse({'error': 'new_password is required'}, status=400)
+
+    # Retrieve user data from the session
+    user_data = request.session.get('reset_user_data', None)
+    user_id = request.session.get('reset_user_id', None)
+
+    if not user_data or not user_id:
+        return JsonResponse({'error': 'Invalid or expired session'}, status=400)
+
+    try:
+        user = User.objects.get(id=user_id)
+        # Reset the password
+        user.set_password(new_password)
+        user.save()
+
+        # Clear session data
+        request.session.pop('reset_user_id', None)
+        request.session.pop('reset_user_data', None)
+
+        return JsonResponse({'message': 'Password reset successfully'})
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'User not found or invalid session'}, status=404)
