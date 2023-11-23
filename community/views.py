@@ -1,26 +1,34 @@
+from datetime import date, timedelta, datetime
+
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 
 from SignUp.models import User
-from .serializers import BoardSerializers, CommentSerializers, LikeSerializers
-from .models import Board, Comment, Like
+from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagSerializers, TagBoardSerializers, \
+    ReportBoardListSerializers
+from .models import Board, Comment, Like, Tag, TagBoard, ReportBoardList
 
 
 class BoardList(APIView):
     def get(self, request):
         boards = Board.objects.all()
-
         serializer = BoardSerializers(boards, many=True)
         return Response(serializer.data)
 
+
+
     def post(self, request):
-        serializer = BoardSerializers(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        board_serializer = BoardSerializers(data=request.data)
+        if board_serializer.is_valid():
+            board_serializer.save()
+            return Response(board_serializer.data, status=status.HTTP_201_CREATED)
+        return Response(board_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
 class BoardDetail(APIView):
@@ -29,12 +37,15 @@ class BoardDetail(APIView):
         board_serializer = BoardSerializers(board)
         return Response(board_serializer.data)
 
+
     def post(self, request, pk, format=None):
         serializer = CommentSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.data)
+
+
 
     def put(self, request, pk, format=None):
         board = Board.objects.get(pk=pk)
@@ -101,12 +112,57 @@ class LikeDetail(APIView):
 
 
 
-        '''
-        like = Like.objects.get(boardID=boardID, userID=userID)
-        if like:
-            like.delete()
-            return Response(status=status.HTTP_200_OK)
+class TagDetail(APIView):
+    def get(self,request,pk,format=None):
+        tagName = request.data['tagName']
+        tagId = Tag.objects.filter(tagName=tagName)
+        tag = TagBoard.objects.filter(tagId=tagId)
+        tag_serializer = TagBoardSerializers(tag, many=True)
+        return Response(tag_serializer.data)
+
+
+    def post(self, request, pk, format=None):
+        tagName = request.data['tagName']
+        tag = Tag.objects.get(tagName = tagName)
+        tag_serializer = TagSerializers(data=request.data)
+        if tag:
+            if tag_serializer.is_valid():
+                tag_serializer.save()
+                return Response(tag_serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(tag_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            like.objects.create(userID=userID, boardID=boardID)
-            return Response(status=status.HTTP_201_CREATED)
-        '''
+            return Response(status=status.HTTP_208_ALREADY_REPORTED)
+
+
+class Report(APIView):
+    def get(self, request,pk):
+        reportList = ReportBoardList.objects.all()
+        reportList_serializer = ReportBoardListSerializers(reportList, many=True)
+        return Response(reportList_serializer.data,status=status.HTTP_200_OK)
+
+    def post(self, request, pk):
+        boardID = request.data['boardID']
+        userID = request.data['userID']
+        reportBoard = ReportBoardList.objects.filter(boardID=boardID, userID=userID)
+        if reportBoard:
+            return Response(status=status.HTTP_208_ALREADY_REPORTED)
+        else:
+            report_serializer = ReportBoardListSerializers(data=request.data)
+            if report_serializer.is_valid():
+                report_serializer.save()
+                return Response(report_serializer.data, status=status.HTTP_201_CREATED)
+            return Response(report_serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StyleRankView(APIView):
+    def get(self, request):
+        one_week = datetime.now() - timedelta(days=7)
+        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:3]
+        print(styleranks.values())
+        serializers = BoardSerializers(styleranks, many=True)
+        return Response(serializers.data, status=status.HTTP_200_OK)
+
+
+
+

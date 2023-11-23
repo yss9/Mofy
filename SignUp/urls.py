@@ -1,8 +1,13 @@
 from django.urls import path, include
+from rest_authtoken.urls import router
+
 from . import views
-from rest_framework import urls
+from .views import RegisterAPIView, AuthView
 
 urlpatterns = [
-    path('signup/', views.UserCreate.as_view()),
-    path('api-auth/', include('rest_framework.urls')),
+#    path("", include(router.urls)),
+#    path('Signup/', views.UserCreate.as_view()),
+#    path("register/", RegisterAPIView.as_view()),
+#    path("auth/", AuthView.as_view()),
+
 ]
