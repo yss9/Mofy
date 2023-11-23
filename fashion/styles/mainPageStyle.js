@@ -470,3 +470,38 @@ export const WeatherDetail = styled.div`
   margin-top: 15px;
   margin-left: 5px;
 `
+export const ProfileNonUserWrapper = styled.div`
+  //background-color: #efe4e4;
+  width: 330px;
+  height: 120px;
+  //background-color: pink;
+  //border-radius: 10px;
+  border-bottom: 2px dotted rgba(201, 157, 178, 0.66);
+`
+export const LoginText = styled.div`
+  font-size: 20px;
+  color: #d37794;
+  //margin-top: 30px;
+  //margin-left: 30px;
+  //background-color: purple;
+  width: 50px;
+  height: 40px;
+  float: left;
+  font-weight: bold;
+`
+export const LoginInput = styled.input`
+  width: 200px;
+  height: 20px;
+  //margin-top: 30px;
+  float: left;
+  border: 2px solid rgba(209, 118, 147, 0.46);
+  border-radius: 5px;
+`
+export const LoginWrapper = styled.div`
+  width: 300px;
+  height: 40px;
+  //background-color: darkslateblue;
+  margin-top: 5px;
+  //margin-bottom: 10px;
+  margin-left: 30px;
+`

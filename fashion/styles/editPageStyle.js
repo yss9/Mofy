@@ -1,9 +1,15 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-  width: 1250px;
+  width: 100%;
   height: 1300px;
   font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+`
+export const ConsentWrapper = styled.div`
 `
 export const Top = styled.div`
   width: 1200px;
@@ -36,6 +42,9 @@ export const Title = styled.img`
   height: auto;
   margin-left: 520px;
   margin-top: 20px;
+  &:hover {
+    cursor: pointer;
+  }
 `
 export const TitleWrapper = styled.div`
     float: left;
@@ -83,7 +92,7 @@ export const EditPWWrapper = styled.div`
 `
 export const EditClothTypeWrapper = styled.div`
   width: 1100px;
-  height: 100px;
+  height: 150px;
   //background-color: #e8d4c3;
 `
 export const EditUserSizeWrapper = styled.div`
@@ -174,17 +183,6 @@ export const EditClothTypeText = styled.div`
   margin-top: 5px;
   margin-bottom: 20px;
 `
-export const EditClothTypeInput = styled.input`
-  width: 1000px;
-  height: 30px;
-  background: none;
-  text-decoration: underline;
-  //border: none;
-  border-top: none;
-  border-left: none;
-  border-right: none;
-  border-bottom-color: rgba(189, 133, 199, 0.39);
-`
 export const EditSkinTypeText = styled.div`
   font-size: 20px;
   font-weight: bold;
@@ -213,7 +211,7 @@ export const EditUserSizeText = styled.div`
   margin-bottom: 20px;
 `
 export const EditUserSizeInput = styled.input`
-  width: 1000px;
+  width: 100px;
   height: 30px;
   background: none;
   text-decoration: underline;
@@ -222,6 +220,8 @@ export const EditUserSizeInput = styled.input`
   border-left: none;
   border-right: none;
   border-bottom-color: rgba(189, 133, 199, 0.39);
+  margin-right: 10px;
+  float: left;
 `
 export const OverlayImage = styled.img`
   position: absolute;
@@ -234,4 +234,40 @@ export const OverlayImage = styled.img`
   object-fit: cover;
   background-color: white;
   border: 2px solid #c9a7c0;
+  cursor: pointer;
+`
+export const EditTypeButtonWrapper = styled.div`
+  width: 1000px;
+  height: 100px;
+  //background-color: pink;
+`
+export const EditTypeButton = styled.button`
+  width: 110px;
+  height: 40px;
+  float: left;
+  background-color: white;
+  //text-decoration: underline;
+  border: 2px solid pink;
+  font-size: 17px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  &:hover {
+    background-color: pink;
+    cursor: pointer;
+  }
+`
+export const EditUserSizeSubText = styled.div`
+  width: 50px;
+  height: 30px;
+  font-size: 20px;
+  float: left;
+  margin-right: 50px;
+`
+export const EditUserSizeSubWrapper = styled.div`
+  width: 1000px;
+  height: 70px;
+`
+export const OverlayImageInput = styled.input`
+  display: none;
 `

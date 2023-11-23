@@ -1,24 +1,15 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-  width: 1250px;
+  width: 100%;
   height: 1300px;
   font-family: sans-serif;
-  //background-image: url(https://scontent-lax3-1.xx.fbcdn.net/v/t39.30808-6/382602974_2024996391190404_1937442724509010265_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=49d041&_nc_ohc=yohatrltE_AAX_o88gF&_nc_ht=scontent-lax3-1.xx&oh=00_AfC-stJaxBjS5wuQv-itcO9XhEJ1C3l1Ty4AI0vXNCJHCg&oe=65258203);
-  //background-repeat: no-repeat;
-  //background-position: top center;
-  //background-size: cover;
-  //&::before {
-  //  content: "";
-  //  position: absolute; /* Wrapper 내부에 절대 위치 지정 */
-  //  top: 0;
-  //  left: 0;
-  //  width: 100%;
-  //  height: 100%;
-  //  background: linear-gradient(to right, rgba(185, 135, 210, 0.2), #ffffff 50%, rgba(240, 128, 128, 0.2)); /* 3색 그라데이션을 설정합니다. */
-  //  background-size: 100% 100%;
-  //  z-index: -1; /* 다른 요소들보다 뒤로 이동 */
-  //}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+margin-top: 400px;
+`
+export const ConsentWrapper = styled.div`
 `
 export const ProfileWrapper = styled.div`
   //background-color: #efe4e4;
@@ -98,7 +89,7 @@ export const ProfileEdit = styled.button`
     background-color: rgba(232, 202, 239, 0.51);
   }
 `
-export const ReportList = styled.button`
+export const ReportButton = styled.button`
   width: 100px;
   height: 40px;
   border: none;
@@ -118,7 +109,7 @@ export const ReportImg = styled.img`
   margin-top: 6px;
   
 `
-export const ReportListWrapper = styled.div`
+export const ReportButtonWrapper = styled.div`
   width: 130px;
   height: 50px;
   //background-color: darkgray;
@@ -273,4 +264,55 @@ export const SellList = styled.button`
   &:hover {
     background-color: rgba(232, 202, 239, 0.49);
   }
+`
+export const ReportWrapper = styled.div`
+  width: 500px;
+  height: 500px;
+  background-color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  //zIndex: 999;
+  border: 2px solid rgba(151, 106, 156, 0.52);
+  border-radius: 10px;
+`
+export const ReportText = styled.div`
+  width: 200px;
+  height: 50px;
+  font-size: 30px;
+  font-weight: bold;
+  //background-color: indianred;
+  margin-left: 170px;
+  margin-top: 20px;
+  float: left;
+  color: #966a9b;
+`
+export const ReportExitButton = styled.button`
+  width: 24px;
+  height: 24px;
+  float: right;
+  font-weight: bold;
+  color: #966a9b;
+  margin: 25px 25px;
+  background-color: white;
+  border-radius: 30px;
+  border: 2px solid rgba(151, 106, 156, 0.52);
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(253, 190, 214, 0.27);
+
+  }
+`
+export const ReportListWrapper = styled.div`
+  width: 450px;
+  height: 400px;
+  margin: 10px 25px;
+  //background-color: pink;
+  border-top: 2px dotted #b2a4b5;
+`
+export const ReportTop = styled.div`
+  width: 500px;
+  height: 70px;
 `

@@ -2,35 +2,20 @@
 
 import React, { useState } from 'react';
 import {
- TestButton,
- ModalWrapper,
- ModalContent,
- ModalText
+ InputImg, ImgInput
 } from '../../styles/testStyle';
 
 export default function BoardNewPage() {
- const [isModalOpen, setIsModalOpen] = useState(false);
 
- const openModal = () => {
-  setIsModalOpen(true);
- };
 
- const closeModal = () => {
-  setIsModalOpen(false);
- };
+// 업로드 된 이미지 미리보기
 
  return (
      <>
-      <TestButton onClick={openModal} />
-      {isModalOpen && (
-          <ModalWrapper onClick={closeModal}>
-           <ModalContent onClick={(e) => e.stopPropagation()}>
-            {/* 모달 내부에 표시될 내용 */}
-            <h2>Modal Content</h2>
-            <ModalText>다른 요소들도 보일 수 있습니다.</ModalText>
-           </ModalContent>
-          </ModalWrapper>
-      )}
+      <label>
+       <InputImg src="https://www.google.com/imgres?imgurl=https%3A%2F%2Fi.namu.wiki%2Fi%2F-uIrg-XGR8jl44xEPSd3W7ICl_niyYvpKcnupgPu44OjVP4dP7sQRez_7yAMRoOU4tpr2uQHS-HCOyPOJUH7wQ.webp&tbnid=1CCZfThZuaTNoM&vet=12ahUKEwiC_qDJwtmCAxVIc_UHHX23AoIQMygAegQIARAw..i&imgrefurl=https%3A%2F%2Fnamu.wiki%2Fw%2FSecure%2520Digital&docid=8XNqe7IVTkdmWM&w=580&h=716&q=sd&hl=ko&ved=2ahUKEwiC_qDJwtmCAxVIc_UHHX23AoIQMygAegQIARAw"/>
+       <ImgInput type="file" accept="image/*"/>
+      </label>
      </>
  );
 }
