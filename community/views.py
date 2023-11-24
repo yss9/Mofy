@@ -1,11 +1,11 @@
 from datetime import date, timedelta, datetime
 
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 
-from SignUp.models import User
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagSerializers, TagBoardSerializers, \
     ReportBoardListSerializers
 from .models import Board, Comment, Like, Tag, TagBoard, ReportBoardList

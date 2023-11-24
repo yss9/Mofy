@@ -1,7 +1,6 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import BoardDetail, BoardList, CommentDetail, LikeDetail, CommentPutDel, TagDetail, Report, StyleRankView, \
-    BoardTypeList
+from .views import BoardDetail, BoardList, CommentDetail, LikeDetail, CommentPutDel, TagDetail, Report, StyleRankView, BoardTypeList
 
 urlpatterns = [
     path('board/', BoardList.as_view()),
