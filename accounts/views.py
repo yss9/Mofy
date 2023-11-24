@@ -48,8 +48,13 @@ def login(request):
     refresh = RefreshToken.for_user(user)
     update_last_login(None, user)
 
-    return Response({'refresh_token': str(refresh),
-                     'access_token': str(refresh.access_token), }, status=status.HTTP_200_OK)
+    return Response({
+        'success':  True,
+        'message': '로그인 성공',
+        'token': str(refresh.access_token),
+        #'refresh_token': str(refresh),
+        #'access_token': str(refresh.access_token),
+    }, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -73,7 +78,7 @@ def finduserID(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def reset_password_step1(request):
-    userID = request.data.get('userID', None)
+    userID = request.data.get('userID')
 
     if not userID:
         return JsonResponse({'error': 'userID is required'}, status=400)
@@ -82,7 +87,8 @@ def reset_password_step1(request):
         user = User.objects.get(userID=userID)
         # Store userID in the session
         request.session['reset_user_id'] = user.id
-        return JsonResponse({'message': 'Step 1 successful'})
+        return JsonResponse({'message': 'Step 1 successful',
+                             'user_id': user.id})
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
 
@@ -90,22 +96,24 @@ def reset_password_step1(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def reset_password_step2(request):
-    email = request.data.get('email', None)
-    name = request.data.get('name', None)
+    email = request.data.get('email')
+    name = request.data.get('name')
+    reuser_id=request.data.get('user_id')
 
     if not email or not name:
-        return JsonResponse({'error': 'email and name are required'}, status=400)
+        return JsonResponse({'error': 'email and name are required'}, status=402)
 
     # Retrieve userID from the session
-    user_id = request.session.get('reset_user_id', None)
+    user_id = request.session.get('reset_user_id')
     if not user_id:
-        return JsonResponse({'error': 'Invalid or expired session'}, status=400)
+        return JsonResponse({'error': 'Invalid or expired session'}, status=401)
 
     try:
-        user = User.objects.get(id=user_id, email=email, name=name)
+        user = User.objects.get(reuser_id=id, email=email, name=name)
         # Store additional data in the session
         request.session['reset_user_data'] = {'email': email, 'name': name}
-        return JsonResponse({'message': 'Step 2 successful'})
+        return JsonResponse({'message': 'Step 2 successful',
+                             'user_id': user.id})
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found or invalid session'}, status=404)
 
@@ -114,6 +122,7 @@ def reset_password_step2(request):
 @permission_classes([AllowAny])
 def reset_password_step3(request):
     new_password = request.data.get('new_password', None)
+    reuser_id = request.data.get('user_id')
 
     if not new_password:
         return JsonResponse({'error': 'new_password is required'}, status=400)
@@ -122,11 +131,11 @@ def reset_password_step3(request):
     user_data = request.session.get('reset_user_data', None)
     user_id = request.session.get('reset_user_id', None)
 
-    if not user_data or not user_id:
-        return JsonResponse({'error': 'Invalid or expired session'}, status=400)
+   # if not user_data or not user_id:
+    #    return JsonResponse({'error': 'Invalid or expired session'}, status=400)
 
     try:
-        user = User.objects.get(id=user_id)
+        user = User.objects.get(reuser_id=id, email=user_data.email)
         # Reset the password
         user.set_password(new_password)
         user.save()
