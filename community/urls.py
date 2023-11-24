@@ -1,6 +1,7 @@
 from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
-from .views import BoardDetail, BoardList, CommentDetail, LikeDetail, CommentPutDel, TagDetail, Report, StyleRankView
+from .views import BoardDetail, BoardList, CommentDetail, LikeDetail, CommentPutDel, TagDetail, Report, StyleRankView, \
+    BoardTypeList
 
 urlpatterns = [
     path('board/', BoardList.as_view()),
@@ -10,7 +11,8 @@ urlpatterns = [
     path('board/comment/<int:pk>', CommentPutDel.as_view()),
     path('board/tag/<int:pk>', TagDetail.as_view()),
     path('board/<int:pk>/report',Report.as_view()),
-    path('board/stylerank',StyleRankView.as_view())
+    path('board/stylerank',StyleRankView.as_view()),
+    path('board/',BoardTypeList.as_view())
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

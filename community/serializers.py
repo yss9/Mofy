@@ -5,7 +5,7 @@ from .models import Board, Comment, Like, Message, ReportBoardList, StyleRank, T
 class BoardSerializers(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ('boardID', 'title', 'content', 'boardType', 'datetime', 'image', 'like_num', 'price', 'state', 'userID')
+        fields = ('boardID', 'title', 'content', 'boardType', 'datetime', 'image', 'like_num', 'price', 'state', 'userID', 'address')
 
 class CommentSerializers(serializers.ModelSerializer):
     class Meta:

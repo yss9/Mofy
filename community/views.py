@@ -29,6 +29,13 @@ class BoardList(APIView):
 
 
 
+class BoardTypeList(APIView):
+    def get(self, request, pk, format=None):
+        boardType = request.GET.get['boardType',1]
+        board = Board.objects.filter(boardType=boardType)
+        serializer = BoardSerializers(board, many=True)
+        return Response(serializer.data)
+
 
 
 class BoardDetail(APIView):
