@@ -1,6 +1,7 @@
 from django.db import models
 
-from SignUp.models import User
+from accounts.models import User
+
 
 # Create your models here.
 
@@ -15,6 +16,7 @@ class Board(models.Model):
     like_num = models.PositiveSmallIntegerField(default=0)  # 좋아요 수
     price = models.BigIntegerField(default=0)  # 판매 가격
     state = models.BooleanField(default=True)  # 판매중 상태
+    address = models.TextField() # 주소
 
 
 class Comment(models.Model):
