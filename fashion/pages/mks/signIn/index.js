@@ -5,7 +5,7 @@ import {Wrapper, ConsentWrapper, IdIcon, IconWrapper,
     SubTitle, ErrorMsg, PwCheckWrapper, PwCheckInput
 }from '../../../styles/styles/BoardssignIn'
 
-import {Title, TitleWrapper} from '@/styles/styles/BoardsfindId'
+import {Title, TitleWrapper} from '../../../styles/styles/BoardsfindId'
 
 import {useState} from "react";
 import {useEffect} from "react";
