@@ -273,3 +273,9 @@ export const EditUserSizeSubWrapper = styled.div`
 export const OverlayImageInput = styled.input`
   display: none;
 `
+export const Check =styled.div`
+     color:red;
+   font-size:13px;
+ margin-left: -160px;
+ margin-top: 9px;
+`
