@@ -20,6 +20,7 @@ import {
 } from '../../../styles/mainPageStyle'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Cookies from "js-cookie";
 // import {WeatherApp} from './WeatherApp'
 
 
@@ -137,11 +138,12 @@ export default function BoardNewPage() {
         }
         if (id && pw) {
             axios
-                .post("http://localhost:8000/api/login/", { id, pw })
+                .post("http://localhost:8000/login/normal/", { userID: id, password: pw })
                 .then((response) => {
                     if (response.data.success) {
                         // 로그인 성공 시 쿠키에 토큰 저장
-                        Cookies.set("token", response.data.token, { expires: 7 }); // 7일간 유지
+                        Cookies.set("access_token", response.data.access_token, { expires: 7 });
+                        Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 });// 7일간 유지
                         alert("로그인 성공!");
                         window.location.href = "http://localhost:3000/hwj/mainPage";
                     } else {
