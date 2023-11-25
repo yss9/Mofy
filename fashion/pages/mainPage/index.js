@@ -18,6 +18,7 @@ import {
 } from '../../styles/mainPageStyle'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 // import {WeatherApp} from './WeatherApp'
 
 const onClickHome = () => {
@@ -40,6 +41,25 @@ export default function BoardNewPage() {
     const [weatherData, setWeatherData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [search, setSearch] = useState("");
+    const [username, setUsername] = useState(null);
+    const accessToken = Cookies.get('access_token');
+    const refreshToken = Cookies.get('refresh_token');
+
+    if (accessToken) {
+        // 서버로 토큰과 함께 요청을 보냄
+        axios.get('http://127.0.0.1:8000/userinfo/', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+            .then(response => {
+                // 서버에서 받은 사용자 정보를 상태에 저장
+                setUsername(response.data);
+            })
+            .catch(error => {
+                console.error('서버 요청 오류:', error);
+            });
+    }
     const onChangeSearch = (event) => {
         setSearch(event.target.value);
     }
@@ -274,7 +294,18 @@ export default function BoardNewPage() {
                                 <ProfileText>My Profile</ProfileText>
                                 <ProfileUserWrapper>
                                     <ProfileImg src="https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"/>
-                                    <ProfileName>MyName</ProfileName>
+                                    <ProfileName>MyName
+                                        {username ? (
+                                            <div>
+                                                <h1>Welcome, {username.username}!</h1>
+                                                {/* 기타 사용자 정보를 표시할 수 있음 */}
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p>Loading...</p>
+                                            </div>
+                                        )}
+                                    </ProfileName>
                                 </ProfileUserWrapper>
                                 <ProfileEdit onClick={onClickEdit}>프로필 수정</ProfileEdit>
                             </ProfileWrapper>
