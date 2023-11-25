@@ -18,11 +18,18 @@ const onClickHome = () => {
 const onClickDelete = () => {
     window.location.href = "http://localhost:3000/deletePage";
 }
+// 버튼을 클릭했을 때 호출되는 함수입니다.
+
 
 export default function BoardNewPage() {
     const [imgFile, setImgFile] = useState("");
     const imgRef = useRef();
+    const [isClicked, setClicked] = useState(false);
 
+    const handleClick = () => {
+        // 클릭 상태를 반전시킵니다.
+        setClicked(!isClicked);
+    };
 // 이미지 업로드 input의 onChange
     const saveImgFile = () => {
         const file = imgRef.current.files[0];
@@ -65,7 +72,11 @@ export default function BoardNewPage() {
                         <EditClothTypeWrapper>
                             <EditClothTypeText>옷 타입</EditClothTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton>#Simple</EditTypeButton>
+                                <EditTypeButton onClick={handleClick}>
+                                    #Simple
+                                    {isClicked ? '클릭됨' : '클릭 안됨'}
+
+                                </EditTypeButton>
                                 <EditTypeButton>#Modern</EditTypeButton>
                                 <EditTypeButton>#Feminine</EditTypeButton>
                                 <EditTypeButton>#Dandy</EditTypeButton>

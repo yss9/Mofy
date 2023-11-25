@@ -246,12 +246,14 @@ export const EditTypeButton = styled.button`
   height: 40px;
   float: left;
   background-color: white;
+  // background-color: ${({ isClicked }) => (isClicked ? 'blue' : 'green')};
   //text-decoration: underline;
   border: 2px solid pink;
   font-size: 17px;
   margin-right: 10px;
   margin-bottom: 5px;
   border-radius: 10px;
+
   &:hover {
     background-color: pink;
     cursor: pointer;

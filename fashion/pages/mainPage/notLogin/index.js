@@ -11,21 +11,33 @@ import {
     WeatherInfo, TradeText, CommunityText,
     WeatherImg, WeatherDetail, TemInfo,
     ModalContent, ModalWrapper, RecentSearchWrapper,
-    RecentSearchButton, RecentSearchText,
+    RecentSearchButton, RecentSearchText, NotLoginWrapper,
     Rate, PopularSearchText, PopularSearchItems, TagText,
     TagButton, MoreTagButton, PopularSearchItemsWrapper,
     PopularSearchWrapper, TagButtonWrapper, TagWrapper,
-    ProfileNonUserWrapper, LoginText, LoginInput, LoginWrapper
+    ProfileNonUserWrapper, LoginText, LoginInput, LoginWrapper,
+    Bar, LoginButton, Check, SignIn, FindPw, FindId, LoginOption
 } from '../../../styles/mainPageStyle'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 // import {WeatherApp} from './WeatherApp'
+
 
 const onClickHome = () => {
     window.location.href = "http://localhost:3000/mainPage";
 }
 const onClickMyPage = () => {
     window.location.href = "http://localhost:3000/myPage";
+}
+const ClickButton = () => {
+    // 클릭 상태를 저장하는 state 변수와 해당 상태를 갱신하는 함수를 생성합니다.
+    const [isClicked, setClicked] = useState(false);
+
+    // 버튼을 클릭했을 때 호출되는 함수입니다.
+    const handleClick = () => {
+        // 클릭 상태를 반전시킵니다.
+        setClicked(!isClicked);
+    };
 }
 const onClickEdit = () => {
     window.location.href = "http://localhost:3000/editPage";
@@ -41,6 +53,11 @@ export default function BoardNewPage() {
     const [weatherData, setWeatherData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [search, setSearch] = useState("");
+    const[id, setId]= useState("");
+    const[pw, setPw] = useState("");
+
+    const[idError, setIdError] = useState("");
+    const [pwError, setPwError] = useState("");
     const onChangeSearch = (event) => {
         setSearch(event.target.value);
     }
@@ -98,10 +115,71 @@ export default function BoardNewPage() {
         setIsModalOpen(false);
     };
 
+
+    const onChangeId=(event)=>{
+        setId(event.target.value)
+        if(event.target.value !== ""){
+            setIdError("")
+        }
+    }
+    const onChangePw=(event) =>{
+        setPw(event.target.value)
+        if(event.target.value !== ""){
+            setPwError("")
+        }
+    }
+    const onClickLogin = () => {
+        if (!id) {
+            setIdError("아이디를 입력해주세요.");
+        }
+        if (!pw) {
+            setPwError("비밀번호를 입력해주세요");
+        }
+        if (id && pw) {
+            axios
+                .post("http://localhost:8000/api/login/", { id, pw })
+                .then((response) => {
+                    if (response.data.success) {
+                        // 로그인 성공 시 쿠키에 토큰 저장
+                        Cookies.set("token", response.data.token, { expires: 7 }); // 7일간 유지
+                        alert("로그인 성공!");
+                        window.location.href = "http://localhost:3000/hwj/mainPage";
+                    } else {
+                        alert("로그인 실패: " + response.data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error("API 호출 중 오류 발생:", error);
+                });
+        }
+    }
+
+    const onClickSignIn = () => {
+        window.location.href = "http://localhost:3000/mks/signIn";
+    }
+
+    const onClickHome = () => {
+        window.location.href = "https://www.google.com";
+    }
+
+    const onClickFindPw = () => {
+        window.location.href="http://localhost:3000/mks/findPw";
+    }
+
+    const onClickFindId=()=>{
+        window.location.href="http://localhost:3000/mks/findId";
+    }
+
+    const enterKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            onClickLogin();
+        }
+    }
+
     return (
 
         <>
-            <Wrapper>
+            <NotLoginWrapper>
                 <ConsentWrapper>
                     <Top>
                         <SearchInput onClick={openModal} type="text" placeholder="검색어를 입력하세요."></SearchInput>
@@ -206,7 +284,7 @@ export default function BoardNewPage() {
                                 </ModalContent>
                             </ModalWrapper>
                         )}
-                        <Title onClick={onClickHome} src="images/mofylogo"/>
+                        <Title onClick={onClickHome} src="../images/mofylogo.png"/>
                         <TopButton>Log Out</TopButton>
                         <TopButton onClick={onClickMyPage}>My Page</TopButton>
                     </Top>
@@ -276,14 +354,26 @@ export default function BoardNewPage() {
                                 <ProfileNonUserWrapper>
                                     <LoginWrapper>
                                         <LoginText>ID</LoginText>
-                                        <LoginInput></LoginInput>
+                                        <LoginInput type="text" maxlength="11" size="44" placeholder="아이디" onChange={onChangeId} onKeyPress={enterKeyPress}></LoginInput>
+                                        <Check>{idError}</Check>
                                     </LoginWrapper>
                                     <LoginWrapper>
                                         <LoginText>PW</LoginText>
-                                        <LoginInput></LoginInput>
+                                        <LoginInput type="text " maxlength="11" size="44" placeholder="비밀번호" onChange={onChangePw} onKeyPress={enterKeyPress}></LoginInput>
+                                        <Check>{pwError}</Check>
                                     </LoginWrapper>
-
+                                    <LoginButton type="button" onClick={onClickLogin}>
+                                        로그인
+                                    </LoginButton>
+                                    <LoginOption>
+                                        <FindId type="button" onClick={onClickFindId}>아이디 찾기</FindId>
+                                        <Bar>｜</Bar>
+                                        <FindPw type="button" onClick={onClickFindPw}>비밀번호 찾기</FindPw>
+                                        <Bar>｜</Bar>
+                                        <SignIn type="button" onClick={onClickSignIn}>회원가입</SignIn>
+                                    </LoginOption>
                                 </ProfileNonUserWrapper>
+
                                 {/*<ProfileEdit onClick={onClickEdit}>프로필 수정</ProfileEdit>*/}
                             </ProfileWrapper>
                             <WeatherText>Today's Weather</WeatherText>
@@ -323,7 +413,7 @@ export default function BoardNewPage() {
                         </TradeWrapper>
                     </Bottom>
                 </ConsentWrapper>
-            </Wrapper>
+            </NotLoginWrapper>
         </>
 
     )

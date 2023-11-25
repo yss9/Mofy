@@ -11,28 +11,19 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  //background-attachment: fixed;
-  //&::before {
-  //  content: "";
-  //  position: absolute; /* Wrapper 내부에 절대 위치 지정 */
-  //  top: -400px;
-  //  left: -500px;
-  //  width: 1000px;
-  //  height: 1000px;
-  //  background: radial-gradient(circle, rgba(255, 148, 255, 0.35), rgb(255, 255, 255));
-  //  border-radius: 50%; /* 원 모양으로 만들기 */
-  //  z-index: -1; /* 다른 요소들보다 뒤로 이동 */
-  //}
 `
-// export const Title = styled.div`
-//width: 200px;
-//height: 80px;
-//background-color: #f8e5d5;
-//float: left;
-//margin-left: 500px;
-// `
-
+export const NotLoginWrapper = styled.div`
+  width: 100%;
+  height: 1300px;
+  font-family: sans-serif;
+  background-image: url("../images/backgroundImg.jpg");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 export const ConsentWrapper = styled.div`
   
 `
@@ -374,11 +365,11 @@ export const StylesTagWrapper = styled.div`
 `
 export const ProfileText = styled.div`
   width: 320px;
-  height: 50px;
+  height: 40px;
   font-size: 25px;
   font-weight: bold;
   color: #e4808e;
-  margin-top: 20px;
+  margin-top: 10px;
   //background-color: darkslateblue;
 `
 export const ProfileUserWrapper = styled.div`
@@ -421,7 +412,7 @@ export const WeatherText = styled.div`
   font-size: 25px;
   font-weight: bold;
   color: #e4808e;
-  margin-top: 20px;
+  margin-top: 40px;
   //background-color: darkslateblue;
 `
 export const TemInfo = styled.div`
@@ -473,7 +464,7 @@ export const WeatherDetail = styled.div`
 export const ProfileNonUserWrapper = styled.div`
   //background-color: #efe4e4;
   width: 330px;
-  height: 120px;
+  height: 170px;
   //background-color: pink;
   //border-radius: 10px;
   border-bottom: 2px dotted rgba(201, 157, 178, 0.66);
@@ -504,4 +495,69 @@ export const LoginWrapper = styled.div`
   margin-top: 5px;
   //margin-bottom: 10px;
   margin-left: 30px;
+`
+export const Check = styled.div`
+  color: red;
+  font-size: 13px;
+  margin-left: -160px;
+  margin-top: 9px;
+`
+export const LoginButton = styled.button`
+  //position: fixed;
+  //margin-top: 55px;
+  margin-left: 70px;
+  width: 170px;
+  height: 30px;
+  //background-image: linear-gradient(to right, #b987d2, lightcoral);;
+  background-color: rgba(225, 185, 196, 0.4);
+  border: none;
+  border-radius: 5px;
+  color: #7c4456;
+  font-size: 15px;
+  //letter-spacing: -1px;
+  font-weight: bold;
+  cursor: pointer;
+`
+export const FindId = styled.button`
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  //margin-left: 610px;
+  //margin-top: 15px;
+  cursor: pointer;
+  color: #7c4456;
+`
+export const FindPw = styled.button`
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  margin-left: 15px;
+  cursor: pointer;
+  color: #7c4456;
+`
+export const SignIn = styled.button`
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  margin-left: 15px;
+  cursor: pointer;
+  color: #7c4456;
+`
+export const Bar= styled.button`
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  margin-left: 15px;
+  color: #7c4456;
+`
+export const LoginOption = styled.div`
+  width: 330px;
+  height: 30px;
+  margin-top: 15px;
+  margin-left: 10px;
+  //background-color: darkslateblue;
 `
