@@ -7,8 +7,19 @@ from rest_framework.response import Response
 from django.http import Http404
 
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
-    ReportBoardListSerializers, TagBoardSerializers
+    ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers
 from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard
+
+
+
+class Test(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        serializer = PhotoSaveSerializers(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class BoardList(APIView):
