@@ -6,9 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 
-from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagSerializers, TagBoardSerializers, \
+from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagBoardSerializers, \
     ReportBoardListSerializers
-from .models import Board, Comment, Like, Tag, TagBoard, ReportBoardList
+from .models import Board, Comment, Like, TagBoard, ReportBoardList
 
 
 class BoardList(APIView):
@@ -118,7 +118,7 @@ class LikeDetail(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-
+'''
 class TagDetail(APIView):
     def get(self,request,pk,format=None):
         tagName = request.data['tagName']
@@ -140,6 +140,8 @@ class TagDetail(APIView):
                 return Response(tag_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_208_ALREADY_REPORTED)
+'''
+
 
 
 class Report(APIView):
