@@ -58,13 +58,15 @@ export default function BoardNewPage() {
 
     if (accessToken) {
         // 서버로 토큰과 함께 요청을 보냄
-        axios.get('http://127.0.0.1:8000/userinfo/', {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
+        axios
+            .get('http://127.0.0.1:8000/userinfo/', {
+            // headers: {
+            //     Authorization: `Bearer ${accessToken}`,
+            // },
         })
             .then(response => {
                 // 서버에서 받은 사용자 정보를 상태에 저장
+                console.log(response.data)
                 setUsername(response.data);
             })
             .catch(error => {
