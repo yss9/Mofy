@@ -60,11 +60,14 @@ class User(AbstractBaseUser):
         db_table = 'user'  # 테이블명을 user로 설정
 
 
+class UserDataManager(models.Manager):
+    pass
+
 class UserData(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    height = models.IntegerField()
-    weight = models.IntegerField()
-    shoeType = models.IntegerField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    height = models.IntegerField(default=0)
+    weight = models.IntegerField(default=0)
+    shoeType = models.IntegerField(default=0)
     Cloth_Choices = {
         ("vintage", "빈티지"), ("retro", "레트로"), ("minimal", "미니멀"),
         ("casual", "캐주얼"), ("street", "스트릿"), ("dandy", "댄디"),
@@ -76,6 +79,8 @@ class UserData(models.Model):
         ("sensitive", "민감성"), ("combination", "복합성"), ("acne", "여드름"),
     }
     skinType = MultiSelectField(max_length=20, choices=Skin_Choices)
+
+    objects = UserDataManager()
 
     class Meta:
         db_table = 'userdata'

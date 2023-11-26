@@ -134,8 +134,8 @@ CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        #'rest_framework.permissions.IsAuthenticated',  # 인증된 요청인지 확인
-        #'rest_framework.permissions.IsAdminUser',  # 관리자만 접근 가능
+        'rest_framework.permissions.IsAuthenticated',  # 인증된 요청인지 확인
+        'rest_framework.permissions.IsAdminUser',  # 관리자만 접근 가능
         'rest_framework.permissions.AllowAny',  # 누구나 접근 가능
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
