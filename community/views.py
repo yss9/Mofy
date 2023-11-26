@@ -165,7 +165,7 @@ class Report(APIView):
 class StyleRankView(APIView):
     def get(self, request):
         one_week = datetime.now() - timedelta(days=7)
-        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:3]
+        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:4]
         print(styleranks.values())
         serializers = BoardSerializers(styleranks, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
