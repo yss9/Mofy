@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "mainApp",
     "community",
     'accounts',
+    "Search"
 ]
 
 
