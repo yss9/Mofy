@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+from multiselectfield import MultiSelectField
 
 
 class UserManager(BaseUserManager):
@@ -57,3 +58,29 @@ class User(AbstractBaseUser):
 
     class Meta:
         db_table = 'user'  # 테이블명을 user로 설정
+
+
+class UserDataManager(models.Manager):
+    pass
+
+class UserData(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    height = models.IntegerField(default=0)
+    weight = models.IntegerField(default=0)
+    shoeType = models.IntegerField(default=0)
+    Cloth_Choices = {
+        ("vintage", "빈티지"), ("retro", "레트로"), ("minimal", "미니멀"),
+        ("casual", "캐주얼"), ("street", "스트릿"), ("dandy", "댄디"),
+        ("spoty", "스포티"), ("urban", "모던"), ("feminine", "페미닌"), ("classic", "클래식")
+    }
+    clothType = MultiSelectField(max_length=20, choices=Cloth_Choices)
+    Skin_Choices = {
+        ("normal", "보통"), ("dry", "건성"), ("oily", "지성"),
+        ("sensitive", "민감성"), ("combination", "복합성"), ("acne", "여드름"),
+    }
+    skinType = MultiSelectField(max_length=20, choices=Skin_Choices)
+
+    objects = UserDataManager()
+
+    class Meta:
+        db_table = 'userdata'

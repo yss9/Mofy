@@ -9,6 +9,7 @@ class CommentSerializers(serializers.ModelSerializer):
 
 
 class BoardSerializers(serializers.ModelSerializer):
+    image = serializers.ImageField(use_url=True)
 
     class Meta:
         model = Board

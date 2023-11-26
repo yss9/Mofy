@@ -11,7 +11,7 @@ class Board(models.Model):
     boardType = models.SmallIntegerField()  # 게시글 타입(자유,패션,거래)
     title = models.TextField(max_length=50)  # 게시글 제목
     content = models.TextField()  # 게시글 본문
-    image = models.TextField()  # 게시글 사진
+    image = models.ImageField(blank=True, null=True, upload_to="uploads")  # 게시글 사진
     datetime = models.DateTimeField(auto_now=True)  # 글 작성 날짜
     like_num = models.PositiveSmallIntegerField(default=0)  # 좋아요 수
     price = models.BigIntegerField(default=0)  # 판매 가격
