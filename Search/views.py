@@ -44,3 +44,4 @@ class SearchSuggestionView(View):
             .order_by('-query_count')[:5]
         suggestions = [item['query'] for item in suggestions]
         return JsonResponse(suggestions, safe=False)
+
