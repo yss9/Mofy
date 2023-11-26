@@ -42,6 +42,20 @@ export default function BoardNewPage() {
     const[heightError, setHeightError] = useState("");
     const [weightError, setWeightError] = useState("");
 
+    const [activeClothTypes, setActiveClothTypes] = useState([]);
+
+    const toggleClothType = (type) => {
+        // setClicked(!isClicked);
+        if (activeClothTypes.includes(type)) {
+            setClicked(isClicked === false);
+            // 이미 배열에 있는 경우 비활성화 (제거)
+            setActiveClothTypes(activeClothTypes.filter((activeClothType) => activeClothType !== type));
+        } else {
+            setClicked(isClicked === true);
+            // 배열에 없는 경우 활성화 (추가)
+            setActiveClothTypes([...activeClothTypes, type]);
+        }
+    };
     const onChangeName=(event)=>{
         setName(event.target.value)
         if(event.target.value !== ""){
@@ -66,15 +80,6 @@ export default function BoardNewPage() {
             setWeightError("")
         }
     }
-    // const [clothTypes, setClothTypes] = useState(["Shirt", "Pants", "Jacket"]);
-
-    // const getUserName = () => {
-    //     username ? (
-    //         <h1>Welcome, {username.username}!</h1>
-    //     ) : (
-    //         <p>Loading...</p>
-    //     )
-    // }
     const onClickSave = () => {
         window.location.href="http://localhost:3000/myPage"
 
@@ -91,29 +96,10 @@ export default function BoardNewPage() {
                 console.error('서버 요청 오류:', error);
             });
     }
-    // if (accessToken) {
-    //     // 서버로 토큰과 함께 요청을 보냄
-    //     axios.post('http://127.0.0.1:8000/userinfo/', {
-    //         headers: {
-    //             Authorization: `Bearer ${accessToken}`,
-    //         },
-    //         userID:setId ,
-    //         password: setPw,
-    //         weight: setWeight,
-    //         height: setHeight
-    //     })
-    //         .then(response => {
-    //             // 서버에서 받은 사용자 정보를 상태에 저장
-    //             setUsername(response.data.username);
-    //         })
-    //         .catch(error => {
-    //             console.error('서버 요청 오류:', error);
-    //         });
-    // }
-    const handleClick = () => {
-        // 클릭 상태를 반전시킵니다.
-        setClicked(!isClicked);
-    };
+    // const handleClick = () => {
+    //     // 클릭 상태를 반전시킵니다.
+    //     setClicked(!isClicked);
+    // };
 // 이미지 업로드 input의 onChange
     const saveImgFile = () => {
         const file = imgRef.current.files[0];
@@ -160,12 +146,14 @@ export default function BoardNewPage() {
                         <EditClothTypeWrapper>
                             <EditClothTypeText>옷 타입</EditClothTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton onClick={handleClick}>
-                                    #Simple
-                                    {isClicked ? '클릭됨' : '클릭 안됨'}
-
+                                <p>활성화된 ID: {activeClothTypes.join(', ')}</p>
+                                <EditTypeButton onClick={() => toggleClothType(1)} style={{ backgroundColor: isClicked ? 'pink' : 'white' }}>
+                                    ID 1
+                                    #Modern
                                 </EditTypeButton>
-                                <EditTypeButton>#Modern</EditTypeButton>
+                                <EditTypeButton onClick={() => toggleClothType(2)}>
+                                    ID 2
+                                    #Modern</EditTypeButton>
                                 <EditTypeButton>#Feminine</EditTypeButton>
                                 <EditTypeButton>#Dandy</EditTypeButton>
                                 <EditTypeButton>#레트로</EditTypeButton>
@@ -195,7 +183,7 @@ export default function BoardNewPage() {
                                 <EditUserSizeSubText>cm</EditUserSizeSubText>
                                 <EditUserSizeInput onChange={onChangeWeight}/>
                                 <Check>{weightError}</Check>
-                                <EditUserSizeSubText>kg</EditUserSizeSubText>
+                                <EditUserSizeSubText>kg{weight}</EditUserSizeSubText>
                             </EditUserSizeSubWrapper>
                         </EditUserSizeWrapper>
                         <EditUser onClick={onClickSave}>저장하기</EditUser>

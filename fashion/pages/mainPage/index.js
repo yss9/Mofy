@@ -42,12 +42,36 @@ export default function BoardNewPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
+    const [mofyUser1, setMofyUser1] = useState(null);
+    const [mofyUser2, setMofyUser2] = useState(null);
+    const [mofyUser3, setMofyUser3] = useState(null);
+    const [mofyUser4, setMofyUser4] = useState(null);
+
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');
+
+    // if () {
+    //     axios.get('board/stylerank', {
+    //
+    //     })
+    // }
 
     if (accessToken) {
         // 서버로 토큰과 함께 요청을 보냄
         axios.get('http://127.0.0.1:8000/userinfo/', {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+            .then(response => {
+                // 서버에서 받은 사용자 정보를 상태에 저장
+                setUsername(response.data);
+            })
+            .catch(error => {
+                console.error('서버 요청 오류:', error);
+            });
+
+        axios.get('http://127.0.0.1:8000/httpboard/stylerank', {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
@@ -241,7 +265,18 @@ export default function BoardNewPage() {
                                     </StylesImgWrapper>
                                     <StylesUserWrapper>
                                         <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesUserName>유저1</StylesUserName>
+                                        <StylesUserName>유저1
+                                            {/*{username ? (*/}
+                                            {/*    <div>*/}
+                                            {/*        <h1>Welcome, {username.username}!</h1>*/}
+                                            {/*        /!* 기타 사용자 정보를 표시할 수 있음 *!/*/}
+                                            {/*    </div>*/}
+                                            {/*) : (*/}
+                                            {/*    <div>*/}
+                                            {/*        <p>Loading...</p>*/}
+                                            {/*    </div>*/}
+                                            {/*)}*/}
+                                        </StylesUserName>
                                     </StylesUserWrapper>
                                     <StylesTagWrapper>
                                         <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>

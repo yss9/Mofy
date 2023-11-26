@@ -29,7 +29,7 @@ export default function BoardsLoginPage(){
             setPwError("")
         }
     }
-    const onClickLogin = () => {
+    const onClickLogin = async () => {
         if (!id) {
             setIdError("아이디를 입력해주세요.");
         }
@@ -37,13 +37,13 @@ export default function BoardsLoginPage(){
             setPwError("비밀번호를 입력해주세요");
         }
         if (id && pw) {
-            axios
-                .post("http://localhost:8000/login/normal/", { userID:id ,password: pw })
+           const result = await axios.post("http://localhost:8000/login/normal/", { userID:id ,password: pw })
                 .then((response) => {
                     if (response.data.success) {
                         // 로그인 성공 시 쿠키에 토큰 저장
                         Cookies.set("access_token", response.data.access_token, { expires: 7 });
                         Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 });// 7일간 유지
+                        console.log(response.data)
                         alert("로그인 성공!");
                         window.location.href = "http://localhost:3000/hwj/mainPage";
                     } else {
