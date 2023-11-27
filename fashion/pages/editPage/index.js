@@ -29,8 +29,6 @@ export default function BoardNewPage() {
     const imgRef = useRef();
     const [isClicked, setClicked] = useState(false);
     // const [username, setUsername] = useState(null);
-    const accessToken = Cookies.get('access_token');
-    const refreshToken = Cookies.get('refresh_token');
 
     const [name, setName]= useState("");
     const [pw, setPw] = useState("");
@@ -75,18 +73,24 @@ export default function BoardNewPage() {
     //         <p>Loading...</p>
     //     )
     // }
+
+    const accessToken = Cookies.get('access_token');
+    const refreshToken = Cookies.get('refresh_token');
     const onClickSave = () => {
         window.location.href="http://localhost:3000/myPage"
 
-        axios.post('http://127.0.0.1:8000/userinfo/', {
+        axios.post('http://127.0.0.1:8000/useredit/', {
+            name: name,
+            pw: pw,
+            weight: weight,
+            height: height,
+        }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
             },
-            name:name ,
-            password: pw,
-            weight: weight,
-            height: height
         })
+
             .catch(error => {
                 console.error('서버 요청 오류:', error);
             });
