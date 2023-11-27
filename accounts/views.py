@@ -15,6 +15,7 @@ from .serializers import UserSerializer
 from .models import User, UserData
 from django.http import JsonResponse
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def signup(request):
@@ -152,16 +153,17 @@ def reset_password_step3(request):
 
 
 
-@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
-@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
-def getUsername(self, request):
-   user = request.user  # 인증된 사용자 객체
-   return Response({"username": user.name})
+#@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+#@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+#def getUsername(self, request):
+#    user = request.user  # 인증된 사용자 객체
+#    return Response({"username": user.name})
 
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
 @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class UserInfoView(APIView):
-    def getusername(self, request):
+    allowed_methods = ['GET']  # 허용할 메서드 목록
+    def get(self, request):
         user = request.user  # 인증된 사용자 객체
         return Response({"username": user.name})
 
@@ -184,4 +186,3 @@ class UserEdit(APIView):
 
 
         return Response({"username": user.name})
-
