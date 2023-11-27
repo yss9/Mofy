@@ -157,7 +157,7 @@ export default function BoardNewPage() {
     const onEnterSubmit = (event) => {
         if (event.key ==="Enter") {
             axios
-                .post("http://localhost:8000/search/?q=${search}/", { query: search })
+                .post("http://localhost:8000/search_history/", { query: search })
                 .then((response) => {
                     if (response.data.success) {
                         window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
