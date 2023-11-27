@@ -45,21 +45,27 @@ export default function BoardNewPage() {
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');
 
-    if (accessToken) {
-        // 서버로 토큰과 함께 요청을 보냄
-        axios.get('http://127.0.0.1:8000/userinfo/', {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        })
-            .then(response => {
-                // 서버에서 받은 사용자 정보를 상태에 저장
+    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/userinfo/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
                 setUsername(response.data);
-            })
-            .catch(error => {
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
                 console.error('서버 요청 오류:', error);
-            });
-    }
+            }
+        };
+
+        if (accessToken && !username && !isUserDataLoaded) {
+            fetchData();
+        }
+    }, [accessToken, username, isUserDataLoaded]);
     const onChangeSearch = (event) => {
         setSearch(event.target.value);
     }
