@@ -162,8 +162,7 @@ def reset_password_step3(request):
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
 @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class UserInfoView(APIView):
-    allowed_methods = ['GET']  # 허용할 메서드 목록
-    def get(self, request):
+    def getusername(self, request):
         user = request.user  # 인증된 사용자 객체
         return Response({"username": user.name})
 
@@ -186,3 +185,5 @@ class UserEdit(APIView):
 
 
         return Response({"username": user.name})
+
+
