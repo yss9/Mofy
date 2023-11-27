@@ -24,6 +24,9 @@ import Cookies from 'js-cookie';
 const onClickHome = () => {
     window.location.href = "http://localhost:3000/mainPage";
 }
+const onClickLogout = () => {
+    window.location.href = "http://localhost:3000/mainPage/notLogin";
+}
 const onClickMyPage = () => {
     window.location.href = "http://localhost:3000/myPage";
 }
@@ -42,8 +45,32 @@ export default function BoardNewPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
+    const [recentSearch1, setRecentSearch1] = useState(null);
+    const [recentSearch2, setRecentSearch2] = useState(null);
+    const [recentSearch3, setRecentSearch3] = useState(null);
+    const [recentSearch4, setRecentSearch4] = useState(null);
+    const [recentSearch5, setRecentSearch5] = useState(null);
+    const [popularSearch1, setPopularSearch1] = useState(null);
+    const [popularSearch2, setPopularSearch2] = useState(null);
+    const [popularSearch3, setPopularSearch3] = useState(null);
+    const [popularSearch4, setPopularSearch4] = useState(null);
+    const [popularSearch5, setPopularSearch5] = useState(null);
+
+
+    const [mofyUser1, setMofyUser1] = useState(null);
+    const [mofyUser2, setMofyUser2] = useState(null);
+    const [mofyUser3, setMofyUser3] = useState(null);
+    const [mofyUser4, setMofyUser4] = useState(null);
+
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');
+
+    // if () {
+    //     axios.get('board/stylerank', {
+    //
+    //     })
+    // }
+
 
     if (accessToken) {
         // 서버로 토큰과 함께 요청을 보냄
@@ -57,16 +84,91 @@ export default function BoardNewPage() {
                 setUsername(response.data);
             })
             .catch(error => {
-                console.error('서버 요청 오류:', error);
+                if (error.response) {
+                    // 서버 응답은 받았지만 오류 상태 코드인 경우
+                    console.error('서버 응답 오류 상태 코드:', error.response.status);
+                    console.error('서버 응답 데이터:', error.response.data);
+                } else if (error.request) {
+                    // 요청은 보냈지만 응답을 받지 못한 경우
+                    console.error('서버 응답 없음');
+                } else {
+                    // 요청을 보내기 전에 발생한 오류
+                    console.error('서버 요청 오류:', error.message);
+                }
             });
+
+        // .catch(error => {
+        //     console.error('서버 요청 오류:', error);
+        // });
+
+        // axios.get('http://127.0.0.1:8000/httpboard/stylerank/', {
+        //     headers: {
+        //         Authorization: `Bearer ${accessToken}`,
+        //     },
+        // })
+        //     .then(response => {
+        //         // 서버에서 받은 사용자 정보를 상태에 저장
+        //         setUsername(response.data);
+        //     })
+        //     .catch(error => {
+        //         console.error('서버 요청 오류:', error);
+        //     });
+        //
+        // axios.get("http://127.0.0.1:8000/search-history/",)
+        //     .then(response => {
+        //         // 서버에서 받은 사용자 정보를 상태에 저장
+        //         setRecentSearch1(response.data);
+        //     })
+        //     .catch(error => {
+        //         console.error('서버 요청 오류:', error);
+        //     });
     }
+
+    // if (accessToken) {
+    //     // 서버로 토큰과 함께 요청을 보냄
+    //     axios.get('http://127.0.0.1:8000/search_history/', {
+    //         headers: {
+    //             Authorization: `Bearer ${accessToken}`,
+    //         },
+    //     })
+    //         .then(response => {
+    //             // 서버에서 받은 사용자 정보를 상태에 저장
+    //             setRecentSearch1(response.data);
+    //         })
+    //         .catch(error => {
+    //             if (error.response) {
+    //                 // 서버 응답은 받았지만 오류 상태 코드인 경우
+    //                 console.error('최근 검색) 서버 응답 오류 상태 코드:', error.response.status);
+    //                 console.error('서버 응답 데이터:', error.response.data);
+    //             } else if (error.request) {
+    //                 // 요청은 보냈지만 응답을 받지 못한 경우
+    //                 console.error('서버 응답 없음');
+    //             } else {
+    //                 // 요청을 보내기 전에 발생한 오류
+    //                 console.error('서버 요청 오류:', error.message);
+    //             }
+    //         });
+    // }
+
     const onChangeSearch = (event) => {
         setSearch(event.target.value);
     }
 
     const onEnterSubmit = (event) => {
         if (event.key ==="Enter") {
-            window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
+            axios
+                .post("http://localhost:8000/search_history/", { query: search })
+                .then((response) => {
+                    if (response.data.success) {
+                        window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
+                    } else {
+                        alert("검색 실패: " + response.data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error("API 호출 중 오류 발생:", error);
+                });
+
         }
     }
 
@@ -78,6 +180,26 @@ export default function BoardNewPage() {
     const onMoreTagClickSubmit = (event) => {
         window.location.href = "https://google.com";
     };
+
+    // const onRecentSearchClickSubmit = (event) => {
+    //     const buttonText = event.target.getAttribute('data-text');
+    //     axios
+    //         .post("http://localhost:8000/search_history/", { query: buttonText })
+    //         .then((response) => {
+    //             if (response.data.success) {
+    //                 // 로그인 성공 시 쿠키에 토큰 저장
+    //                 Cookies.set("access_token", response.data.access_token, { expires: 7 });
+    //                 Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 });// 7일간 유지
+    //                 alert("로그인 성공!");
+    //                 window.location.href = "http://localhost:3000/mainPage";
+    //             } else {
+    //                 alert("로그인 실패: " + response.data.error);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error("API 호출 중 오류 발생:", error);
+    //         });
+    // };
 
     useEffect(() => {
         if ("geolocation" in navigator) {
@@ -123,22 +245,73 @@ export default function BoardNewPage() {
             <Wrapper>
                 <ConsentWrapper>
                     <Top>
-                        <SearchInput onClick={openModal} type="text" placeholder="검색어를 입력하세요."></SearchInput>
+                        <SearchInput onClick={openModal} onKeyPress={onEnterSubmit} onChange={onChangeSearch} type="text" placeholder="검색어를 입력하세요.">
+
+                        </SearchInput>
                         {isModalOpen && (
                             <ModalWrapper onClick={closeModal}>
                                 <ModalContent onClick={(e) => e.stopPropagation()}>
                                     <RecentSearchWrapper>
                                         <RecentSearchText>최근검색어</RecentSearchText>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">가을 원피스</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="긴팔">긴팔</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="브라운 코디">브라운 코디</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="레이어드">레이어드</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="틴트">틴트</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">
+                                            {recentSearch1 ? (
+                                                <div>{recentSearch1.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="긴팔">
+                                            {recentSearch2 ? (
+                                                <div>{recentSearch2.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="브라운 코디">
+                                            {recentSearch3 ? (
+                                                <div>{recentSearch3.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="레이어드">
+                                            {recentSearch4 ? (
+                                                <div>Welcome, {recentSearch4.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="틴트">
+                                            {recentSearch5 ? (
+                                                <div>Welcome, {recentSearch5.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecentSearchButton>
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">*/}
+                                        {/*    {recentSearch1 ? (*/}
+                                        {/*        <div>Welcome, {recentSearch6.username}!</div>*/}
+                                        {/*    ) : (*/}
+                                        {/*        <div>*/}
+                                        {/*            Loading...*/}
+                                        {/*        </div>*/}
+                                        {/*    )}*/}
+                                        {/*</RecentSearchButton>*/}
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근*/}
+                                        {/*</RecentSearchButton>*/}
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
                                     </RecentSearchWrapper>
                                     <TagWrapper>
                                         <TagText>태그</TagText>
@@ -226,7 +399,7 @@ export default function BoardNewPage() {
                             </ModalWrapper>
                         )}
                         <Title onClick={onClickHome} src="images/mofylogo.png"/>
-                        <TopButton>Log Out</TopButton>
+                        <TopButton onClick={onClickLogout}>Log Out</TopButton>
                         <TopButton onClick={onClickMyPage}>My Page</TopButton>
                     </Top>
                     <Divide/>
@@ -241,7 +414,8 @@ export default function BoardNewPage() {
                                     </StylesImgWrapper>
                                     <StylesUserWrapper>
                                         <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesUserName>유저1</StylesUserName>
+                                        <StylesUserName>유저1
+                                        </StylesUserName>
                                     </StylesUserWrapper>
                                     <StylesTagWrapper>
                                         <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
@@ -298,7 +472,6 @@ export default function BoardNewPage() {
                                         {username ? (
                                             <div>
                                                 <h1>Welcome, {username.username}!</h1>
-                                                {/* 기타 사용자 정보를 표시할 수 있음 */}
                                             </div>
                                         ) : (
                                             <div>
@@ -339,7 +512,16 @@ export default function BoardNewPage() {
                     </Mid>
                     <Bottom>
                         <CommunityWrapper>
-                            <CommunityText>Community</CommunityText>
+                            <CommunityText>
+                                Community
+                                {/*{styleRank1 ? (*/}
+                                {/*    <div>{styleRank1.username}!</div>*/}
+                                {/*) : (*/}
+                                {/*    <div>*/}
+                                {/*        Loading...*/}
+                                {/*    </div>*/}
+                                {/*)}*/}
+                            </CommunityText>
                         </CommunityWrapper>
                         <TradeWrapper>
                             <TradeText>Used Trade</TradeText>
