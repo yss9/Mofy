@@ -8,7 +8,9 @@ import {
     ReportImg, ReportWrapper, ReportText, ReportListWrapper, ReportExitButton,
     ReportTop, ConsentWrapper
 } from '../../styles/myPageStyle'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const onClickHome = () => {
     window.location.href = "http://localhost:3000/mainPage";
@@ -30,7 +32,73 @@ const Popup = ({ onClose }) => {
     );
 };
 export default function BoardNewPage() {
+    const [username, setUsername] = useState(null);
+    const [weight, setWeight] = useState(null);
+    const [height, setHeight] = useState(null);
+    const [shoeSize, setShoeSize] = useState(null);
+
     const [isPopupOpen, setPopupOpen] = useState(false);
+    const accessToken = Cookies.get('access_token');
+    const refreshToken = Cookies.get('refresh_token');
+
+    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/userinfo/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setUsername(response.data);
+
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/userinfo2/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                setWeight(response.data);
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+            try { // 키
+                const response = await axios.get('http://127.0.0.1:8000/userinfo3/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                setHeight(response.data);
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/userinfo4/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                setShoeSize(response.data);
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+        };
+
+        if (accessToken && !username && !isUserDataLoaded) {
+            fetchData();
+        }
+    }, [accessToken, username, isUserDataLoaded]);
 
     const onClickButton = () => {
         setPopupOpen(true);
@@ -58,11 +126,55 @@ export default function BoardNewPage() {
                             <ProfileUserWrapper>
                                 <ProfileText>내 정보</ProfileText>
                                 <ProfileImg src="https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"/>
-                                <ProfileName>MyName</ProfileName>
+                                <ProfileName>MyName
+                                    {username ? (
+                                        <div>
+                                            <h1>Welcome, {username.username}!</h1>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <p>Loading...</p>
+                                        </div>
+                                    )}
+                                </ProfileName>
                                 <ProfileTagWrapper>
                                     <ProfileTag>#모던</ProfileTag>
                                     <ProfileTag>#심플</ProfileTag>
                                     <ProfileTag>#페미닌</ProfileTag>
+                                    <ProfileTag>키
+                                        {height ? (
+                                            <div>
+                                                <h1>{height.height}</h1>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p>Loading...</p>
+                                            </div>
+                                        )}
+                                    </ProfileTag>
+                                    <ProfileTag>몸무게
+                                        {weight ? (
+                                            <div>
+                                                <h1>{weight.weight}</h1>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p>Loading...</p>
+                                            </div>
+                                        )}
+                                    </ProfileTag>
+                                    <ProfileTag>발사이즈
+                                        {shoeSize ? (
+                                            <div>
+                                                <h1>{shoeSize.shoeSize}</h1>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p>Loading...</p>
+                                            </div>
+                                        )}
+                                    </ProfileTag>
+
                                 </ProfileTagWrapper>
 
                             </ProfileUserWrapper>

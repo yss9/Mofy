@@ -29,16 +29,17 @@ export default function BoardNewPage() {
     const imgRef = useRef();
     const [isClicked, setClicked] = useState(false);
     // const [username, setUsername] = useState(null);
-
     const [name, setName]= useState("");
     const [pw, setPw] = useState("");
     const [height, setHeight] = useState("");
     const [weight, setWeight] = useState("");
+    const [shoeSize, setShoeSize] = useState("");
 
-    const[nameError, setNameError] = useState("");
+    const [nameError, setNameError] = useState("");
     const [pwError, setPwError] = useState("");
-    const[heightError, setHeightError] = useState("");
+    const [heightError, setHeightError] = useState("");
     const [weightError, setWeightError] = useState("");
+    const [shoeSizeError, setShoeSizeError] = useState("");
 
     const onChangeName=(event)=>{
         setName(event.target.value)
@@ -64,6 +65,13 @@ export default function BoardNewPage() {
             setWeightError("")
         }
     }
+    const onChangeShoeSize=(event)=>{
+        setShoeSize(event.target.value)
+        if(event.target.value !== ""){
+            setShoeSizeError("")
+        }
+    }
+
     // const [clothTypes, setClothTypes] = useState(["Shirt", "Pants", "Jacket"]);
 
     // const getUserName = () => {
@@ -84,6 +92,7 @@ export default function BoardNewPage() {
             pw: pw,
             weight: weight,
             height: height,
+            shoeSize: shoeSize,
         }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -200,7 +209,11 @@ export default function BoardNewPage() {
                                 <EditUserSizeInput onChange={onChangeWeight}/>
                                 <Check>{weightError}</Check>
                                 <EditUserSizeSubText>kg</EditUserSizeSubText>
+                                <EditUserSizeInput onChange={onChangeShoeSize}/>
+                                <Check>{shoeSizeError}</Check>
+                                <EditUserSizeSubText>mm</EditUserSizeSubText>
                             </EditUserSizeSubWrapper>
+
                         </EditUserSizeWrapper>
                         <EditUser onClick={onClickSave}>저장하기</EditUser>
                         <DeleteUser onClick={onClickDelete}>탈퇴하기</DeleteUser>
