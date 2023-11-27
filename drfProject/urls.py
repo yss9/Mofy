@@ -8,7 +8,9 @@ urlpatterns = [
     path('', include('mainApp.urls')),
     path('', include('community.urls')),
     path('', include('accounts.urls')),
-    path('chat/', include('chat.urls')),
+    path('', include('chat.urls')),
+    path('', include('Search.urls')),
+
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
