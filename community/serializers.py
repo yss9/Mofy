@@ -1,5 +1,11 @@
 from rest_framework import serializers
-from .models import Board, Comment, Like, Message, ReportBoardList, StyleRank, TagName, TagBoard
+from .models import Board, Comment, Like, Message, ReportBoardList, StyleRank, TagName, TagBoard, PhotoSave
+
+
+class PhotoSaveSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = PhotoSave
+        fields = ('id','image')
 
 
 class CommentSerializers(serializers.ModelSerializer):
@@ -9,7 +15,6 @@ class CommentSerializers(serializers.ModelSerializer):
 
 
 class BoardSerializers(serializers.ModelSerializer):
-    image = serializers.ImageField(use_url=True)
 
     class Meta:
         model = Board
