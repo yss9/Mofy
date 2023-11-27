@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from multiselectfield import MultiSelectField
+from multiselecㅁtfield import MultiSelectField
 
 
 class UserManager(BaseUserManager):

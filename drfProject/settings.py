@@ -42,12 +42,13 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework_simplejwt',
 
-    'rest_authtoken',
+    'rest_framework_authtoken',
 
     "mainApp",
     "community",
     'accounts',
-    "Search"
+    "Search",
+    'chat',
 ]
 
 
@@ -81,6 +82,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "drfProject.wsgi.application"
+ASGI_APPLICATION = 'config.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -152,6 +154,14 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
+}
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [(os.environ.get('REDIS_HOST', 'localhost'), 6379)],
+        },
+    },
 }
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
