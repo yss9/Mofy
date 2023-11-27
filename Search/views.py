@@ -1,13 +1,14 @@
 from django.http import JsonResponse
 from django.views import View
 from django.db.models import Count, Q
-from .models import Post, SearchHistory, Tag
+from community.models import Board, TagName
+from .models import SearchHistory
 
 class PostSearchView(View):
     def get(self, request, *args, **kwargs):
         q = request.GET.get('q', '')
-        post_list = Post.objects.filter(
-            Q(title__contains=q) | Q(tags__name__contains=q)
+        post_list = Board.objects.filter(
+            Q(title__contains=q) | Q(tagboard__tagName__contains=q)
         ).distinct()
 
         if request.user.is_authenticated:
@@ -15,17 +16,18 @@ class PostSearchView(View):
             if not history.exists():
                 SearchHistory.objects.create(user=request.user, query=q)
 
-        related_tags = Tag.objects.filter(post__in=post_list).distinct()
-        related_searches = [tag.name for tag in related_tags]
+        related_tags = TagName.objects.filter(tagboard__boardID__in=post_list).distinct()
+        related_searches = [tag.tagName for tag in related_tags]
 
         return JsonResponse({
             'post_list': list(post_list.values()),
             'related_searches': related_searches
         })
 
+
 class SearchHistoryView(View):
     def get(self, request, *args, **kwargs):
-        search_history = SearchHistory.objects.filter(user=request.user).order_by('-searched_at')
+        search_history = SearchHistory.objects.filter(user=request.user).order_by('-searched_at')[:5]
         return JsonResponse(list(search_history.values()), safe=False)
 
 class PopularSearchView(View):
