@@ -45,7 +45,7 @@ export default function BoardsLoginPage(){
                         Cookies.set("access_token", response.data.access_token, { expires: 7 });
                         Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 });// 7일간 유지
                         alert("로그인 성공!");
-                        window.location.href = "http://localhost:3000/hwj/mainPage";
+                        window.location.href = "http://localhost:3000/mainPage";
                     } else {
                         alert("로그인 실패: " + response.data.error);
                     }
@@ -80,30 +80,30 @@ export default function BoardsLoginPage(){
 
     return(
         <>
-        <Wrapper>
-            <ConsentWrapper>
-                <Title onClick={onClickHome}>
-                    MOFY
-                </Title>
+            <Wrapper>
+                <ConsentWrapper>
+                    <Title onClick={onClickHome}>
+                        MOFY
+                    </Title>
 
-                <SubTitle>
-                    My outfit of Yours
-                </SubTitle>
-                <InputWrapper>
-                    <InputIdWrapper>
-                        <InputId type="text " maxlength="11" size="44" placeholder="아이디" onChange={onChangeId} onKeyPress={enterKeyPress}/>
-                        <Check>{idError}</Check>
-                    </InputIdWrapper>
-                    <InputPwWrapper>
-                        <InputPw type="password" maxlength="11" size="44" placeholder="비밀번호" onChange={onChangePw} onKeyDown={enterKeyPress}/>
-                        <Check>{pwError}</Check>
-                    </InputPwWrapper>
-                </InputWrapper>
-                <LoginButton type="button" onClick={onClickLogin}>
-                    로그인
-                </LoginButton>
-            </ConsentWrapper>
-        </Wrapper>
+                    <SubTitle>
+                        My outfit of Yours
+                    </SubTitle>
+                    <InputWrapper>
+                        <InputIdWrapper>
+                            <InputId type="text " maxlength="11" size="44" placeholder="아이디" onChange={onChangeId} onKeyPress={enterKeyPress}/>
+                            <Check>{idError}</Check>
+                        </InputIdWrapper>
+                        <InputPwWrapper>
+                            <InputPw type="password" maxlength="11" size="44" placeholder="비밀번호" onChange={onChangePw} onKeyDown={enterKeyPress}/>
+                            <Check>{pwError}</Check>
+                        </InputPwWrapper>
+                    </InputWrapper>
+                    <LoginButton type="button" onClick={onClickLogin}>
+                        로그인
+                    </LoginButton>
+                </ConsentWrapper>
+            </Wrapper>
             <FindId type="button" onClick={onClickFindId}>아이디 찾기</FindId>
             <Bar>｜</Bar>
             <FindPw type="button" onClick={onClickFindPw}>비밀번호 찾기</FindPw>

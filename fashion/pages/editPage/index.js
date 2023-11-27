@@ -28,6 +28,9 @@ export default function BoardNewPage() {
     const [imgFile, setImgFile] = useState("");
     const imgRef = useRef();
     const [isClicked, setClicked] = useState(false);
+    // const [username, setUsername] = useState(null);
+    const accessToken = Cookies.get('access_token');
+    const refreshToken = Cookies.get('refresh_token');
 
     const [name, setName]= useState("");
     const [pw, setPw] = useState("");
@@ -72,42 +75,20 @@ export default function BoardNewPage() {
     //         <p>Loading...</p>
     //     )
     // }
-
-    const accessToken = Cookies.get('access_token');
-    const refreshToken = Cookies.get('refresh_token');
     const onClickSave = () => {
         window.location.href="http://localhost:3000/myPage"
 
-        axios.post('http://127.0.0.1:8000/useredit/', {
-            name: name,
-                pw: pw,
-                weight: weight,
-                height: height,
-        },
-        {
+        axios.post('http://127.0.0.1:8000/userinfo/', {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json',
             },
+            name:name ,
+            password: pw,
+            weight: weight,
+            height: height
         })
-            .then(response => {
-                console.log('Server Response:', response.data);
-                // Additional logic based on the response
-            })
             .catch(error => {
-                console.error('Server Request Error:', error);
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    console.error('Response Data:', error.response.data);
-                    console.error('Response Status:', error.response.status);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    console.error('No Response Received:', error.request);
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    console.error('Error Setting Up Request:', error.message);
-                }
+                console.error('서버 요청 오류:', error);
             });
     }
     // if (accessToken) {

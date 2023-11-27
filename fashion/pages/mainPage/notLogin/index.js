@@ -145,7 +145,7 @@ export default function BoardNewPage() {
                         Cookies.set("access_token", response.data.access_token, { expires: 7 });
                         Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 });// 7일간 유지
                         alert("로그인 성공!");
-                        window.location.href = "http://localhost:3000/hwj/mainPage";
+                        window.location.href = "http://localhost:3000/mainPage";
                     } else {
                         alert("로그인 실패: " + response.data.error);
                     }
