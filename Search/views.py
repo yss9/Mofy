@@ -3,7 +3,7 @@ from django.contrib.sites import requests
 from Search.serializers import SearchHistorySerializer
 from community.models import Board, TagName
 from .models import SearchHistory
-from django.db.models import Count
+from django.db.models import Count, Max
 
 from rest_framework import status
 from rest_framework.decorators import permission_classes, authentication_classes
@@ -13,6 +13,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import SearchSuggestionSerializer
 from django.db.models import Q
+
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 class PostSearchView(APIView):
@@ -26,26 +27,48 @@ class PostSearchView(APIView):
         # 검색 기록 저장
         SearchHistory.objects.create(user=user, query=query)
 
-        # Board 모델의 title과 TagName 모델의 tagName으로 검색
-        search_results = Board.objects.filter(Q(title__icontains=query)).distinct()
-
+        # Board 모델의 title로 검색
+        search_results = Board.objects.filter(Q(title__icontains=query) | Q(tags__icontains=query)).distinct()
 
         # 검색 결과를 직렬화하여 응답
         response_data = {
             "success": True,
             "message": "검색 기록이 저장되었습니다.",
-            "search_results": [{"boardID": result.boardID, "title": result.title} for result in search_results]
+            "search_results": [{"title": result.title, "tags": result.tags.split(',')} for result in search_results]
         }
         return Response(response_data, status=status.HTTP_201_CREATED)
+
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 class SearchHistoryView(APIView):
     def get(self, request):
         user = request.user
-        search_history = SearchHistory.objects.filter(user=user).order_by('-searched_at')[:5]
-        serializer = SearchHistorySerializer(search_history, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        # 최근 검색어 중복을 피하기 위해 검색어 별 최신 검색 일자를 가져옴
+        recent_search_history = SearchHistory.objects.filter(user=user) \
+            .values('search_query') \
+            .annotate(latest_search=Max('searched_at')) \
+            .order_by('-latest_search')
+
+        # 중복을 피한 최근 검색어에 대한 전체 검색 기록을 가져옴
+        search_history = SearchHistory.objects.filter(
+            user=user,
+            search_query__in=[item['search_query'] for item in recent_search_history]
+        ).order_by('-searched_at')[:5]
+
+        #serializer = SearchHistorySerializer(search_history, many=True)
+        response_data = {
+            "success": True,
+            "message": "최근 검색어 및 검색 기록이 성공적으로 불러와졌습니다.",
+            "recent_searches": [item['search_query'] for item in recent_search_history],
+            # "search_history": [
+            #     {"search_query": result.search_query, "searched_at": result.searched_at}
+            #     for result in search_history
+            # ]
+        }
+        return Response(response_data, status=status.HTTP_200_OK)
+
 
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
 @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
