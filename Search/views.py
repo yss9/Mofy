@@ -17,7 +17,7 @@ from django.db.models import Q
 @permission_classes([IsAuthenticated])
 class PostSearchView(APIView):
     def post(self, request):
-        search_query = request.data.get('search_query')
+        search_query = request.data.get('query')
 
         if not search_query:
             return Response({"success": False, "message": "검색어가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
@@ -89,8 +89,8 @@ class SearchHistoryView(APIView):
 class PopularSearchView(APIView):
     def get(self, request):
         # 가장 많이 검색된 인기 검색어를 가져오기
-        popular_search = SearchHistory.objects.values('search_query') \
-            .annotate(search_count=Count('search_query')) \
+        popular_search = SearchHistory.objects.values('query') \
+            .annotate(search_count=Count('query')) \
             .order_by('-search_count')[:10]
 
         # 검색 기록을 직렬화
