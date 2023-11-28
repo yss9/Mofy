@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+
 AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'accounts',
     "Search",
     'chat',
+    'channels',
 ]
 
 
@@ -82,7 +84,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "drfProject.wsgi.application"
-ASGI_APPLICATION = 'config.asgi.application'
+ASGI_APPLICATION = 'drfProject.routing.application'
+#ASGI_APPLICATION = 'config.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -155,14 +158,14 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
 }
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [(os.environ.get('REDIS_HOST', 'localhost'), 6379)],
-        },
-    },
-}
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # 또는 Redis를 사용할 수 있습니다.
+        'CONFIG': {},
+    },
+}

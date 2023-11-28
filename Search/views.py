@@ -10,21 +10,6 @@ from .models import SearchHistory
 from django.db.models import Count, Q
 
 
-from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework_simplejwt.authentication import JWTAuthentication
-
-from rest_framework_simplejwt.tokens import RefreshToken
-
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import update_last_login
-
-
-from django.http import JsonResponse
-
 class PostSearchView(APIView):
     permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
@@ -47,8 +32,6 @@ class PostSearchView(APIView):
             'related_searches': related_searches
         }, status=status.HTTP_200_OK)
 
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 class SearchHistoryView(APIView):
     permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
