@@ -185,7 +185,6 @@ export default function BoardNewPage() {
             <Wrapper>
                 <ConsentWrapper>
                     <Top>
-                        <button id={"qq"} onClick={isClicked}>값 저장</button>
                         <TitleWrapper>
                             <Title onClick={onClickHome} src="images/mofylogo.png"/>
                         </TitleWrapper>
@@ -220,7 +219,7 @@ export default function BoardNewPage() {
                             <EditTypeButtonWrapper>
                                 <EditTypeButton onClick={handleClick}>
                                     #Simple
-                                    {isClicked ? '클릭됨' : '클릭 안됨'}
+                                    {/*{isClicked ? '클릭됨' : '클릭 안됨'}*/}
 
                                 </EditTypeButton>
                                 <EditTypeButton id={"modern"} onClick={ClothTypeIsClicked}>#Modern</EditTypeButton>
@@ -238,11 +237,12 @@ export default function BoardNewPage() {
                         <EditSkinTypeWrapper>
                             <EditSkinTypeText>피부 타입</EditSkinTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton id={"asdf"} onClick={SkinTypeIsClicked}>건성</EditTypeButton>
-                                <EditTypeButton id={"지성"} onClick={SkinTypeIsClicked}>지성</EditTypeButton>
-                                <EditTypeButton id={"복합성"} onClick={SkinTypeIsClicked}>복합성</EditTypeButton>
-                                <EditTypeButton id={"민감성"} onClick={SkinTypeIsClicked}>민감성</EditTypeButton>
-                                <EditTypeButton id={"여드름"} onClick={SkinTypeIsClicked}>여드름</EditTypeButton>
+                                <EditTypeButton id={"normal"} onClick={SkinTypeIsClicked}>보통</EditTypeButton>
+                                <EditTypeButton id={"dry"} onClick={SkinTypeIsClicked}>건성</EditTypeButton>
+                                <EditTypeButton id={"oily"} onClick={SkinTypeIsClicked}>지성</EditTypeButton>
+                                <EditTypeButton id={"sensitive"} onClick={SkinTypeIsClicked}>복합성</EditTypeButton>
+                                <EditTypeButton id={"combination"} onClick={SkinTypeIsClicked}>민감성</EditTypeButton>
+                                <EditTypeButton id={"acne"} onClick={SkinTypeIsClicked}>여드름</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditSkinTypeWrapper>
                         <EditUserSizeWrapper>
