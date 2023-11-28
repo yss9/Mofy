@@ -12,16 +12,31 @@ import {
 
 
 import {useState, useEffect} from "react";
+import axios from "axios";
 export default function BoardNewPage() {
-
+    const [query, setQuery] = useState("");
     const [search, setSearch] = useState("");
+
     const onChangeSearch = (event) => {
         setSearch(event.target.value);
+        setQuery(event.target.value);
+
     }
 
     const onEnterSubmit = (event) => {
         if (event.key ==="Enter") {
-            window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
+            // Send data to the Django backend using Axios
+            axios.post('http://localhost:8000/search/history', { query: query })
+                .then(response => {
+                    // Handle successful response
+                    console.log(response.data);
+                    window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
+                })
+                .catch(error => {
+                    // Handle error
+                    console.error(error);
+                    alert("검색에 실패했습니다. 다시 시도해주세요.");
+                });
         }
     }
 

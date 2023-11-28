@@ -21,8 +21,42 @@ const onClickDelete = () => {
 }
 // 버튼을 클릭했을 때 호출되는 함수입니다.
 
+const clothTypeArray = [];
+let clicked = "";
+const saveValue = (buttonId) => {
+    clothTypeArray.push(buttonId);
+    console.log(`값 "${buttonId}"이(가) 저장되었습니다.`);
+    console.log('현재 배열:', clothTypeArray);
+}
+const removeValue = (buttonId) => {
+    if (clothTypeArray.length > 0) {
+        clothTypeArray.get(buttonId);
+        console.log(`값 "${buttonId}"이(가) 제거되었습니다.`);
+        console.log('현재 배열:', clothTypeArray);
+    } else {
+        console.log('배열이 비어있습니다.');
+    }
+}
+const isClicked = (event) => {
+    const buttonId = event.target.id;
 
-
+    if (clicked === "") {
+        saveValue(buttonId);
+        setClicked('1');
+    } else {
+        removeValue(buttonId);
+        setClicked("");
+    }
+    // let clicked = 0;
+    // const buttonId = event.target.id;
+    // if (clicked === false){
+    //     saveValue(buttonId);
+    //     clicked = 1;
+    // } else{
+    //     removeValue(buttonId);
+    //     clicked = 0;
+    // }
+}
 
 export default function BoardNewPage() {
     const [imgFile, setImgFile] = useState("");
@@ -40,6 +74,17 @@ export default function BoardNewPage() {
     const [heightError, setHeightError] = useState("");
     const [weightError, setWeightError] = useState("");
     const [shoeSizeError, setShoeSizeError] = useState("");
+
+
+
+    // clothTypeArray.push('1');
+    // clothTypeArray.push('2');
+    // console.log('배열 :', clothTypeArray);
+
+    // const saveValue = (event) => {
+    //     clothTypeArray.push()
+    //
+    // }
 
     const onChangeName=(event)=>{
         setName(event.target.value)
@@ -141,6 +186,7 @@ export default function BoardNewPage() {
             <Wrapper>
                 <ConsentWrapper>
                     <Top>
+                        <button id={"qq"} onClick={isClicked}>값 저장</button>
                         <TitleWrapper>
                             <Title onClick={onClickHome} src="images/mofylogo.png"/>
                         </TitleWrapper>
@@ -178,7 +224,9 @@ export default function BoardNewPage() {
                                     {isClicked ? '클릭됨' : '클릭 안됨'}
 
                                 </EditTypeButton>
-                                <EditTypeButton>#Modern</EditTypeButton>
+                                <EditTypeButton>#Modern
+
+                                </EditTypeButton>
                                 <EditTypeButton>#Feminine</EditTypeButton>
                                 <EditTypeButton>#Dandy</EditTypeButton>
                                 <EditTypeButton>#레트로</EditTypeButton>
