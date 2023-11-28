@@ -8,18 +8,21 @@ from django.http import Http404
 
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
     ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers
-from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard
-
+from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard, PhotoSave
 
 
 class Test(APIView):
-    permission_classes = [AllowAny]
-    def post(self, request):
-        serializer = PhotoSaveSerializers(data = request.data)
+    def post(self,request):
+        serializer = PhotoSaveSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return  Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request,pk):
+        photo = PhotoSave.objects.get(pk=pk)
+        serializer = PhotoSaveSerializers(photo)
+        return Response(serializer.data)
 
 
 class BoardList(APIView):
@@ -162,7 +165,7 @@ class Report(APIView):
 class StyleRankView(APIView):
     def get(self, request):
         one_week = datetime.now() - timedelta(days=7)
-        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:4]
+        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:43]
         print(styleranks.values())
         serializers = BoardSerializers(styleranks, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)

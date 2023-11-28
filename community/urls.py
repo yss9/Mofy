@@ -12,9 +12,10 @@ urlpatterns = [
     path('board/<int:pk>/comment/', CommentDetail.as_view()),
     path('board/<int:pk>/like', LikeDetail.as_view()),
     path('board/comment/<int:pk>', CommentPutDel.as_view()),
-    path('board/<int:pk>/report', Report.as_view()),
-    path('board/stylerank', StyleRankView.as_view()),
-    path('Test/', Test.as_view())
+    path('board/<int:pk>/report',Report.as_view()),
+    path('board/stylerank',StyleRankView.as_view()),
+    path('Test/', Test.as_view()),
+    path('Test/<int:pk>/', Test.as_view())
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
