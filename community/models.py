@@ -17,11 +17,16 @@ class Board(models.Model):
     price = models.BigIntegerField(default=0)  # 판매 가격
     state = models.BooleanField(default=True)  # 판매중 상태
     address = models.TextField(null = True) # 주소
+    #, , , , , , , , , , , , split  TagName
 
 
 class PhotoSave(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to="uploads")
 
+
+
+class PhotoSave(models.Model):
+    image = models.ImageField(blank = True, null = True, upload_to="uploads")
 
 class TagName(models.Model):
     tagID = models.BigAutoField(primary_key = True)

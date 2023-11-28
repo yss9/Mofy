@@ -2,20 +2,21 @@ from rest_framework import serializers
 from .models import Board, Comment, Like, Message, ReportBoardList, StyleRank, TagName, TagBoard, PhotoSave
 
 
-class PhotoSaveSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = PhotoSave
-        fields = ('id','image')
-
-
 class CommentSerializers(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'comment', 'datetime', 'boardID', 'userID')
 
 
-class BoardSerializers(serializers.ModelSerializer):
+class PhotoSaveSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = PhotoSave
+        fields = ('id', 'image')
 
+
+
+
+class BoardSerializers(serializers.ModelSerializer):
     class Meta:
         model = Board
         fields = ('boardID', 'title', 'content', 'boardType', 'datetime', 'image', 'like_num', 'price', 'state', 'userID', 'address')

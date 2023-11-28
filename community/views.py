@@ -7,8 +7,19 @@ from rest_framework.response import Response
 from django.http import Http404
 
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
-    ReportBoardListSerializers, TagBoardSerializers
+    ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers
 from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard
+
+
+
+class Test(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        serializer = PhotoSaveSerializers(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class BoardList(APIView):
@@ -151,7 +162,7 @@ class Report(APIView):
 class StyleRankView(APIView):
     def get(self, request):
         one_week = datetime.now() - timedelta(days=7)
-        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:43]
+        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:4]
         print(styleranks.values())
         serializers = BoardSerializers(styleranks, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
