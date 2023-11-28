@@ -51,9 +51,8 @@ def login(request):
     update_last_login(None, user)
 
     return Response({
-        'success':  True,
+        'success': True,
         'message': '로그인 성공',
-        #token': str(refresh.access_token),
         'refresh_token': str(refresh),
         'access_token': str(refresh.access_token),
     }, status=status.HTTP_200_OK)
@@ -88,8 +87,8 @@ def reset_password_step1(request):
     try:
         user = User.objects.get(userID=userID)
         # Store userID in the session
-        #request.session['reset_user_id'] = user.id
-        #request.session.save()
+        # request.session['reset_user_id'] = user.id
+        # request.session.save()
         return JsonResponse({'message': 'Step 1 successful',
                              'reset_user_id': user.id})
     except User.DoesNotExist:
@@ -107,14 +106,14 @@ def reset_password_step2(request):
         return JsonResponse({'error': 'email and name are required'}, status=401)
 
     # Retrieve userID from the session
-    #user_id = request.session.get('reset_user_id')
-    #if not user_id:
+    # user_id = request.session.get('reset_user_id')
+    # if not user_id:
     #    return JsonResponse({'error': 'Invalid or expired session'}, status=402)
 
     try:
         user = User.objects.get(id=reset_user_id, email=email, name=name)
         # Store additional data in the session
-       # request.session['reset_user_data'] = {'email': email, 'name': name}
+        # request.session['reset_user_data'] = {'email': email, 'name': name}
         return JsonResponse({'message': 'Step 2 successful',
                              'reset_user_id': user.id})
     except User.DoesNotExist:
@@ -131,10 +130,10 @@ def reset_password_step3(request):
         return JsonResponse({'error': 'new_password is required'}, status=400)
 
     # Retrieve user data from the session
-    #user_data = request.session.get('reset_user_data', None)
-    #user_id = request.session.get('reset_user_id', None)
+    # user_data = request.session.get('reset_user_data', None)
+    # user_id = request.session.get('reset_user_id', None)
 
-    #if not user_data or not user_id:
+    # if not user_data or not user_id:
     #    return JsonResponse({'error': 'Invalid or expired session'}, status=400)
 
     try:
@@ -144,46 +143,99 @@ def reset_password_step3(request):
         user.save()
 
         # Clear session data
-        #request.session.pop('reset_user_id', None)
-        #request.session.pop('reset_user_data', None)
+        # request.session.pop('reset_user_id', None)
+        # request.session.pop('reset_user_data', None)
 
         return JsonResponse({'message': 'Password reset successfully'})
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found or invalid session'}, status=404)
 
 
-
-#@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
-#@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
-#def getUsername(self, request):
+# @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+# @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+# def getUsername(self, request):
 #    user = request.user  # 인증된 사용자 객체
 #    return Response({"username": user.name})
 
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
 @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class UserInfoView(APIView):
-    def getusername(self, request):
+    def get(self, request):
         user = request.user  # 인증된 사용자 객체
+        return Response({"username": user.name})
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class UserEdit(APIView):
+    def post(self, request):
+        user = request.user
+
+        # Using get_or_create to get or create a UserData instance for the user
+        user_data, created = UserData.objects.get_or_create(user=user)
+
+        # Assuming the request data is in JSON format
+        edit_data = request.data
+
+        # Update user fields
+        user.name = edit_data.get('name', user.name)
+
+        new_password = edit_data.get('pw')
+        if new_password:
+            user.set_password(new_password)
+            user.save()
+
+        # Update UserData fields
+        if 'height' in edit_data and edit_data['height']:
+            user_data.height = edit_data['height']
+        if 'weight' in edit_data and edit_data['weight']:
+            user_data.weight = edit_data['weight']
+        if 'shoeSize' in edit_data and edit_data['shoeSize']:
+            user_data.shoeType = edit_data['shoeSize']
+
+        user_data.save()
+
+        return Response({"username": user.name}, status=status.HTTP_200_OK)
+
+
+#@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+#@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+#class UserInfoMyPage(APIView):
+#    def get(self, request):
+#        user = request.user  # 인증된 사용자 객체
+#        return Response({"username": user.name})
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class Userdelete(APIView):
+    def delete(self, request):
+        user = request.user  # 인증된 사용자 객체
+        user.is_active = False  # 0 대신 False 사용
+        user.save()  # 변경된 내용 저장
         return Response({"username": user.name})
 
 
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
 @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
-class UserEdit(APIView):
-    def setUserData(self, request):
-        user = request.user
+class Userweight(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
         user_data = UserData.objects.get(user=user)
-        editname = request.data.name
-        editpw = request.data.pw
-        editweight = request.data.weight
-        editheight = request.data.height
+        return Response({"weight": user_data.weight})
 
-        user.name = editname
-        user.set_password(editpw)
-        user_data.weight = editweight
-        user_data.height = editheight
-
-
-        return Response({"username": user.name})
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class Userheight(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        user_data = UserData.objects.get(user=user)
+        return Response({"height": user_data.height})
 
 
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class Usershoesize(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        user_data = UserData.objects.get(user=user)
+        return Response({"shoeSize": user_data.shoeType})
