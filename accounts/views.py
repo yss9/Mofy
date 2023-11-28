@@ -179,29 +179,63 @@ class UserEdit(APIView):
 
         # Update user fields
         user.name = edit_data.get('name', user.name)
-        #if 'pw' in edit_data:
-        #    user.set_password(edit_data['pw'])
-        #user.save()
+
         new_password = edit_data.get('pw')
-        user.set_password(new_password)
-        user.save()
+        if new_password:
+            user.set_password(new_password)
+            user.save()
 
         # Update UserData fields
         if 'height' in edit_data and edit_data['height']:
             user_data.height = edit_data['height']
         if 'weight' in edit_data and edit_data['weight']:
             user_data.weight = edit_data['weight']
+        if 'shoeSize' in edit_data and edit_data['shoeSize']:
+            user_data.shoeType = edit_data['shoeSize']
 
         user_data.save()
 
         return Response({"username": user.name}, status=status.HTTP_200_OK)
 
 
+#@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+#@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+#class UserInfoMyPage(APIView):
+#    def get(self, request):
+#        user = request.user  # 인증된 사용자 객체
+#        return Response({"username": user.name})
+
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
 @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
-class UserInfoMyPage(APIView):
-    def get(self, request):
+class Userdelete(APIView):
+    def delete(self, request):
         user = request.user  # 인증된 사용자 객체
+        user.is_active = False  # 0 대신 False 사용
+        user.save()  # 변경된 내용 저장
         return Response({"username": user.name})
 
 
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class Userweight(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        user_data = UserData.objects.get(user=user)
+        return Response({"weight": user_data.weight})
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class Userheight(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        user_data = UserData.objects.get(user=user)
+        return Response({"height": user_data.height})
+
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class Usershoesize(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        user_data = UserData.objects.get(user=user)
+        return Response({"shoeSize": user_data.shoeType})
