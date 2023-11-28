@@ -65,6 +65,10 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # 여기에 자신의 프론트엔드 주소를 추가
+]
+
 ROOT_URLCONF = "drfProject.urls"
 
 TEMPLATES = [
@@ -84,7 +88,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "drfProject.wsgi.application"
-ASGI_APPLICATION = 'drfProject.routing.application'
+ASGI_APPLICATION = 'chat.routing.application'
 #ASGI_APPLICATION = 'config.asgi.application'
 
 # Database
@@ -169,3 +173,4 @@ CHANNEL_LAYERS = {
         'CONFIG': {},
     },
 }
+
