@@ -225,13 +225,13 @@ export default function BoardNewPage() {
                                 <EditTypeButton id={"modern"} onClick={ClothTypeIsClicked}>#Modern</EditTypeButton>
                                 <EditTypeButton id={"feminine"} onClick={ClothTypeIsClicked}>#Feminine</EditTypeButton>
                                 <EditTypeButton id={"dandy"} onClick={ClothTypeIsClicked}>#Dandy</EditTypeButton>
-                                <EditTypeButton>#레트로</EditTypeButton>
-                                <EditTypeButton>#minimul</EditTypeButton>
-                                <EditTypeButton>#캐주얼</EditTypeButton>
-                                <EditTypeButton>#Street</EditTypeButton>
-                                <EditTypeButton>#Sporty</EditTypeButton>
-                                <EditTypeButton>#Urban</EditTypeButton>
-                                <EditTypeButton>#Classic</EditTypeButton>
+                                <EditTypeButton># retro</EditTypeButton>
+                                <EditTypeButton># Minimal</EditTypeButton>
+                                <EditTypeButton># Casual</EditTypeButton>
+                                <EditTypeButton># Street</EditTypeButton>
+                                <EditTypeButton># Sporty</EditTypeButton>
+                                <EditTypeButton># Urban</EditTypeButton>
+                                <EditTypeButton># Classic</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditClothTypeWrapper>
                         <EditSkinTypeWrapper>
