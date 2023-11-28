@@ -1,5 +1,5 @@
 import _ from "lodash";
-import {FireFilledIcon, Searchbar, SearchbarInput} from "../01/Searchbars01-styles";
+import {FireFilledIcon, Searchbar, SearchbarInput} from "@/src/community/searchbars/01/Searchbars01-styles";
 
 export default function Searchbars01(props) {
   const getDebounce = _.debounce((value) => {
@@ -21,5 +21,5 @@ export default function Searchbars01(props) {
         />
       </Searchbar>
   );
-
+  )
 }

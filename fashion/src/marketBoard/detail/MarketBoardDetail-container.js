@@ -69,6 +69,9 @@ export default function MarketBoardDetail() {
 
 
 
+    const onClickChatPage = () =>{
+        window.location.href = "http://localhost:3000/mks/messenger/chat";
+    }
 
 
 
@@ -85,10 +88,6 @@ export default function MarketBoardDetail() {
     const onClickMoveToBoardEdit = () => {
         router.push(`/marketBoard/${boardID}/edit`);
 
-    }
-
-    const onClickChat = () => {
-        window.location.href = "http://localhost:3000/mks/messenger/chat";
     }
 
 
@@ -124,10 +123,8 @@ export default function MarketBoardDetail() {
                 <S.Button onClick={() => router.push("/marketBoard")}>목록으로</S.Button>
                 <S.Button onClick={onClickMoveToBoardEdit}>수정하기</S.Button>
                 <S.Button>삭제하기</S.Button>
-                {/*<FloatButton icon={<CommentOutlined/>} />*/}
-                <button onClick={onClickChat}>
-
-                </button>
+                <FloatButton icon={<CommentOutlined />} onClick={onClickChatPage} >
+                </FloatButton>
             </S.BottomWrapper>
         </S.Wrapper>
     )

@@ -1,4 +1,4 @@
-import CommunityWrite from "../../../../../testDjango/testDjangoReact/restapi/src/community/write/CommunityWrite-container";
+import CommunityWrite from "../../../src/community/write/CommunityWrite-container";
 
 
 export default function CommunityNewPage() {

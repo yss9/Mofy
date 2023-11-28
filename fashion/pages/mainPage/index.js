@@ -151,23 +151,43 @@ export default function BoardNewPage() {
         setSearch(event.target.value);
     }
 
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+    };
+
     const onEnterSubmit = (event) => {
-        if (event.key ==="Enter") {
-            axios
-                .post("http://localhost:8000/search-history/", { query: search })
+        if (event.key === "Enter") {
+            // Validate the search query
+            if (!search) {
+                console.error("검색어가 필요합니다.");
+                return;
+            }
+
+            console.log("Request URL:", "http://localhost:8000/search/");
+            console.log("Request Data:", { query: search });
+            console.log("Request Headers:", axiosConfig.headers);
+
+            // Make the API request
+            axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
                 .then((response) => {
                     if (response.data.success) {
+                        // Handle success
                         window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
                     } else {
-                        alert("검색 실패: " + response.data.error);
+                        // Handle API error
+                        console.error("검색 실패: " + response.data.message);
                     }
                 })
                 .catch((error) => {
+                    // Handle general API error
                     console.error("API 호출 중 오류 발생:", error);
                 });
-
         }
-    }
+    };
+
 
     const onTagClickSubmit = (event) => {
         const buttonText = event.target.getAttribute('data-text');

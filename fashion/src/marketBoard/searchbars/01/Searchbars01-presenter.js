@@ -2,12 +2,11 @@ import {
   FireFilledIcon,
   Searchbar,
   SearchbarInput,
-} from "./Searchbars01.styles";
-import type { ISearchbars01UIProps } from "./Searchbars01.types";
+} from "./Searchbars01-styles";
 
-export default function Searchbars01UI(
-  props: ISearchbars01UIProps
-): JSX.Element {
+
+/*
+export default function Searchbars01UI(props){
   return (
     <Searchbar>
       <FireFilledIcon />
@@ -18,3 +17,4 @@ export default function Searchbars01UI(
     </Searchbar>
   );
 }
+*/
