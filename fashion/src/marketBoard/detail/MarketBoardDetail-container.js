@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 //import BoardDetailUI from "./CommunityDetail-presenter";
-import * as S from "@/src/community/detail/CommunityDetail-styles";
+import * as S from "./MarketBoardDetail-styles";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {getDate} from "../../commons/libraries/utils";
 import { CommentOutlined } from '@ant-design/icons';
 import React from 'react';
 import { FloatButton , Button, Popover} from 'antd';
+import Chat from '../../../pages/mks/messenger/chat';
 
 
 export default function MarketBoardDetail() {
@@ -21,6 +22,9 @@ export default function MarketBoardDetail() {
     const [state, setState] = useState(false)
     const [imageURL, setImageURL] = useState(null);
     const [address, setAddress] = useState("")
+
+
+    const [showChat, setShowChat] = useState(false);
 
 
 
@@ -90,6 +94,10 @@ export default function MarketBoardDetail() {
 
     }
 
+    const toggleChat = () => {
+        setShowChat(!showChat);
+    };
+
 
     return (
         <S.Wrapper>
@@ -123,8 +131,10 @@ export default function MarketBoardDetail() {
                 <S.Button onClick={() => router.push("/marketBoard")}>목록으로</S.Button>
                 <S.Button onClick={onClickMoveToBoardEdit}>수정하기</S.Button>
                 <S.Button>삭제하기</S.Button>
-                <FloatButton icon={<CommentOutlined />} onClick={onClickChatPage} >
-                </FloatButton>
+
+                    <FloatButton icon={<CommentOutlined />} onClick={toggleChat} />
+                    {showChat && <Chat />}
+
             </S.BottomWrapper>
         </S.Wrapper>
     )

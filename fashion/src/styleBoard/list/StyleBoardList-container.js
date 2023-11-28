@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import * as S from "@/src/community/list/CommunityList-styles";
-import {FireFilledIcon, Searchbar, SearchbarInput} from "@/src/community/searchbars/01/Searchbars01-styles";
+import * as S from "./StyleBoardList-styles";
+import {FireFilledIcon, Searchbar, SearchbarInput} from "../../community/searchbars/01/Searchbars01-styles";
 import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils"

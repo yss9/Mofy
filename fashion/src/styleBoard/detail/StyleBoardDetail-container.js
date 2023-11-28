@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
-//import BoardDetailUI from "./CommunityDetail-presenter";
-import * as S from "@/src/community/detail/CommunityDetail-styles";
+import * as S from "./StyleBoardDetail-styles";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {getDate} from "../../commons/libraries/utils";

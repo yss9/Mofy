@@ -1,12 +1,10 @@
 import { useRouter } from "next/router";
-//import BoardDetailUI from "./CommunityDetail-presenter";
-import * as S from "@/src/community/detail/CommunityDetail-styles";
+import * as S from "../detail/CommunityDetail-styles";
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {getDate} from "../../commons/libraries/utils";
-import {searchParamsToUrlQuery} from "next/dist/shared/lib/router/utils/querystring";
 import React from 'react';
-import { Button} from 'antd';
+import { Button } from 'antd';
 
 
 export default function CommunityDetail() {

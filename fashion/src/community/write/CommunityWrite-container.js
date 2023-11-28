@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 //import CommunityWriteUI from "./CommunityWrite-presenter"
 import {useRouter} from "next/router";
-import * as S from "@/src/community/write/CommunityWrite-styles";
+import * as S from "../../../src/community/write/CommunityWrite-styles";
 
 
 export default function CommunityWrite(props){
