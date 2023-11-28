@@ -12,6 +12,9 @@ import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
 
+const onClickLogout = () => {
+    window.location.href = "http://localhost:3000/mainPage/notLogin";
+}
 const onClickHome = () => {
     window.location.href = "http://localhost:3000/mainPage";
 }

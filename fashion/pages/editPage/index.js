@@ -20,7 +20,9 @@ const onClickDelete = () => {
     window.location.href = "http://localhost:3000/deletePage";
 }
 // 버튼을 클릭했을 때 호출되는 함수입니다.
-
+const onClickLogout = () => {
+    window.location.href = "http://localhost:3000/mainPage/notLogin";
+}
 
 
 export default function BoardNewPage() {
@@ -137,6 +139,8 @@ export default function BoardNewPage() {
             weight: weight,
             height: height,
             shoeSize: shoeSize,
+            clothType: clothTypeArray,
+            skinType: skinTypeArray,
         }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -188,7 +192,7 @@ export default function BoardNewPage() {
                         <TitleWrapper>
                             <Title onClick={onClickHome} src="images/mofylogo.png"/>
                         </TitleWrapper>
-                        <TopButton>Log Out</TopButton>
+                        <TopButton onClick={onClickLogout}>Log Out</TopButton>
                     </Top>
                     <Divide/>
                     <Mid>
@@ -225,13 +229,13 @@ export default function BoardNewPage() {
                                 <EditTypeButton id={"modern"} onClick={ClothTypeIsClicked}>#Modern</EditTypeButton>
                                 <EditTypeButton id={"feminine"} onClick={ClothTypeIsClicked}>#Feminine</EditTypeButton>
                                 <EditTypeButton id={"dandy"} onClick={ClothTypeIsClicked}>#Dandy</EditTypeButton>
-                                <EditTypeButton id={"retro"} onClick={ClothTypeIsClicked}># retro</EditTypeButton>
-                                <EditTypeButton id={"minimal"} onClick={ClothTypeIsClicked}># Minimal</EditTypeButton>
-                                <EditTypeButton id={"casual"} onClick={ClothTypeIsClicked}># Casual</EditTypeButton>
-                                <EditTypeButton id={"casual"} onClick={ClothTypeIsClicked}># Street</EditTypeButton>
-                                <EditTypeButton id={"sporty"} onClick={ClothTypeIsClicked}># Sporty</EditTypeButton>
-                                <EditTypeButton id={"urban"} onClick={ClothTypeIsClicked}># Urban</EditTypeButton>
-                                <EditTypeButton id={"classic"} onClick={ClothTypeIsClicked}># Classic</EditTypeButton>
+                                <EditTypeButton id={"retro"} onClick={ClothTypeIsClicked}>#Retro</EditTypeButton>
+                                <EditTypeButton id={"minimal"} onClick={ClothTypeIsClicked}>#Minimal</EditTypeButton>
+                                <EditTypeButton id={"casual"} onClick={ClothTypeIsClicked}>#Casual</EditTypeButton>
+                                <EditTypeButton id={"street"} onClick={ClothTypeIsClicked}>#Street</EditTypeButton>
+                                <EditTypeButton id={"sporty"} onClick={ClothTypeIsClicked}>#Sporty</EditTypeButton>
+                                <EditTypeButton id={"urban"} onClick={ClothTypeIsClicked}>#Urban</EditTypeButton>
+                                <EditTypeButton id={"classic"} onClick={ClothTypeIsClicked}>#Classic</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditClothTypeWrapper>
                         <EditSkinTypeWrapper>
