@@ -16,7 +16,7 @@ const Chat = () => {
 
     useEffect(() => {
         // 클라이언트가 마운트되었을 때 소켓 연결 설정
-        const newSocket = io('http://localhost:3001'); // 서버의 주소에 맞게 변경
+        const newSocket = io('http://localhost:8000/ws/chat/'); // 서버의 주소에 맞게 변경
 
         setSocket(newSocket);
 
