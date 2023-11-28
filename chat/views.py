@@ -1,12 +1,14 @@
-from rest_framework import generics, serializers, status
-from rest_framework.response import Response
+from rest_framework import generics
 from .models import ChatRoom, Message, ShopUser, VisitorUser
 from .serializers import ChatRoomSerializer, MessageSerializer
 from rest_framework.exceptions import ValidationError
 from django.http import Http404
-from django.http import JsonResponse
-from django.conf import settings
-
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # 사용자 정의 예외 클래스, 예외 발생 시 즉각적인 HTTP 응답을 위해 사용됩니다.
 class ImmediateResponseException(Exception):
@@ -16,6 +18,8 @@ class ImmediateResponseException(Exception):
 
 
 # 채팅방 목록 조회 및 생성을 위한 뷰 클래스로, DRF의 generics.ListCreateAPIView를 상속받습니다.
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class ChatRoomListCreateView(generics.ListCreateAPIView):
     # 이 뷰에서 사용할 시리얼라이저를 지정합니다.
     serializer_class = ChatRoomSerializer
@@ -23,26 +27,19 @@ class ChatRoomListCreateView(generics.ListCreateAPIView):
     # GET 요청에 대한 쿼리셋을 정의하는 메소드입니다.
     def get_queryset(self):
         try:
-            # 요청의 쿼리 파라미터에서 'email' 값을 가져옵니다. 없다면 None을 반환합니다.
-            user_email = self.request.query_params.get('email', None)
+            user_id = self.request.query_params.get('id', None)  # 수정: 'email'을 'id'로 변경
 
-            # 이메일 파라미터가 없으면 ValidationError 예외를 발생시킵니다.
-            if not user_email:
-                raise ValidationError('Email 파라미터가 필요합니다.')
+            if not user_id:
+                raise ValidationError('ID 파라미터가 필요합니다.')
 
-            # 채팅방 객체를 필터링하여, 해당 이메일을 가진 사용자가 속한 채팅방을 찾습니다.
             return ChatRoom.objects.filter(
-                shop_user__shop_user_email=user_email
+                shop_user__id=user_id,  # 수정: 'shop_user_email'을 'id'로 변경
             ) | ChatRoom.objects.filter(
-                visitor_user__visitor_user_email=user_email
+                visitor_user__id=user_id  # 수정: 'visitor_user_email'을 'id'로 변경
             )
         except ValidationError as e:
-            # ValidationError 발생 시, 상태 코드 400과 함께 에러 상세 정보를 반환합니다.
-            content = {'detail': e.detail}
-            return Response(content, status=status.HTTP_400_BAD_REQUEST)
+            raise e  # 수정: return Response 대신 raise ValidationError 사용
         except Exception as e:
-            # 다른 종류의 예외 발생 시, 상태 코드 400과 함께 에러 상세 정보를 반환합니다.
-            # 여기에서 예외 정보를 로깅할 수 있습니다.
             content = {'detail': str(e)}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
@@ -56,34 +53,29 @@ class ChatRoomListCreateView(generics.ListCreateAPIView):
 
     # POST 요청을 처리하여 새로운 리소스를 생성하는 메소드입니다.
     def create(self, request, *args, **kwargs):
-        # 요청 데이터로부터 시리얼라이저를 생성합니다.
         serializer = self.get_serializer(data=request.data)
-        # 시리얼라이저의 유효성 검사를 수행합니다. 유효하지 않을 경우 예외가 발생합니다.
         serializer.is_valid(raise_exception=True)
         try:
-            # 시리얼라이저를 통해 데이터 저장을 수행합니다.
             self.perform_create(serializer)
+            # 채팅방이 생성되면 생성된 채팅방 정보를 클라이언트에게 전송
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         except ImmediateResponseException as e:
-            # 즉각적인 응답이 필요할 경우 예외를 통해 응답을 반환합니다.
             return e.response
-        # 성공 헤더를 생성합니다.
-        headers = self.get_success_headers(serializer.data)
-        # 상태 코드 201를 반환하며 새로 생성된 데이터를 응답합니다.
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-    # 시리얼라이저를 통해 데이터베이스에 객체를 저장하는 메소드입니다.
+        # 시리얼라이저를 통해 데이터베이스에 객체를 저장하는 메소드입니다.
+
     def perform_create(self, serializer):
-        # 요청 데이터에서 shop_user_email과 visitor_user_email을 가져옵니다.
-        shop_user_email = self.request.data.get('shop_user_email')
-        visitor_user_email = self.request.data.get('visitor_user_email')
+        # 요청 데이터에서 shop_user_id과 visitor_user_id을 가져옵니다.  # 수정: 'shop_user_email'을 'id'로 변경
+        shop_user_id = self.request.data.get('shop_user_id')  # 수정: 'shop_user_email'을 'id'로 변경
+        visitor_user_id = self.request.data.get('visitor_user_id')  # 수정: 'visitor_user_email'을 'id'로 변경
 
-        # 해당 이메일로 ShopUser와 VisitorUser를 가져오거나 없으면 생성합니다.
-        shop_user, _ = ShopUser.objects.get_or_create(shop_user_email=shop_user_email)
-        visitor_user, _ = VisitorUser.objects.get_or_create(visitor_user_email=visitor_user_email)
+        # 해당 ID로 ShopUser와 VisitorUser를 가져오거나 없으면 생성합니다.
+        shop_user, _ = ShopUser.objects.get_or_create(id=shop_user_id)  # 수정: 'shop_user_email'을 'id'로 변경
+        visitor_user, _ = VisitorUser.objects.get_or_create(id=visitor_user_id)  # 수정: 'visitor_user_email'을 'id'로 변경
 
-        # 동일한 shop_user_email과 visitor_user_email을 가진 채팅방이 이미 있는지 확인합니다.
-        existing_chatroom = ChatRoom.objects.filter(shop_user__shop_user_email=shop_user_email,
-                                                    visitor_user__visitor_user_email=visitor_user_email).first()
+        # 동일한 shop_user_id과 visitor_user_id을 가진 채팅방이 이미 있는지 확인합니다.
+        existing_chatroom = ChatRoom.objects.filter(shop_user__id=shop_user_id,  # 수정: 'shop_user_email'을 'id'로 변경
+                                                    visitor_user__id=visitor_user_id).first()  # 수정: 'visitor_user_email'을 'id'로 변경
 
         # 이미 존재하는 채팅방이 있다면 해당 채팅방의 정보를 시리얼라이즈하여 응답합니다.
         if existing_chatroom:
@@ -95,6 +87,7 @@ class ChatRoomListCreateView(generics.ListCreateAPIView):
 
 
 # 메시지 목록을 조회하는 뷰 클래스로, DRF의 generics.ListAPIView를 상속받습니다.
+
 class MessageListView(generics.ListAPIView):
     # 이 뷰에서 사용할 시리얼라이저를 지정합니다.
     serializer_class = MessageSerializer

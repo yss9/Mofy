@@ -24,6 +24,10 @@ class PhotoSave(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to="uploads")
 
 
+
+class PhotoSave(models.Model):
+    image = models.ImageField(blank = True, null = True, upload_to="uploads")
+
 class TagName(models.Model):
     tagID = models.BigAutoField(primary_key = True)
     tagName = models.TextField(max_length=15)

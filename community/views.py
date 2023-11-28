@@ -12,15 +12,14 @@ from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard, Ph
 
 
 class Test(APIView):
-    permission_classes = [AllowAny]
-    def post(self, request):
-        serializer = PhotoSaveSerializers(data = request.data)
+    def post(self,request):
+        serializer = PhotoSaveSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return  Response(status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, pk):
+    def get(self, request,pk):
         photo = PhotoSave.objects.get(pk=pk)
         serializer = PhotoSaveSerializers(photo)
         return Response(serializer.data)
@@ -37,42 +36,27 @@ class BoardList(APIView):
 
     def post(self, request):
         board_serializer = BoardSerializers(data=request.data)
-        tags = request.data.get('tags', '').split(',')
         if board_serializer.is_valid():
-            board_serializer.save()
-            board1 = Board.objects.order_by('boardID').last()
-            for tag in tags:
-                tagname = TagName()
-                tag_valid = TagName.objects.filter(tagName=tag)
-                if tag_valid:
-                    tagn = TagName.objects.get(tagName=tag)
-                    tagboard = TagBoard(boardID=board1, tagID=tagn)
-                else:
-                    tagname.tagName = tag
-                    tagname.save()
-                    tagn = TagName.objects.get(tagName=tag)
-                    tagboard = TagBoard(boardID=board1, tagID=tagn)
-                tagboard.save()
+            board = board_serializer.save()
+            print(board.boardID)
             return Response(board_serializer.data, status=status.HTTP_201_CREATED)
         return Response(board_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class TagDetail(APIView):
-    def get(self,request,pk):
-        tagd = TagBoard.objects.filter(boardID=pk)
-        tag_names = []
-        for tags in tagd:
-            tag_names.append(tags.tagID)
+'''
+    def post(self, request):
+        boardID = Board.objects.last()
+        tags = request.data['tags'].split(',')
+        for tag in tags:
+            if TagName.objects.get(tagName = tag):
+                tags =TagName.objects.get(tagName = tag)
+                TagBoard.objects.create(tagID=tags.tagID, boardID=boardID)
+            else:
+                TagName.objects.create(tagName=tag)
+                TagBoard.objects.create(tagName=tag, BoardID=boardID)
+        return Response(status=status.HTTP_200_OK)
+'''
 
-        serializers = TagNameSerializers(tag_names, many=True)
-        return Response(serializers.data, status=status.HTTP_200_OK)
-
-
-class SelectBoardType(APIView):
-    def get(self, request, pk, format=None):
-        board = Board.objects.filter(boardType=pk)
-        serializer = BoardSerializers(board, many=True)
-        return Response(serializer.data)
 
 
 class BoardDetail(APIView):
@@ -164,30 +148,24 @@ class Report(APIView):
         return Response(reportList_serializer.data,status=status.HTTP_200_OK)
 
     def post(self, request, pk):
-        reportBoard = ReportBoardList.objects.get(boardID=pk)
+        boardID = request.data['boardID']
+        userID = request.data['userID']
+        reportBoard = ReportBoardList.objects.filter(boardID=boardID, userID=userID)
         if reportBoard:
             return Response(status=status.HTTP_208_ALREADY_REPORTED)
         else:
-            ReportBoardList.objects.create(boardID=pk)
-            return Response(status=status.HTTP_200_OK)
-
-            '''
             report_serializer = ReportBoardListSerializers(data=request.data)
             if report_serializer.is_valid():
                 report_serializer.save()
                 return Response(report_serializer.data, status=status.HTTP_201_CREATED)
             return Response(report_serializer.data, status=status.HTTP_400_BAD_REQUEST)
-            '''
 
 
 
 class StyleRankView(APIView):
     def get(self, request):
         one_week = datetime.now() - timedelta(days=7)
-        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:4]
+        styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:43]
         print(styleranks.values())
         serializers = BoardSerializers(styleranks, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
-
-
-
