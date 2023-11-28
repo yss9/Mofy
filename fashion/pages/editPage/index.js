@@ -23,11 +23,11 @@ const onClickDelete = () => {
 
 
 
-
 export default function BoardNewPage() {
     const [imgFile, setImgFile] = useState("");
     const imgRef = useRef();
-    const [isClicked, setClicked] = useState(false);
+    const [clothTypeClicked, setClothTypeClicked] = useState(false);
+    const [skinTypeClicked, setSkinTypeClicked] = useState(false);
     // const [username, setUsername] = useState(null);
     const [name, setName]= useState("");
     const [pw, setPw] = useState("");
@@ -40,6 +40,50 @@ export default function BoardNewPage() {
     const [heightError, setHeightError] = useState("");
     const [weightError, setWeightError] = useState("");
     const [shoeSizeError, setShoeSizeError] = useState("");
+
+
+    const clothTypeArray = new Set();
+    const skinTypeArray = new Set();
+
+    const ClothTypeSaveValue = (buttonId) => {
+        clothTypeArray.add(buttonId);
+        console.log(`값 "${buttonId}"이(가) 저장되었습니다.`);
+        console.log('현재 배열:', clothTypeArray);
+    }
+    const ClothTypeRemoveValue = (buttonId) => {
+        clothTypeArray.delete(buttonId);
+        console.log(`값 "${buttonId}"이(가) 제거되었습니다.`);
+        console.log('현재 배열:', clothTypeArray);
+    }
+    const ClothTypeIsClicked = (event) => {
+        const buttonId = event.target.id;
+
+        if (!clothTypeArray.has(buttonId)) {
+            ClothTypeSaveValue(buttonId);
+        } else {
+            ClothTypeRemoveValue(buttonId);
+        }
+    }
+
+    const SkinTypeSaveValue = (buttonId) => {
+        skinTypeArray.add(buttonId);
+        console.log(`값 "${buttonId}"이(가) 저장되었습니다.`);
+        console.log('현재 배열:', skinTypeArray);
+    }
+    const SkinTypeRemoveValue = (buttonId) => {
+        skinTypeArray.delete(buttonId);
+        console.log(`값 "${buttonId}"이(가) 제거되었습니다.`);
+        console.log('현재 배열:', skinTypeArray);
+    }
+    const SkinTypeIsClicked = (event) => {
+        const buttonId = event.target.id;
+
+        if (!skinTypeArray.has(buttonId)) {
+            SkinTypeSaveValue(buttonId);
+        } else {
+            SkinTypeRemoveValue(buttonId);
+        }
+    }
 
     const onChangeName=(event)=>{
         setName(event.target.value)
@@ -141,6 +185,7 @@ export default function BoardNewPage() {
             <Wrapper>
                 <ConsentWrapper>
                     <Top>
+                        <button id={"qq"} onClick={isClicked}>값 저장</button>
                         <TitleWrapper>
                             <Title onClick={onClickHome} src="images/mofylogo.png"/>
                         </TitleWrapper>
@@ -178,9 +223,9 @@ export default function BoardNewPage() {
                                     {isClicked ? '클릭됨' : '클릭 안됨'}
 
                                 </EditTypeButton>
-                                <EditTypeButton>#Modern</EditTypeButton>
-                                <EditTypeButton>#Feminine</EditTypeButton>
-                                <EditTypeButton>#Dandy</EditTypeButton>
+                                <EditTypeButton id={"modern"} onClick={ClothTypeIsClicked}>#Modern</EditTypeButton>
+                                <EditTypeButton id={"feminine"} onClick={ClothTypeIsClicked}>#Feminine</EditTypeButton>
+                                <EditTypeButton id={"dandy"} onClick={ClothTypeIsClicked}>#Dandy</EditTypeButton>
                                 <EditTypeButton>#레트로</EditTypeButton>
                                 <EditTypeButton>#minimul</EditTypeButton>
                                 <EditTypeButton>#캐주얼</EditTypeButton>
@@ -193,11 +238,11 @@ export default function BoardNewPage() {
                         <EditSkinTypeWrapper>
                             <EditSkinTypeText>피부 타입</EditSkinTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton>건성</EditTypeButton>
-                                <EditTypeButton>지성</EditTypeButton>
-                                <EditTypeButton>복합성</EditTypeButton>
-                                <EditTypeButton>민감성</EditTypeButton>
-                                <EditTypeButton>여드름</EditTypeButton>
+                                <EditTypeButton id={"asdf"} onClick={SkinTypeIsClicked}>건성</EditTypeButton>
+                                <EditTypeButton id={"지성"} onClick={SkinTypeIsClicked}>지성</EditTypeButton>
+                                <EditTypeButton id={"복합성"} onClick={SkinTypeIsClicked}>복합성</EditTypeButton>
+                                <EditTypeButton id={"민감성"} onClick={SkinTypeIsClicked}>민감성</EditTypeButton>
+                                <EditTypeButton id={"여드름"} onClick={SkinTypeIsClicked}>여드름</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditSkinTypeWrapper>
                         <EditUserSizeWrapper>

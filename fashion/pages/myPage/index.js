@@ -126,15 +126,11 @@ export default function BoardNewPage() {
                             <ProfileUserWrapper>
                                 <ProfileText>내 정보</ProfileText>
                                 <ProfileImg src="https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"/>
-                                <ProfileName>MyName
+                                <ProfileName>
                                     {username ? (
-                                        <div>
-                                            <h1>Welcome, {username.username}!</h1>
-                                        </div>
+                                        <div>{username.username}</div>
                                     ) : (
-                                        <div>
-                                            <p>Loading...</p>
-                                        </div>
+                                        <div>Loading...</div>
                                     )}
                                 </ProfileName>
                                 <ProfileTagWrapper>

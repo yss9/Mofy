@@ -70,7 +70,7 @@ export const ProfileTag = styled.button`
 export const ProfileTagWrapper = styled.div`
   width: 500px;
   height: 70px;
-  background-color: darkgray;
+  //background-color: darkgray;
   margin-left: 280px;
   padding-top: 30px;
   

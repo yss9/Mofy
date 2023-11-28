@@ -154,7 +154,7 @@ export default function BoardNewPage() {
     const onEnterSubmit = (event) => {
         if (event.key ==="Enter") {
             axios
-                .post("http://localhost:8000/search_history/", { query: search })
+                .post("http://localhost:8000/search-history/", { query: search })
                 .then((response) => {
                     if (response.data.success) {
                         window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
@@ -465,15 +465,11 @@ export default function BoardNewPage() {
                                 <ProfileText>My Profile</ProfileText>
                                 <ProfileUserWrapper>
                                     <ProfileImg src="https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"/>
-                                    <ProfileName>MyName
+                                    <ProfileName>
                                         {username ? (
-                                            <div>
-                                                <h1>Welcome, {username.username}!</h1>
-                                            </div>
+                                            <div>{username.username}</div>
                                         ) : (
-                                            <div>
-                                                <p>Loading...</p>
-                                            </div>
+                                            <div>Loading...</div>
                                         )}
                                     </ProfileName>
                                 </ProfileUserWrapper>
