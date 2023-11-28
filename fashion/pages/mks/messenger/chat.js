@@ -6,6 +6,7 @@ import { Wrapper, ConsentWrapper, Messages, Chatting,
     from '../../../styles/styles/Boardsmessenger';
 import io from 'socket.io-client';
 import axios from 'axios';
+import Cookies from "js-cookie";
 
 const Chat = () => {
     const [messages, setMessages] = useState([]);
@@ -14,9 +15,13 @@ const Chat = () => {
     const [socket, setSocket] = useState(null);
     const [userName, setUserName] = useState('');
 
+    const accessToken = Cookies.get('access_token');
+    const refreshToken = Cookies.get('refresh_token');
+
+
     useEffect(() => {
         // 클라이언트가 마운트되었을 때 소켓 연결 설정
-        const newSocket = io('http://localhost:8000/ws/chat/'); // 서버의 주소에 맞게 변경
+        const newSocket = io('http://localhost:3001'); // 서버의 주소에 맞게 변경
 
         setSocket(newSocket);
 
@@ -27,7 +32,7 @@ const Chat = () => {
             },
         })
             .then(response => {
-                setUserName(response.data.userName);
+                setUserName(response.data);
             })
             .catch(error => {
                 console.error('Error fetching user name:', error);
@@ -78,7 +83,7 @@ const Chat = () => {
                 <Chatting>
                     <Profile>
                         <Image></Image>
-                        <UserName>{userName}</UserName>
+                        <UserName>{userName.username}</UserName>
                         <Edit onClick={handleEditClick}>✕</Edit>
                     </Profile>
                     <Wrapper>

@@ -8,24 +8,13 @@ import {
 } from '../../../styles/styles/BoardsfindId';
 
 export default function BoardsFoundIdPage() {
+
     const [userId, setUserId] = useState("");
 
     useEffect(() => {
-        const fetchUserId = async () => {
-            try {
-                const response = await axios.post('http://127.0.0.1:8000/finduserID/', {
-                    name,
-                    email:email,
-                });
-
-                const fetchedUserId = response.data.userId;
-                setUserId(fetchedUserId);
-            } catch (error) {
-                console.error('사용자 아이디를 가져오는 중 오류 발생:', error);
-            }
-        };
-
-        fetchUserId();
+        // localStorage에서 foundUserId 불러와 설정
+        const foundUserId = localStorage.getItem("foundUserId");
+        setUserId(foundUserId || ""); // 없을 경우 빈 문자열 설정
     }, []);
 
     const onClickHome = () => {
