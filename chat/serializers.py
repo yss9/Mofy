@@ -10,11 +10,12 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = "__all__"  # 모든 필드를 포함시킵니다.
 
 # ChatRoom 모델에 대한 시리얼라이저 클래스입니다.
+# ChatRoom 모델에 대한 시리얼라이저 클래스입니다.
 class ChatRoomSerializer(serializers.ModelSerializer):
     latest_message = serializers.SerializerMethodField()  # 최신 메시지 필드를 동적으로 가져옵니다.
-    opponent_id = serializers.SerializerMethodField()  # 상대방 이메일 필드를 동적으로 가져옵니다.
-    shop_user_id = serializers.SerializerMethodField()  # 상점 사용자의 이메일을 가져오는 필드입니다.
-    visitor_user_id = serializers.SerializerMethodField()  # 방문자 사용자의 이메일을 가져오는 필드입니다.
+    opponent_id = serializers.SerializerMethodField()  # 상대방 ID 필드를 동적으로 가져옵니다.
+    shop_user_id = serializers.SerializerMethodField()  # 상점 사용자의 ID를 가져오는 필드입니다.
+    visitor_user_id = serializers.SerializerMethodField()  # 방문자 사용자의 ID를 가져오는 필드입니다.
     messages = MessageSerializer(many=True, read_only=True, source="messages.all")  # 해당 채팅방의 메시지 목록을 가져옵니다.
 
     class Meta:
@@ -29,19 +30,20 @@ class ChatRoomSerializer(serializers.ModelSerializer):
             return latest_msg.text  # 최신 메시지의 내용을 반환합니다.
         return None  # 메시지가 없다면 None을 반환합니다.
 
-    # 요청 사용자와 대화하는 상대방의 이메일을 가져오는 메소드입니다.
-    def get_opponent_email(self, obj):
+    # 요청 사용자와 대화하는 상대방의 ID를 가져오는 메소드입니다.
+    def get_opponent_id(self, obj):
         request_user_id = self.context['request'].query_params.get('id', None)  # 수정: 'email'을 'id'로 변경
-        # 요청한 사용자가 상점 사용자일 경우, 방문자의 이메일을 반환합니다.
+        # 요청한 사용자가 상점 사용자일 경우, 방문자의 ID를 반환합니다.
         if request_user_id == str(obj.shop_user.id):  # 수정: 'shop_user_email'을 'id'로 변경
             return obj.visitor_user.visitor_user_id
-        else:  # 그렇지 않다면, 상점 사용자의 이메일을 반환합니다.
-            return obj.shop_user.shop_user_email
+        else:  # 그렇지 않다면, 상점 사용자의 ID를 반환합니다.
+            return obj.shop_user.shop_user_id
 
-    # shop_user의 이메일을 반환하는 메소드입니다.
-    def get_shop_user_email(self, obj):
+    # shop_user의 ID를 반환하는 메소드입니다.
+    def get_shop_user_id(self, obj):
         return obj.shop_user.shop_user_id
 
-    # visitor_user의 이메일을 반환하는 메소드입니다.
-    def get_visitor_user_email(self, obj):
+    # visitor_user의 ID를 반환하는 메소드입니다.
+    def get_visitor_user_id(self, obj):
         return obj.visitor_user.visitor_user_id
+

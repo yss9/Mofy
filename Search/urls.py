@@ -12,6 +12,3 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns = format_suffix_patterns(urlpatterns)
-
-from django.urls import path
-from .views import PostSearchView, SearchHistoryView, PopularSearchView, SearchSuggestionView

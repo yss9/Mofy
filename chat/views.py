@@ -5,10 +5,12 @@ from rest_framework.exceptions import ValidationError
 from django.http import Http404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
+
 
 # 사용자 정의 예외 클래스, 예외 발생 시 즉각적인 HTTP 응답을 위해 사용됩니다.
 class ImmediateResponseException(Exception):
@@ -27,18 +29,18 @@ class ChatRoomListCreateView(generics.ListCreateAPIView):
     # GET 요청에 대한 쿼리셋을 정의하는 메소드입니다.
     def get_queryset(self):
         try:
-            user_id = self.request.query_params.get('id', None)  # 수정: 'email'을 'id'로 변경
+            user_id = self.request.query_params.get('id', None)
 
             if not user_id:
                 raise ValidationError('ID 파라미터가 필요합니다.')
 
             return ChatRoom.objects.filter(
-                shop_user__id=user_id,  # 수정: 'shop_user_email'을 'id'로 변경
+                shop_user__id=user_id,
             ) | ChatRoom.objects.filter(
-                visitor_user__id=user_id  # 수정: 'visitor_user_email'을 'id'로 변경
+                visitor_user__id=user_id
             )
         except ValidationError as e:
-            raise e  # 수정: return Response 대신 raise ValidationError 사용
+            raise e
         except Exception as e:
             content = {'detail': str(e)}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
