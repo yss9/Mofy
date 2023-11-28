@@ -15,6 +15,7 @@
 [Ss]cripts
 pyvenv.cfg
 .venv
+.DS_Store
 pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/venv
