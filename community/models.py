@@ -18,6 +18,10 @@ class Board(models.Model):
     state = models.BooleanField(default=True)  # 판매중 상태
     address = models.TextField(null = True) # 주소
 
+
+class PhotoSave(models.Model):
+    image = models.ImageField(blank = True, null = True, upload_to="uploads")
+
 class TagName(models.Model):
     tagID = models.BigAutoField(primary_key = True)
     tagName = models.TextField(max_length=15)
