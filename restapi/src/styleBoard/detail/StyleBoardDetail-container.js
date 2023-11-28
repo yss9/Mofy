@@ -88,14 +88,30 @@ export default function StyleBoardDetail() {
 
 
 
+    const onClickMoveToBoardEdit = () => {
+        router.push(`/styleBoard/${boardID}/edit`);
 
-    /*  const onClickMoveToBoardEdit = () => {
-       if (typeof router.query.boardId !== "string") {
-         alert("시스템에 문제가 있습니다.");
-         return;
-       }*/
+    }
 
-    /* router.push(`/boards/${router.query.boardID}/edit`);*/
+
+    const onClickBoardDelete = async () => {
+
+        const result = await axios.delete(`http://127.0.0.1:8000/board/${boardID}/`, )
+
+            .then(function (response) {
+                console.log(response.data.boardID);
+                router.push("/styleBoard/");
+
+                alert("게시물 삭제가 정상적으로 완료되었습니다!")
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
 
 
     return (
@@ -135,8 +151,8 @@ export default function StyleBoardDetail() {
 
             <S.BottomWrapper>
                 <S.Button onClick={() => router.push("/styleBoard")}>목록으로</S.Button>
-                <S.Button>수정하기</S.Button>
-                <S.Button>삭제하기</S.Button>
+                <S.Button onClick={onClickMoveToBoardEdit}>수정하기</S.Button>
+                <S.Button onClick={onClickBoardDelete}>삭제하기</S.Button>
             </S.BottomWrapper>
         </S.Wrapper>
     )

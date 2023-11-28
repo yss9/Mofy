@@ -87,6 +87,10 @@ export default function MarketBoardDetail() {
 
     }
 
+    const onClickChat = () => {
+        window.location.href = "http://localhost:3000/mks/messenger/chat";
+    }
+
 
     return (
         <S.Wrapper>
@@ -120,7 +124,10 @@ export default function MarketBoardDetail() {
                 <S.Button onClick={() => router.push("/marketBoard")}>목록으로</S.Button>
                 <S.Button onClick={onClickMoveToBoardEdit}>수정하기</S.Button>
                 <S.Button>삭제하기</S.Button>
-                <FloatButton icon={<CommentOutlined />} />
+                {/*<FloatButton icon={<CommentOutlined/>} />*/}
+                <button onClick={onClickChat}>
+
+                </button>
             </S.BottomWrapper>
         </S.Wrapper>
     )

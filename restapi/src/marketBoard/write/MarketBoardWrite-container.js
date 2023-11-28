@@ -160,14 +160,15 @@ export default function MarketBoardWrite(props){
 
         if (
             title === "" &&
-            content === ""
+            content === "" &&
+            !image
         ) {
             alert("수정한 내용이 없습니다.");
             return;
         }
 
 
-        if (title !== "" && content !== "") {
+        if (title !== "" && content !== "" && image) {
 
 
             const combinedString = `${address}, ${addressDetail}`;

@@ -130,11 +130,55 @@ export default function StyleBoardWrite(props){
         }
     }
 
+    const onClickUpdate = async () => {
+
+        const {boardID} = router.query
+
+        if (
+            title === "" &&
+            content === "" &&
+            !image
+        ) {
+            alert("수정한 내용이 없습니다.");
+            return;
+        }
+
+
+        if (title !== "" && content !== "" && image) {
+
+
+
+            const formData = new FormData();
+
+            formData.append('image', image);
+            formData.append('title', title);
+            formData.append('content', content);
+            formData.append('boardType', 3);
+            formData.append('userID', 1);
+            formData.append('like_num', 0);
+
+
+            const result = await axios.put(`http://127.0.0.1:8000/board/${boardID}/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+
+            })
+                .then(function (response) {
+                    console.log(response.data);
+                    alert("게시물 수정이 정상적으로 완료되었습니다!");
+                    router.push(`/styleBoard/${response.data.boardID}`);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    }
+
     return (
         <>
             <S.Wrapper>
-                {/* <S.Title>{props.isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>*/}
-                <S.Title>게시글 등록</S.Title>
+                <S.Title>{props.isEdit ? "게시글 수정" : "게시글 등록"}</S.Title>
                 <S.InputWrapper>
                     <S.Label>제목</S.Label>
                     <S.Subject
@@ -178,13 +222,12 @@ export default function StyleBoardWrite(props){
 
 
                 <S.ButtonWrapper>
-                    {/*   <S.SubmitButton
-            onClick={props.isEdit ? props.onClickUpdate : props.onClickSubmit}
+                    <S.SubmitButton
+            onClick={props.isEdit ? onClickUpdate : onClickSubmit}
             isActive={props.isEdit ? true : props.isActive}
           >
             {props.isEdit ? "수정하기" : "등록하기"}
-          </S.SubmitButton>*/}
-                    <S.SubmitButton onClick={onClickSubmit}>등록하기</S.SubmitButton>
+          </S.SubmitButton>
                 </S.ButtonWrapper>
             </S.Wrapper>
         </>
