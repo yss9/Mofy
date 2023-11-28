@@ -1,17 +1,18 @@
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated  # 수정: AllowAny 대신 IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.http import Http404
-
 from Search.serializers import SearchHistorySerializer
 from community.models import Board, TagName
 from .models import SearchHistory
 from django.db.models import Count, Q
 
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class PostSearchView(APIView):
-    permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
     def get(self, request):
         q = request.GET.get('q', '')
@@ -32,16 +33,18 @@ class PostSearchView(APIView):
             'related_searches': related_searches
         }, status=status.HTTP_200_OK)
 
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class SearchHistoryView(APIView):
-    permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
     def get(self, request):
         search_history = SearchHistory.objects.filter(user=request.user).order_by('-searched_at')[:5]
         search_history_serializer = SearchHistorySerializer(search_history, many=True)
         return Response(search_history_serializer.data, status=status.HTTP_200_OK)
 
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class PopularSearchView(APIView):
-    permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
     def get(self, request):
         popular_search = SearchHistory.objects.values('query') \
@@ -49,9 +52,9 @@ class PopularSearchView(APIView):
             .order_by('-query_count')[:10]
         popular_search_serializer = SearchHistorySerializer(popular_search, many=True)
         return Response(popular_search_serializer.data, status=status.HTTP_200_OK)
-
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class SearchSuggestionView(APIView):
-    permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
     def get(self, request):
         query = request.GET.get('q', '')
