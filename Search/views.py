@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated  # 수정: AllowAny 대신 IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
@@ -11,7 +11,7 @@ from django.db.models import Count, Q
 
 
 class PostSearchView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
     def get(self, request):
         q = request.GET.get('q', '')
@@ -33,7 +33,7 @@ class PostSearchView(APIView):
         }, status=status.HTTP_200_OK)
 
 class SearchHistoryView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
     def get(self, request):
         search_history = SearchHistory.objects.filter(user=request.user).order_by('-searched_at')[:5]
@@ -41,7 +41,7 @@ class SearchHistoryView(APIView):
         return Response(search_history_serializer.data, status=status.HTTP_200_OK)
 
 class PopularSearchView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
     def get(self, request):
         popular_search = SearchHistory.objects.values('query') \
@@ -51,7 +51,7 @@ class PopularSearchView(APIView):
         return Response(popular_search_serializer.data, status=status.HTTP_200_OK)
 
 class SearchSuggestionView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]  # 수정: AllowAny 대신 IsAuthenticated
 
     def get(self, request):
         query = request.GET.get('q', '')
@@ -60,3 +60,6 @@ class SearchSuggestionView(APIView):
             .annotate(query_count=Count('query')) \
             .order_by('-query_count')[:5]
         suggestions = [item['query'] for item in suggestions]
+
+        return Response(suggestions, status=status.HTTP_200_OK)
+
