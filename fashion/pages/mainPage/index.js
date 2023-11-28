@@ -167,11 +167,11 @@ export default function BoardNewPage() {
             }
 
             console.log("Request URL:", "http://localhost:8000/search/");
-            console.log("Request Data:", { search_query: search });
+            console.log("Request Data:", { query: search });
             console.log("Request Headers:", axiosConfig.headers);
 
             // Make the API request
-            axios.post("http://localhost:8000/search/", { search_query: search }, axiosConfig)
+            axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
                 .then((response) => {
                     if (response.data.success) {
                         // Handle success
