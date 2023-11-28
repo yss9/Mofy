@@ -17,21 +17,18 @@ from django.db.models import Q
 @permission_classes([IsAuthenticated])
 class PostSearchView(APIView):
     def post(self, request):
-        search_query = request.data.get('query')
+        query = request.data.get('query')
 
-        if not search_query:
+        if not query:
             return Response({"success": False, "message": "검색어가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
 
         user = request.user
         # 검색 기록 저장
-        SearchHistory.objects.create(user=user, search_query=search_query)
+        SearchHistory.objects.create(user=user, query=query)
 
         # Board 모델의 title과 TagName 모델의 tagName으로 검색
-        search_results = Board.objects.filter(
-            Q(title__icontains=search_query)
-        ).distinct() | TagName.objects.filter(
-            Q(tagName_icontains=search_query)
-        ).distinct()
+        search_results = Board.objects.filter(Q(title__icontains=query)).distinct()
+
 
         # 검색 결과를 직렬화하여 응답
         response_data = {
@@ -40,40 +37,6 @@ class PostSearchView(APIView):
             "search_results": [{"boardID": result.boardID, "title": result.title} for result in search_results]
         }
         return Response(response_data, status=status.HTTP_201_CREATED)
-    # def get(self, request):
-    #     q = request.GET.get('q', '')
-    #     post_list = Board.objects.filter(
-    #         Q(title__contains=q) | Q(tagboard__tagName__contains=q)
-    #     ).distinct()
-    #
-    #     if request.user.is_authenticated:
-    #         history = SearchHistory.objects.filter(user=request.user, query=q)
-    #         if not history.exists():
-    #             SearchHistory.objects.create(user=request.user, query=q)
-    #
-    #     related_tags = TagName.objects.filter(tagboard__boardID__in=post_list).distinct()
-    #     related_searches = [tag.tagName for tag in related_tags]
-    #
-    #     return Response({
-    #         'post_list': list(post_list.values()),
-    #         'related_searches': related_searches
-    #     }, status=status.HTTP_200_OK)
-    #
-    # def post(self, request, accessToken=None):
-    #     search_query = request.data.get('query', '')
-    #     if search_query:
-    #         # 이전과 동일한 검색 수행...
-    #
-    #         # 새 엔드포인트를 호출하여 검색 기록 업데이트
-    #         response = requests.post(
-    #             "http://localhost:8000/post_search_history/",
-    #             data={'query': search_query},
-    #             headers={'Authorization': f'Bearer {accessToken}'}
-    #         )
-    #         if response.status_code != 201:
-    #             return Response({'error': '검색 기록 업데이트 실패.'}, status=response.status_code)
-    #     else:
-    #         return Response({'error': '쿼리 파라미터가 필요합니다.'}, status=status.HTTP_400_BAD_REQUEST)
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
