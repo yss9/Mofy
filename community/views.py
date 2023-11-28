@@ -166,7 +166,3 @@ class StyleRankView(APIView):
         print(styleranks.values())
         serializers = BoardSerializers(styleranks, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
-
-
-
-
