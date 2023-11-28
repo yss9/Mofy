@@ -139,8 +139,8 @@ export default function BoardNewPage() {
             weight: weight,
             height: height,
             shoeSize: shoeSize,
-            clothType: clothTypeArray,
-            skinType: skinTypeArray,
+            clothType: Array.from(clothTypeArray),
+            skinType: Array.from(skinTypeArray),
         }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
