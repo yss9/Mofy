@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from django.http import Http404
 
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
     ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers
@@ -152,7 +151,7 @@ class LikeDetail(APIView):
             serializer = LikeSerializers(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer.data)
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -171,13 +170,6 @@ class Report(APIView):
             ReportBoardList.objects.create(boardID=pk)
             return Response(status=status.HTTP_200_OK)
 
-            '''
-            report_serializer = ReportBoardListSerializers(data=request.data)
-            if report_serializer.is_valid():
-                report_serializer.save()
-                return Response(report_serializer.data, status=status.HTTP_201_CREATED)
-            return Response(report_serializer.data, status=status.HTTP_400_BAD_REQUEST)
-            '''
 
 
 
