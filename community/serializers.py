@@ -19,7 +19,8 @@ class PhotoSaveSerializers(serializers.ModelSerializer):
 class BoardSerializers(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ('boardID', 'title', 'content', 'boardType', 'datetime', 'image', 'like_num', 'price', 'state', 'userID', 'address')
+        fields = ('boardID', 'title', 'content', 'boardType', 'datetime', 'image', 'like_num', 'price', 'state', 'userID', 'address','tags')
+
 
 
 class TagNameSerializers(serializers.ModelSerializer):
