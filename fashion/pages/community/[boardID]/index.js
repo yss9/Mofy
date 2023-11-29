@@ -1,8 +1,7 @@
-import CommunityDetail from "../../../../../testDjango/testDjangoReact/restapi/src/community/detail/CommunityDetail-container";
-import BoardCommentWrite from "../../../../../testDjango/testDjangoReact/restapi/src/boardComment/write/boardCommentWrite";
-import BoardCommentList from "../../../../../testDjango/testDjangoReact/restapi/src/boardComment/list/boardCommentList";
-import {useState} from "react";
-import {useRouter} from "next/router";
+import CommunityDetail from "../../../src/community/detail/CommunityDetail-container";
+import BoardCommentWrite from "../../../src/boardComment/write/boardCommentWrite";
+import BoardCommentList from "../../../src/boardComment/list/boardCommentList";
+
 
 
 

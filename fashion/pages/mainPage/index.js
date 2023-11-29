@@ -133,7 +133,11 @@ export default function BoardNewPage() {
                 .then((response) => {
                     if (response.data.success) {
                         // Handle success
-                        window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
+                        console.log("검색 결과:");
+                        console.log(response.data.search_results);
+
+                        // Assuming you have a function to render the search results on your webpage
+                        renderSearchResults(response.data.search_results);
                     } else {
                         // Handle API error
                         console.error("검색 실패: " + response.data.message);
@@ -145,6 +149,46 @@ export default function BoardNewPage() {
                 });
         }
     };
+
+// Assume you have a function to render search results on your webpage
+    const renderSearchResults = (results) => {
+        // Render the search results on your webpage
+        // You can use these results to display the Board's title and tags
+        console.log("Rendering Search Results:", results);
+    };
+
+
+
+    // const onEnterSubmit = (event) => {
+    //     if (event.key === "Enter") {
+    //         // Validate the search query
+    //         if (!search) {
+    //             console.error("검색어가 필요합니다.");
+    //             return;
+    //         }
+    //
+    //         console.log("Request URL:", "http://localhost:8000/search/");
+    //         console.log("Request Data:", { query: search });
+    //         console.log("Request Headers:", axiosConfig.headers);
+    //
+    //         // Make the API request
+    //         axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
+    //             .then((response) => {
+    //                 if (response.data.success) {
+    //                     // Handle success
+    //                     window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
+    //                 } else {
+    //                     // Handle API error
+    //                     console.error("검색 실패: " + response.data.message);
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 // Handle general API error
+    //                 console.error("API 호출 중 오류 발생:", error);
+    //             });
+    //     }
+    // };
+
 
 
     const onTagClickSubmit = (event) => {

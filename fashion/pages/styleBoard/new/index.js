@@ -1,8 +1,7 @@
-import StyleBoardWrite from "../../../../../testDjango/testDjangoReact/restapi/src/styleBoard/write/StyleBoardWrite-container";
+import StyleBoardWrite from "../../../src/styleBoard/write/StyleBoardWrite-container"
 
-
-export default function CommunityNewPage() {
+export default function StyleBoardNewPage() {
     return (
-        <StyleBoardWrite/>
+        <StyleBoardWrite isEdit={false}/>
     )
 }

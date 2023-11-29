@@ -33,7 +33,7 @@ export default function BoardsFindIdPage() {
 
     const onClickNextArrow = () => {
         if (!name) {
-            setNameError("이름를 입력해주세요.");
+            setNameError("이름을 입력해주세요.");
         }
         if (!email) {
             setEmailError("이메일을 입력해주세요.");
@@ -43,7 +43,9 @@ export default function BoardsFindIdPage() {
                 .then((response) => {
                     // 서버에서 확인한 후의 로직
                     if (response.data.user_id) {
-                        alert(response.data.user_id);
+                        // 찾은 아이디를 localStorage에 저장
+                        localStorage.setItem("foundUserId", response.data.user_id);
+                        // getId 페이지로 이동
                         window.location.href = "http://localhost:3000/mks/findId/getId";
                     } else {
                         alert("유저 정보가 일치하지 않습니다.");
