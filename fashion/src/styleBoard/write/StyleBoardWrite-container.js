@@ -1,10 +1,8 @@
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useRouter} from "next/router";
-import * as S from "@/src/community/write/CommunityWrite-styles";
-import { Address } from "react-daum-postcode";
-import {Modal} from "antd";
-import {ImageBox} from "@/src/styleBoard/write/StyleBoardWrite-styles";
+import * as S from "./StyleBoardWrite-styles";
+import {ImageBox} from "./StyleBoardWrite-styles";
 import { PlusOutlined } from '@ant-design/icons';
 import { Input, Space, Tag, theme, Tooltip } from 'antd';
 
@@ -105,12 +103,7 @@ export default function StyleBoardWrite(props){
             formData.append('boardType', 2);
             formData.append('like_num', 0);
             formData.append('userID', 1);
-
-            // 'tags'를 배열로 설정
-            const tagsArray = ["안녕", "바보", "하이"];
-            tagsArray.forEach((tag, index) => {
-                formData.append(`tags[${index}]`, tag);
-            });
+          //  formData.append('tags', "태그")
 
 
             const result = await axios.post("http://127.0.0.1:8000/board/", formData, {
