@@ -18,11 +18,13 @@ pyvenv.cfg
 .DS_Store
 pip-selfcheck.json
 
+
 # End of https://www.toptal.com/developers/gitignore/api/venv
 ### Django ###
 *.log
 *.pot
 *.pyc
+*.idea
 __pycache__/
 local_settings.py
 db.sqlite3
