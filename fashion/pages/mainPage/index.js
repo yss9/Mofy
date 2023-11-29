@@ -52,8 +52,9 @@ export default function BoardNewPage() {
 
     console.log("recentSearch1")
     console.log(recentSearch1)
-    //console.log("popularSearch")
-    //console.log(popularSearch);
+    console.log("popularSearch")
+    console.log(popularSearch);
+
     // const [recentSearch1, setRecentSearch1] = useState(null);
     const [recentSearch2, setRecentSearch2] = useState(null);
     const [recentSearch3, setRecentSearch3] = useState(null);
