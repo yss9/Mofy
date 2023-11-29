@@ -14,7 +14,9 @@ import {
     RecentSearchButton, RecentSearchText,
     Rate, PopularSearchText, PopularSearchItems, TagText,
     TagButton, MoreTagButton, PopularSearchItemsWrapper,
-    PopularSearchWrapper, TagButtonWrapper, TagWrapper
+    PopularSearchWrapper, TagButtonWrapper, TagWrapper,
+    RecommendSearchWrapper, RecommendSearchText,
+    RecommendSearchButton
 } from '../../styles/mainPageStyle'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -48,7 +50,7 @@ export default function BoardNewPage() {
     const [recentSearch1, setRecentSearch1] = useState([null]);
     console.log("recentSearch1")
     console.log(recentSearch1)
-    const [recentSearch1, setRecentSearch1] = useState(null);
+    // const [recentSearch1, setRecentSearch1] = useState(null);
     const [recentSearch2, setRecentSearch2] = useState(null);
     const [recentSearch3, setRecentSearch3] = useState(null);
     const [recentSearch4, setRecentSearch4] = useState(null);
@@ -117,18 +119,7 @@ export default function BoardNewPage() {
             // } catch (error) {
             //     console.error('서버 요청 오류:', error);
             // }
-            // try {
-            //     const response = await axios.get('http://127.0.0.1:8000/search/history/', {
-            //         headers: {
-            //             Authorization: `Bearer ${accessToken}`,
-            //         },
-            //     });
-            //     setRecentSearch1(response.data.search_history);
-            //     console.log(setRecentSearch1);
-            //     setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
-            // } catch (error) {
-            //     console.error('서버 요청 오류:', error);
-            // }
+
         };
 
         if (accessToken && !username && !isUserDataLoaded) {
@@ -326,33 +317,20 @@ export default function BoardNewPage() {
                                                 </div>
                                             )}
                                         </RecentSearchButton>
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">*/}
-                                        {/*    {recentSearch1 ? (*/}
-                                        {/*        <div>Welcome, {recentSearch6.username}!</div>*/}
-                                        {/*    ) : (*/}
-                                        {/*        <div>*/}
-                                        {/*            Loading...*/}
-                                        {/*        </div>*/}
-                                        {/*    )}*/}
-                                        {/*</RecentSearchButton>*/}
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근*/}
-                                        {/*</RecentSearchButton>*/}
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
+
                                     </RecentSearchWrapper>
-                                    {/*<PopularSearchWrapper>*/}
-                                    {/*    <PopularSearchText>인기검색어</PopularSearchText>*/}
-                                    {/*    <PopularSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">*/}
-                                    {/*        {recentSearch1 ? (*/}
-                                    {/*            <div>{recentSearch1.username}!</div>*/}
-                                    {/*        ) : (*/}
-                                    {/*            <div>*/}
-                                    {/*                Loading...*/}
-                                    {/*            </div>*/}
-                                    {/*        )}*/}
-                                    {/*    </PopularSearchButton>*/}
-                                    {/*    <PopularSearchButton onClick={onTagClickSubmit} data-text="긴팔">*/}
+                                    <RecommendSearchWrapper>
+                                        <RecommendSearchText>인기검색어</RecommendSearchText>
+                                        <RecommendSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">
+                                            {recentSearch1 ? (
+                                                <div>{recentSearch1.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecommendSearchButton>
+                                        <RecommendSearchButton onClick={onTagClickSubmit} data-text="긴팔"> 긴팔
                                     {/*        {recentSearch2 ? (*/}
                                     {/*            <div>{recentSearch2.username}!</div>*/}
                                     {/*        ) : (*/}
@@ -360,8 +338,8 @@ export default function BoardNewPage() {
                                     {/*                Loading...*/}
                                     {/*            </div>*/}
                                     {/*        )}*/}
-                                    {/*    </PopularSearchButton>*/}
-                                    {/*    <RecentSearchButton onClick={onTagClickSubmit} data-text="브라운 코디">*/}
+                                        </RecommendSearchButton>
+                                        <RecommendSearchButton onClick={onTagClickSubmit} data-text="브라운 코디"> 브라운 코디
                                     {/*        {recentSearch3 ? (*/}
                                     {/*            <div>{recentSearch3.username}!</div>*/}
                                     {/*        ) : (*/}
@@ -369,8 +347,8 @@ export default function BoardNewPage() {
                                     {/*                Loading...*/}
                                     {/*            </div>*/}
                                     {/*        )}*/}
-                                    {/*    </RecentSearchButton>*/}
-                                    {/*    <RecentSearchButton onClick={onTagClickSubmit} data-text="레이어드">*/}
+                                        </RecommendSearchButton>
+                                        <RecommendSearchButton onClick={onTagClickSubmit} data-text="레이어드"> 레이어드
                                     {/*        {recentSearch4 ? (*/}
                                     {/*            <div>Welcome, {recentSearch4.username}!</div>*/}
                                     {/*        ) : (*/}
@@ -378,8 +356,8 @@ export default function BoardNewPage() {
                                     {/*                Loading...*/}
                                     {/*            </div>*/}
                                     {/*        )}*/}
-                                    {/*    </RecentSearchButton>*/}
-                                    {/*    <RecentSearchButton onClick={onTagClickSubmit} data-text="틴트">*/}
+                                        </RecommendSearchButton>
+                                        <RecommendSearchButton onClick={onTagClickSubmit} data-text="틴트"> 틴트
                                     {/*        {recentSearch5 ? (*/}
                                     {/*            <div>Welcome, {recentSearch5.username}!</div>*/}
                                     {/*        ) : (*/}
@@ -387,8 +365,8 @@ export default function BoardNewPage() {
                                     {/*                Loading...*/}
                                     {/*            </div>*/}
                                     {/*        )}*/}
-                                    {/*    </RecentSearchButton>*/}
-                                    {/*</PopularSearchWrapper>*/}
+                                        </RecommendSearchButton>
+                                    </RecommendSearchWrapper>
                                     <TagWrapper>
                                         <TagText>태그</TagText>
                                         <TagButtonWrapper>

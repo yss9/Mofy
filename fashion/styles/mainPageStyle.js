@@ -52,7 +52,7 @@ export const ModalWrapper = styled.div`
 export const ModalContent = styled.div`
   background: #fff9ff;
   width: 700px;
-  height: 300px;
+  height: 400px;
   margin-top: 150px;
   margin-left: 50px;
   border-radius: 8px;
@@ -60,6 +60,16 @@ export const ModalContent = styled.div`
   font-size: 13px;
 `;
 export const RecentSearchWrapper = styled.div`
+  margin-left: 20px;
+  width: 650px;
+  height: 45px;
+  overflow: hidden;
+  //margin-bottom: 10px;
+  margin-top: 20px;
+  //background-color: red;
+  margin-bottom: 3px;
+`
+export const RecommendSearchWrapper = styled.div`
   margin-left: 20px;
   width: 650px;
   height: 57px;
@@ -75,7 +85,33 @@ export const RecentSearchText = styled.div`
   font-size: 13px;
   margin-bottom: 5px;
 `
+export const RecommendSearchText = styled.div`
+  width: 100px;
+  height: 20px;
+  font-size: 13px;
+  margin-bottom: 5px;
+`
 export const RecentSearchButton = styled.button`
+  //width: 115px;
+  height: 22px;
+  float: left;
+  font-size: 12px;
+  margin-right: 5px;
+  //margin-bottom: 5px;
+  background-color: rgba(188, 133, 200, 0.5);
+  border: none;
+  border-radius: 10px;
+  color: #2c1f14;
+  padding: 0 10px;
+  min-width: 50px;
+  width: auto;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(230, 128, 137, 0.47);
+  }
+`
+export const RecommendSearchButton = styled.button`
   //width: 115px;
   height: 22px;
   float: left;
@@ -150,7 +186,7 @@ export const MoreTagButton = styled.button`
 export const PopularSearchWrapper = styled.div`
   //background-color: gainsboro;
   width: 390px;
-  height: 150px;
+  height: 175px;
   margin-left: 20px;
   overflow: hidden;
 `
