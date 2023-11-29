@@ -50,8 +50,7 @@ export default function BoardNewPage() {
     const [recentSearch1, setRecentSearch1] = useState([null]);
     const [popularSearch, setPopularSearch] = useState([null]);
 
-    console.log("recentSearch1")
-    console.log(recentSearch1)
+
     // const [recentSearch1, setRecentSearch1] = useState(null);
     const [recentSearch2, setRecentSearch2] = useState(null);
     const [recentSearch3, setRecentSearch3] = useState(null);
@@ -104,30 +103,32 @@ export default function BoardNewPage() {
                     },
                 });
                 setRecentSearch1(response.data);
-
+                console.log("setRecentSearch1");
                 console.log(setRecentSearch1);
                 setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/search/popular/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setPopularSearch(response.data);
-
-                console.log(setPopularSearch);
-                setIsPopularSearchLoaded(true); // Set the flag to indicate that data has been loaded
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
+            // try {
+            //     const response = await axios.get('http://127.0.0.1:8000/search/popular/', {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            //     setPopularSearch(response.data);
+            //
+            //     console.log("popularSearch")
+            //     console.log(popularSearch)
+            //
+            //     setIsPopularSearchLoaded(true); // Set the flag to indicate that data has been loaded
+            // } catch (error) {
+            //     console.error('서버 요청 오류:', error);
+            // }
         };
-        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded && !isPopularSearchLoaded) {
+        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded) {
             fetchData();
         }
-    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded, isPopularSearchLoaded]);
+    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded]);
 
     function handleError(error) {
         if (error.response) {
@@ -196,7 +197,31 @@ export default function BoardNewPage() {
 
     const onTagClickSubmit = (event) => {
         const buttonText = event.target.getAttribute('data-text');
-        window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + encodeURIComponent(buttonText);
+        // window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + encodeURIComponent(buttonText);
+
+        // console.log("Request URL:", "http://localhost:8000/search/");
+        // console.log("Request Data:", { query: buttonText });
+        // console.log("Request Headers:", axiosConfig.headers);
+        //
+        // // Make the API request
+        // axios.post("http://localhost:8000/search/", { query: buttonText }, axiosConfig)
+        //     .then((response) => {
+        //         if (response.data.success) {
+        //             // Handle success
+        //             console.log("검색 결과:");
+        //             console.log(response.data.search_results);
+        //
+        //             // Assuming you have a function to render the search results on your webpage
+        //             renderSearchResults(response.data.search_results);
+        //         } else {
+        //             // Handle API error
+        //             console.error("검색 실패: " + response.data.message);
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         // Handle general API error
+        //         console.error("API 호출 중 오류 발생:", error);
+        //     });
     }
     //
     const onMoreTagClickSubmit = (event) => {
@@ -255,7 +280,7 @@ export default function BoardNewPage() {
                                 <ModalContent onClick={(e) => e.stopPropagation()}>
                                     <RecentSearchWrapper>
                                         <RecentSearchText>최근검색어</RecentSearchText>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">
+                                        <RecentSearchButton data-text="가을 원피스" onClick={onTagClickSubmit}>
                                             {recentSearch1 ? (
                                                 <div>{recentSearch1.username}!</div>
                                             ) : (
@@ -375,8 +400,8 @@ export default function BoardNewPage() {
                                             <Rate>1.</Rate>
                                             <PopularSearchItems onClick={onTagClickSubmit}>
                                                 가을바지
-                                                {popularSearch1 ? (
-                                                    <div>{popularSearch1.username}!</div>
+                                                {popularSearch ? (
+                                                    <div>{popularSearch.username}!</div>
                                                 ) : (
                                                     <div>
                                                         Loading...
