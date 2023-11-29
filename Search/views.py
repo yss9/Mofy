@@ -83,7 +83,7 @@ class SearchHistoryView(APIView):
                 for result in search_history
             ]
         }
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_201_CREATED)
 
 
 
@@ -138,4 +138,4 @@ class SearchSuggestionView(APIView):
             "suggestion_results": suggestion_serializer.data,  # popular_search_serializer를 사용하여 데이터 직렬화
         }
 
-        return Response(suggestion_serializer.data, status=status.HTTP_200_OK)
+        return Response(suggestion_serializer.data, status=status.HTTP_201_CREATED)
