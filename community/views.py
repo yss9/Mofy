@@ -7,6 +7,7 @@ import extcolors
 
 
 from rest_framework import status
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -21,8 +22,11 @@ def pal_crt(image):
     save_folder = 'media/uploads/'
     input = Image.open(image)
     output = remove(input)
-    output.save('mid_result.png')
-    img = Image.open('mid_result.png')
+    output.save('./media/uploads/mid_result.png')
+    mid_result_image = PhotoSave()
+    mid_result_image.image = 'uploads/mid_result_image.png'
+    mid_result_image.save()
+    img = Image.open('./media/uploads/mid_result.png')
     colors, pixel_count = extcolors.extract_from_image(img)
 
     image_size = (len(colors) * 50, 100)
@@ -41,13 +45,12 @@ def pal_crt(image):
     return rs_image
 
 
-
+@permission_classes([AllowAny])
 class Test(APIView):
-    permission_classes = [AllowAny]
 
     def get(self, request):
-        image = PhotoSave.objects.last()
-        serializer = PhotoSaveSerializers(image)
+        image = PhotoSave.objects.all().order_by('-id')[:3]
+        serializer = PhotoSaveSerializers(image, many=True)
         return Response(serializer.data)
 
 
