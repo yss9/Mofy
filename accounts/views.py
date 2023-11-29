@@ -192,10 +192,13 @@ class UserEdit(APIView):
             user_data.weight = edit_data['weight']
         if 'shoeSize' in edit_data and edit_data['shoeSize']:
             user_data.shoeType = edit_data['shoeSize']
-        if 'clothType' in edit_data and edit_data['clothType']:
-            user_data.clothType = edit_data['clothType']
-        if 'skinType' in edit_data and edit_data['skinType']:
-            user_data.skinType = edit_data['skinType']
+        cloth_type = edit_data.get('clothType')
+        skin_type = edit_data.get('skinType')
+
+        if cloth_type is not None:
+            user_data.clothType = cloth_type
+        if skin_type is not None:
+            user_data.skinType = skin_type
 
         user_data.save()
 
@@ -262,4 +265,23 @@ class UserskinType(APIView):
         user = request.user  # 인증된 사용자 객체
         user_data = UserData.objects.get(user=user)
         return Response({"skinType": user_data.skinType})
+
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+def upload_image(request):
+    if request.method == 'POST':
+        # 이미지 파일은 request.FILES에서 가져온다.
+        image = request.FILES['image']
+
+        user = request.user  # 인증된 사용자 객체
+        user_data = UserData.objects.get(user=user)
+
+        # 모델에 이미지 저장
+        uploaded_image = user_data(image=image)
+        uploaded_image.save()
+
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error'})
 

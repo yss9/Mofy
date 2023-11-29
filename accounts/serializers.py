@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
+from accounts.models import UserData
+
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -21,3 +23,10 @@ class UserInfoSerializer(serializers.ModelSerializer):
 class FinduserIDSerializer(serializers.ModelSerializer):
     model = get_user_model()
     fields = {'id', 'name', 'email'}
+
+
+class UserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserData
+        fields = '__all__'
+
