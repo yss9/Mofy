@@ -111,7 +111,7 @@ export default function BoardNewPage() {
                 console.error('서버 요청 오류:', error);
             }
             try {
-                const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+                const response = await axios.get('http://127.0.0.1:8000/search/popular/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
