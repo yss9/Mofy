@@ -37,7 +37,7 @@ export default function ColorPaletteWrite(props){
             const formData = new FormData();
 
 
-            formData.append('image', image);
+            formData.append('before_image', image);
 
 
             const result = await axios.post("http://127.0.0.1:8000/Test/", formData, {
