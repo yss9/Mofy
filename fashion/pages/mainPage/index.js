@@ -46,6 +46,7 @@ export default function BoardNewPage() {
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
     const [recentSearch1, setRecentSearch1] = useState([null]);
+    console.log("recentSearch1")
     console.log(recentSearch1)
     const [recentSearch2, setRecentSearch2] = useState(null);
     const [recentSearch3, setRecentSearch3] = useState(null);
@@ -95,6 +96,7 @@ export default function BoardNewPage() {
                     },
                 });
                 setRecentSearch1(response.data);
+
                 console.log(setRecentSearch1);
                 setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
             } catch (error) {
