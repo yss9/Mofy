@@ -45,7 +45,8 @@ export default function BoardNewPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
-    const [recentSearch1, setRecentSearch1] = useState(null);
+    const [recentSearch1, setRecentSearch1] = useState([null]);
+    console.log(recentSearch1)
     const [recentSearch2, setRecentSearch2] = useState(null);
     const [recentSearch3, setRecentSearch3] = useState(null);
     const [recentSearch4, setRecentSearch4] = useState(null);
@@ -94,6 +95,7 @@ export default function BoardNewPage() {
                     },
                 });
                 setRecentSearch1(response.data);
+                console.log(setRecentSearch1);
                 setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
             } catch (error) {
                 console.error('서버 요청 오류:', error);
@@ -157,40 +159,6 @@ export default function BoardNewPage() {
         console.log("Rendering Search Results:", results);
     };
 
-
-
-    // const onEnterSubmit = (event) => {
-    //     if (event.key === "Enter") {
-    //         // Validate the search query
-    //         if (!search) {
-    //             console.error("검색어가 필요합니다.");
-    //             return;
-    //         }
-    //
-    //         console.log("Request URL:", "http://localhost:8000/search/");
-    //         console.log("Request Data:", { query: search });
-    //         console.log("Request Headers:", axiosConfig.headers);
-    //
-    //         // Make the API request
-    //         axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
-    //             .then((response) => {
-    //                 if (response.data.success) {
-    //                     // Handle success
-    //                     window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
-    //                 } else {
-    //                     // Handle API error
-    //                     console.error("검색 실패: " + response.data.message);
-    //                 }
-    //             })
-    //             .catch((error) => {
-    //                 // Handle general API error
-    //                 console.error("API 호출 중 오류 발생:", error);
-    //             });
-    //     }
-    // };
-
-
-
     const onTagClickSubmit = (event) => {
         const buttonText = event.target.getAttribute('data-text');
         window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + encodeURIComponent(buttonText);
@@ -199,26 +167,6 @@ export default function BoardNewPage() {
     const onMoreTagClickSubmit = (event) => {
         window.location.href = "https://google.com";
     };
-
-    // const onRecentSearchClickSubmit = (event) => {
-    //     const buttonText = event.target.getAttribute('data-text');
-    //     axios
-    //         .post("http://localhost:8000/search_history/", { query: buttonText })
-    //         .then((response) => {
-    //             if (response.data.success) {
-    //                 // 로그인 성공 시 쿠키에 토큰 저장
-    //                 Cookies.set("access_token", response.data.access_token, { expires: 7 });
-    //                 Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 });// 7일간 유지
-    //                 alert("로그인 성공!");
-    //                 window.location.href = "http://localhost:3000/mainPage";
-    //             } else {
-    //                 alert("로그인 실패: " + response.data.error);
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error("API 호출 중 오류 발생:", error);
-    //         });
-    // };
 
     useEffect(() => {
         if ("geolocation" in navigator) {
@@ -332,68 +280,54 @@ export default function BoardNewPage() {
                                         {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
                                         {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
                                     </RecentSearchWrapper>
-                                    <PopularSearchWrapper>
-                                        <PopularSearchText>인기검색어</PopularSearchText>
-                                        <PopularSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">
-                                            {recentSearch1 ? (
-                                                <div>{recentSearch1.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
-                                        </PopularSearchButton>
-                                        <PopularSearchButton onClick={onTagClickSubmit} data-text="긴팔">
-                                            {recentSearch2 ? (
-                                                <div>{recentSearch2.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
-                                        </PopularSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="브라운 코디">
-                                            {recentSearch3 ? (
-                                                <div>{recentSearch3.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
-                                        </RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="레이어드">
-                                            {recentSearch4 ? (
-                                                <div>Welcome, {recentSearch4.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
-                                        </RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="틴트">
-                                            {recentSearch5 ? (
-                                                <div>Welcome, {recentSearch5.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
-                                        </RecentSearchButton>
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">*/}
-                                        {/*    {recentSearch1 ? (*/}
-                                        {/*        <div>Welcome, {recentSearch6.username}!</div>*/}
-                                        {/*    ) : (*/}
-                                        {/*        <div>*/}
-                                        {/*            Loading...*/}
-                                        {/*        </div>*/}
-                                        {/*    )}*/}
-                                        {/*</RecentSearchButton>*/}
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근*/}
-                                        {/*</RecentSearchButton>*/}
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
-                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
-                                    </PopularSearchWrapper>
+                                    {/*<PopularSearchWrapper>*/}
+                                    {/*    <PopularSearchText>인기검색어</PopularSearchText>*/}
+                                    {/*    <PopularSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">*/}
+                                    {/*        {recentSearch1 ? (*/}
+                                    {/*            <div>{recentSearch1.username}!</div>*/}
+                                    {/*        ) : (*/}
+                                    {/*            <div>*/}
+                                    {/*                Loading...*/}
+                                    {/*            </div>*/}
+                                    {/*        )}*/}
+                                    {/*    </PopularSearchButton>*/}
+                                    {/*    <PopularSearchButton onClick={onTagClickSubmit} data-text="긴팔">*/}
+                                    {/*        {recentSearch2 ? (*/}
+                                    {/*            <div>{recentSearch2.username}!</div>*/}
+                                    {/*        ) : (*/}
+                                    {/*            <div>*/}
+                                    {/*                Loading...*/}
+                                    {/*            </div>*/}
+                                    {/*        )}*/}
+                                    {/*    </PopularSearchButton>*/}
+                                    {/*    <RecentSearchButton onClick={onTagClickSubmit} data-text="브라운 코디">*/}
+                                    {/*        {recentSearch3 ? (*/}
+                                    {/*            <div>{recentSearch3.username}!</div>*/}
+                                    {/*        ) : (*/}
+                                    {/*            <div>*/}
+                                    {/*                Loading...*/}
+                                    {/*            </div>*/}
+                                    {/*        )}*/}
+                                    {/*    </RecentSearchButton>*/}
+                                    {/*    <RecentSearchButton onClick={onTagClickSubmit} data-text="레이어드">*/}
+                                    {/*        {recentSearch4 ? (*/}
+                                    {/*            <div>Welcome, {recentSearch4.username}!</div>*/}
+                                    {/*        ) : (*/}
+                                    {/*            <div>*/}
+                                    {/*                Loading...*/}
+                                    {/*            </div>*/}
+                                    {/*        )}*/}
+                                    {/*    </RecentSearchButton>*/}
+                                    {/*    <RecentSearchButton onClick={onTagClickSubmit} data-text="틴트">*/}
+                                    {/*        {recentSearch5 ? (*/}
+                                    {/*            <div>Welcome, {recentSearch5.username}!</div>*/}
+                                    {/*        ) : (*/}
+                                    {/*            <div>*/}
+                                    {/*                Loading...*/}
+                                    {/*            </div>*/}
+                                    {/*        )}*/}
+                                    {/*    </RecentSearchButton>*/}
+                                    {/*</PopularSearchWrapper>*/}
                                     <TagWrapper>
                                         <TagText>태그</TagText>
                                         <TagButtonWrapper>
