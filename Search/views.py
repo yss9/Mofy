@@ -60,37 +60,6 @@ class PostSearchView(APIView):
 
 
 
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
-#
-# class SearchHistoryView(APIView):
-#     def get(self, request):
-#         user = request.user
-#
-#         # 최근 검색어 중복을 피하기 위해 검색어 별 최신 검색 일자를 가져옴
-#         recent_search_history = SearchHistory.objects.filter(user=user) \
-#             .values('query') \
-#             .annotate(latest_search=Max('searched_at')) \
-#             .order_by('-latest_search')
-#
-#         # 중복을 피한 최근 검색어에 대한 전체 검색 기록을 가져옴
-#         search_history = SearchHistory.objects.filter(
-#             user=user,
-#             query__in=[item['query'] for item in recent_search_history]
-#         ).order_by('-latest_search')
-#
-#         # 검색 결과를 직렬화하여 응답
-#         response_data = {
-#             "success": True,
-#             "message": "유저의 최근 검색 기록이 성공적으로 불러와졌습니다.",
-#             "recent_search_history": [{"query": history.query, "searched_at": history.latest_search} for history in search_history]
-#         }
-#         return Response(response_data, status=status.HTTP_200_OK)
-
-
-
-@authentication_classes([JWTAuthentication])
-@permission_classes([IsAuthenticated])
 class SearchHistoryView(APIView):
     def get(self, request):
         user = request.user
@@ -104,7 +73,10 @@ class SearchHistoryView(APIView):
         recent_search_queries = [item['query'] for item in recent_search_history]
 
         # 최근 검색어에 해당하는 전체 검색 기록 가져오기
-        search_history = SearchHistory.objects.filter(query__in=recent_search_queries) \
+        search_history = SearchHistory.objects.filter(
+            user=user,
+            query__in=recent_search_queries
+        ) \
                              .order_by('-searched_at')[:5]
 
         response_data = {
@@ -116,6 +88,7 @@ class SearchHistoryView(APIView):
             ]
         }
         return Response(response_data, status=status.HTTP_200_OK)
+
 
 
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증

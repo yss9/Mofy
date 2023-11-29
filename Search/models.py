@@ -11,5 +11,8 @@ class SearchHistory(models.Model):
     class Meta:
         unique_together = ('user', 'query')
 
+    class Meta:
+        ordering = ['-searched_at']
+
     def __str__(self):
         return f'{self.user.username} searched {self.query} at {self.searched_at}'
