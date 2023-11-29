@@ -56,7 +56,6 @@ class PostSearchView(APIView):
         }
         return Response(response_data, status=status.HTTP_201_CREATED)
 
-
 class SearchHistoryView(APIView):
     def get(self, request):
         user = request.user
@@ -75,20 +74,76 @@ class SearchHistoryView(APIView):
             query__in=recent_search_queries) \
             .order_by('-searched_at')[:5]
 
+        # 검색 기록을 직렬화
+        serializer = SearchHistorySerializer(search_history, many=True)
+
         response_data = {
             "success": True,
             "message": "최근 검색어 및 검색 기록이 성공적으로 불러와졌습니다.",
-            "search_history": [
-                {"query": result.query, "searched_at": result.searched_at}
-                for result in search_history
-            ]
+            "search_history": serializer.data
         }
+
         return Response(response_data, status=status.HTTP_201_CREATED)
 
+# class SearchHistoryView(APIView):
+#     def get(self, request):
+#         user = request.user
+#
+#         recent_search_history = SearchHistory.objects.filter(user=user) \
+#             .values('query') \
+#             .annotate(latest_search=Max('searched_at')) \
+#             .order_by('-latest_search')
+#
+#         # recent_search_history에서 검색어만 추출
+#         recent_search_queries = [item['query'] for item in recent_search_history]
+#
+#         # 최근 검색어에 해당하는 전체 검색 기록 가져오기
+#         search_history = SearchHistory.objects.filter(
+#             user=user,
+#             query__in=recent_search_queries) \
+#             .order_by('-searched_at')[:5]
+#
+#         response_data = {
+#             "success": True,
+#             "message": "최근 검색어 및 검색 기록이 성공적으로 불러와졌습니다.",
+#             "search_history": [
+#                 {"query": result.query, "searched_at": result.searched_at}
+#                 for result in search_history
+#             ]
+#         }
+#         return Response(response_data, status=status.HTTP_201_CREATED)
 
 
-@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
-@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+
+# @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+# @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+# class PopularSearchView(APIView):
+#     def get(self, request):
+#         # 가장 많이 검색된 인기 검색어를 가져오기
+#         popular_search = SearchHistory.objects.values('query') \
+#             .annotate(search_count=Count('query')) \
+#             .order_by('-search_count')[:5]
+#
+#         # popular_search에서 검색어만 추출
+#         popular_queries = [item['query'] for item in popular_search]
+#
+#         response_data = {
+#             "success": True,
+#             "message": "검색 기록이 저장되었습니다.",
+#             "popular_results": popular_queries,
+#         }
+#
+#         return Response(response_data, status=status.HTTP_201_CREATED)
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+from django.db.models import Count
+
+from .models import SearchHistory
+from .serializers import PopularSearchSerializer
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class PopularSearchView(APIView):
     def get(self, request):
         # 가장 많이 검색된 인기 검색어를 가져오기
@@ -99,13 +154,12 @@ class PopularSearchView(APIView):
         # popular_search에서 검색어만 추출
         popular_queries = [item['query'] for item in popular_search]
 
-        response_data = {
-            "success": True,
-            "message": "검색 기록이 저장되었습니다.",
-            "popular_results": popular_queries,
-        }
+        # 검색어를 직렬화
+        serializer = PopularSearchSerializer({"query": popular_queries}, many=True)
 
-        return Response(response_data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
 @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class SearchSuggestionView(APIView):
