@@ -117,15 +117,15 @@ class SearchSuggestionView(APIView):
         user_search_history = SearchHistory.objects.filter(user=request.user)
 
         # 검색 기록에서 가장 많이 검색된 검색어 가져오기
-        popular_search = user_search_history.values('search_query') \
-            .annotate(search_count=Count('search_query')) \
+        popular_search = user_search_history.values('query') \
+            .annotate(search_count=Count('query')) \
             .order_by('-search_count')[:5]
 
         # 추천 검색어 생성
-        suggestions = [item['search_query'] for item in popular_search]
+        suggestions = [item['query'] for item in popular_search]
 
         # 검색 기록에 없는 검색어도 추가
-        unique_searches = user_search_history.values_list('search_query', flat=True).distinct()
+        unique_searches = user_search_history.values_list('query', flat=True).distinct()
         for search in unique_searches:
             if search not in suggestions:
                 suggestions.append(search)
