@@ -11,7 +11,7 @@ class CommentSerializers(serializers.ModelSerializer):
 class PhotoSaveSerializers(serializers.ModelSerializer):
     class Meta:
         model = PhotoSave
-        fields = ('id', 'image')
+        fields = ('id', 'before_image', 'middle_image', 'result_image')
 
 
 

@@ -49,22 +49,21 @@ def pal_crt(image):
 class Test(APIView):
 
     def get(self, request):
-        image = PhotoSave.objects.all().order_by('-id')[:3]
-        serializer = PhotoSaveSerializers(image, many=True)
-        return Response(serializer.data)
+        image = PhotoSave.objects.last()
+        serializer = PhotoSaveSerializers(image)
+        return Response(serializer.data, status= status.HTTP_200_OK)
 
 
     def post(self, request):
-        serializer = PhotoSaveSerializers(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            image = request.data['image']
-            pal_crt(image)
-            pht = PhotoSave()
-            pht.image = 'uploads/result.png'
-            pht.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        phts = PhotoSave()
+        phts.before_image = request.data['before_image']
+        image = request.data['before_image']
+        pal_crt(image)
+        phts.middle_image = 'uploads/mid_result.png'
+        phts.result_image = 'uploads/result.png'
+        phts.save()
+        return Response(status=status.HTTP_200_OK)
+
 
 
 class BoardList(APIView):

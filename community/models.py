@@ -22,7 +22,9 @@ class Board(models.Model):
 
 
 class PhotoSave(models.Model):
-    image = models.ImageField(blank=True, null=True, upload_to="uploads")
+    before_image = models.ImageField(blank=True, null=True, upload_to="uploads")
+    middle_image = models.ImageField(blank=True, null=True, upload_to="uploads")
+    result_image = models.ImageField(blank=True, null=True, upload_to="uploads")
 
 
 class TagName(models.Model):
