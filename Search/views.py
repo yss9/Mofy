@@ -34,7 +34,7 @@ class PostSearchView(APIView):
         response_data = {
             "success": True,
             "message": "검색 기록이 저장되었습니다.",
-            "search_results": [{"title": result.title, "tags": result.tags.split(',')} for result in search_results]
+            "search_results": [{"boardID": result.boardID,"title": result.title, "tags": result.tags.split(',')} for result in search_results]
         }
         return Response(response_data, status=status.HTTP_201_CREATED)
 
@@ -57,17 +57,17 @@ class SearchHistoryView(APIView):
             search_query__in=[item['search_query'] for item in recent_search_history]
         ).order_by('-searched_at')[:5]
 
-        #serializer = SearchHistorySerializer(search_history, many=True)
+        serializer = SearchHistorySerializer(search_history, many=True)
         response_data = {
             "success": True,
             "message": "최근 검색어 및 검색 기록이 성공적으로 불러와졌습니다.",
             "recent_searches": [item['search_query'] for item in recent_search_history],
-            # "search_history": [
-            #     {"search_query": result.search_query, "searched_at": result.searched_at}
-            #     for result in search_history
-            # ]
+            "search_history": [
+                {"search_query": result.search_query, "searched_at": result.searched_at}
+                for result in search_history
+            ]
         }
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
@@ -77,7 +77,7 @@ class PopularSearchView(APIView):
         # 가장 많이 검색된 인기 검색어를 가져오기
         popular_search = SearchHistory.objects.values('query') \
             .annotate(search_count=Count('query')) \
-            .order_by('-search_count')[:10]
+            .order_by('-search_count')[:5]
 
         # 검색 기록을 직렬화
         popular_search_serializer = SearchHistorySerializer(popular_search, many=True)
