@@ -52,6 +52,8 @@ export default function BoardNewPage() {
 
     console.log("recentSearch1")
     console.log(recentSearch1)
+    //console.log("popularSearch")
+    //console.log(popularSearch);
     // const [recentSearch1, setRecentSearch1] = useState(null);
     const [recentSearch2, setRecentSearch2] = useState(null);
     const [recentSearch3, setRecentSearch3] = useState(null);
@@ -117,6 +119,7 @@ export default function BoardNewPage() {
                     },
                 });
                 setPopularSearch(response.data);
+
 
                 console.log(setPopularSearch);
                 setIsPopularSearchLoaded(true); // Set the flag to indicate that data has been loaded
@@ -375,8 +378,8 @@ export default function BoardNewPage() {
                                             <Rate>1.</Rate>
                                             <PopularSearchItems onClick={onTagClickSubmit}>
                                                 가을바지
-                                                {popularSearch1 ? (
-                                                    <div>{popularSearch1.username}!</div>
+                                                {popularSearch ? (
+                                                    <div>{popularSearch.username}!</div>
                                                 ) : (
                                                     <div>
                                                         Loading...
