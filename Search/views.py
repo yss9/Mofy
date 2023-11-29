@@ -72,9 +72,8 @@ class SearchHistoryView(APIView):
         # 최근 검색어에 해당하는 전체 검색 기록 가져오기
         search_history = SearchHistory.objects.filter(
             user=user,
-            query__in=recent_search_queries
-        ) \
-                             .order_by('-searched_at')[:5]
+            query__in=recent_search_queries) \
+            .order_by('-searched_at')[:5]
 
         response_data = {
             "success": True,
@@ -97,12 +96,13 @@ class PopularSearchView(APIView):
             .annotate(search_count=Count('query')) \
             .order_by('-search_count')[:5]
 
-        popular_search_serializer = SearchHistorySerializer(popular_search, many=True)
+        # popular_search에서 검색어만 추출
+        popular_queries = [item['query'] for item in popular_search]
 
         response_data = {
             "success": True,
             "message": "검색 기록이 저장되었습니다.",
-            "popular_results": popular_search_serializer.data,  # popular_search_serializer를 사용하여 데이터 직렬화
+            "popular_results": popular_queries,
         }
 
         return Response(response_data, status=status.HTTP_201_CREATED)
