@@ -68,17 +68,20 @@ class UserData(models.Model):
     height = models.IntegerField(default=0)
     weight = models.IntegerField(default=0)
     shoeType = models.IntegerField(default=0)
-    Cloth_Choices = {
-        ("vintage", "빈티지"), ("retro", "레트로"), ("minimal", "미니멀"),
-        ("casual", "캐주얼"), ("street", "스트릿"), ("dandy", "댄디"),
-        ("spoty", "스포티"), ("urban", "모던"), ("feminine", "페미닌"), ("classic", "클래식")
-    }
-    clothType = MultiSelectField(max_length=20, choices=Cloth_Choices)
-    Skin_Choices = {
-        ("normal", "보통"), ("dry", "건성"), ("oily", "지성"),
-        ("sensitive", "민감성"), ("combination", "복합성"), ("acne", "여드름"),
-    }
-    skinType = MultiSelectField(max_length=20, choices=Skin_Choices)
+    #Cloth_Choices = {
+    #    ("vintage", "빈티지"), ("retro", "레트로"), ("minimal", "미니멀"),
+    #    ("casual", "캐주얼"), ("street", "스트릿"), ("dandy", "댄디"),
+    #    ("spoty", "스포티"), ("urban", "모던"), ("feminine", "페미닌"), ("classic", "클래식")
+    #}
+    #clothType = MultiSelectField(default="casual", max_length=20, choices=Cloth_Choices)
+    #Skin_Choices = {
+    #    ("normal", "보통"), ("dry", "건성"), ("oily", "지성"),
+    #    ("sensitive", "민감성"), ("combination", "복합성"), ("acne", "여드름"),
+    #}
+    #skinType = MultiSelectField(default="normal", max_length=20, choices=Skin_Choices)
+    clothType = models.JSONField(null=True, blank=True)  # Assuming you want to store an array
+    skinType = models.JSONField(null=True, blank=True)
+    image = models.ImageField(blank=True, null=True, upload_to="uploads")
 
     objects = UserDataManager()
 
