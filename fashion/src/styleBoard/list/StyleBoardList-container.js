@@ -27,7 +27,7 @@ export default function StyleBoardList() {
     useEffect(()=>{
         console.log("마운트가 완료되었디!")
         axios
-            .get("http://127.0.0.1:8000/board/")
+            .get("http://127.0.0.1:8000/boardType/2/")
             .then((response) => {
                 setReqData([...response.data])
 

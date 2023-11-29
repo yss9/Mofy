@@ -52,11 +52,8 @@ export default function BoardNewPage() {
 
     console.log("recentSearch1")
     console.log(recentSearch1)
-
-    console.log("recentSearch1[]")
-    console.log(recentSearch1.search_history)
-
-
+    //console.log("popularSearch")
+    //console.log(popularSearch);
     // const [recentSearch1, setRecentSearch1] = useState(null);
     const [recentSearch2, setRecentSearch2] = useState(null);
     const [recentSearch3, setRecentSearch3] = useState(null);
@@ -90,7 +87,6 @@ export default function BoardNewPage() {
     const [isBoard1Loaded, setIsBoard1Loaded] = useState(false);
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://127.0.0.1:8000/userinfo/', {
@@ -103,7 +99,6 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
-
             try {
                 const response = await axios.get('http://127.0.0.1:8000/search/history/', {
                     headers: {
@@ -112,10 +107,7 @@ export default function BoardNewPage() {
                 });
                 setRecentSearch1(response.data);
 
-                console.log("queryValue");
-                const queryValue = recentSearch1;
-                console.log(queryValue);
-
+                console.log(setRecentSearch1);
                 setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
             } catch (error) {
                 console.error('서버 요청 오류:', error);
@@ -127,11 +119,9 @@ export default function BoardNewPage() {
                     },
                 });
                 setPopularSearch(response.data);
-                console.log("setPopularSearch");
+
+
                 console.log(setPopularSearch);
-
-
-
                 setIsPopularSearchLoaded(true); // Set the flag to indicate that data has been loaded
             } catch (error) {
                 console.error('서버 요청 오류:', error);
@@ -269,7 +259,13 @@ export default function BoardNewPage() {
                                     <RecentSearchWrapper>
                                         <RecentSearchText>최근검색어</RecentSearchText>
                                         <RecentSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">
-                                            {recentSearch1[0].query}
+                                            {recentSearch1 ? (
+                                                <div>{recentSearch1.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
                                         </RecentSearchButton>
                                         <RecentSearchButton onClick={onTagClickSubmit} data-text="긴팔">
                                             {recentSearch2 ? (
