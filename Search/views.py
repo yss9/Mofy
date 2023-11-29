@@ -179,13 +179,22 @@ class PopularSearchView(APIView):
         popular_queries = [item['query'] for item in popular_search]
 
         #serializer = PopularSearchSerializer(popular_queries, many=True)
-        response_data = {
+        # response_data = {
+        #     "success": True,
+        #     "message": "검색 기록이 저장되었습니다.",
+        #     "popular_results1": popular_queries[0],
+        # }
+
+        return Response({
             "success": True,
             "message": "검색 기록이 저장되었습니다.",
             "popular_results1": popular_queries[0],
+            "popular_results2": popular_queries[1],
+            "popular_results3": popular_queries[2],
+            "popular_results4": popular_queries[3],
+            "popular_results5": popular_queries[4],
         }
-
-        return Response(response_data, status=status.HTTP_201_CREATED)
+        , status=status.HTTP_201_CREATED)
 
 # @authentication_classes([JWTAuthentication])
 # @permission_classes([IsAuthenticated])
