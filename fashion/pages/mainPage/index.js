@@ -48,6 +48,7 @@ export default function BoardNewPage() {
     const [recentSearch1, setRecentSearch1] = useState([null]);
     console.log("recentSearch1")
     console.log(recentSearch1)
+    const [recentSearch1, setRecentSearch1] = useState(null);
     const [recentSearch2, setRecentSearch2] = useState(null);
     const [recentSearch3, setRecentSearch3] = useState(null);
     const [recentSearch4, setRecentSearch4] = useState(null);
@@ -57,6 +58,7 @@ export default function BoardNewPage() {
     const [popularSearch3, setPopularSearch3] = useState(null);
     const [popularSearch4, setPopularSearch4] = useState(null);
     const [popularSearch5, setPopularSearch5] = useState(null);
+    const [board1, setBoard1] = useState(null);
 
 
     const [mofyUser1, setMofyUser1] = useState(null);
@@ -75,6 +77,7 @@ export default function BoardNewPage() {
 
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
     const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
+    const [isBoard1Loaded, setIsBoard1Loaded] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -102,12 +105,68 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+            // try {
+            //     const response = await axios.get('http://127.0.0.1:8000/board/', {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            //     setBoard1(response.data);
+            //     console.log(setBoard1);
+            //     setIsBoard1Loaded(true); // Set the flag to indicate that data has been loaded
+            // } catch (error) {
+            //     console.error('서버 요청 오류:', error);
+            // }
+            // try {
+            //     const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            //     setRecentSearch1(response.data.search_history);
+            //     console.log(setRecentSearch1);
+            //     setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
+            // } catch (error) {
+            //     console.error('서버 요청 오류:', error);
+            // }
         };
 
-        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded) {
+        if (accessToken && !username && !isUserDataLoaded) {
             fetchData();
         }
-    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded]);
+    }, [accessToken, username, isUserDataLoaded]);
+
+    // async function fetchData1() {
+    //     try {
+    //         const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+    //             headers: {
+    //                 Authorization: `Bearer ${accessToken}`,
+    //             },
+    //         });
+    //         return response.data;
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
+    //
+    // if (accessToken) {
+    //     fetchData1()
+    //         .then(data => setRecentSearch1(data))
+    //         .catch(handleError);
+    // }
+
+    function handleError(error) {
+        if (error.response) {
+            console.error('서버 응답 오류:', error.response.data);
+        } else if (error.request) {
+            console.error('서버 요청이 전송되지 않았습니다.');
+        } else {
+            console.error('오류 발생:', error.message);
+        }
+    }
+
+
+
 
     const onChangeSearch = (event) => {
         setSearch(event.target.value);
