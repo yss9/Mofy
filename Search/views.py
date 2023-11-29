@@ -45,29 +45,27 @@ class SearchHistoryView(APIView):
     def get(self, request):
         user = request.user
 
-        # 최근 검색어 중복을 피하기 위해 검색어 별 최신 검색 일자를 가져옴
         recent_search_history = SearchHistory.objects.filter(user=user) \
-            .values('search_query') \
+            .values('query') \
             .annotate(latest_search=Max('searched_at')) \
             .order_by('-latest_search')
 
-        # 중복을 피한 최근 검색어에 대한 전체 검색 기록을 가져옴
-        search_history = SearchHistory.objects.filter(
-            user=user,
-            search_query__in=[item['search_query'] for item in recent_search_history]
-        ).order_by('-searched_at')[:5]
+        # recent_search_history에서 검색어만 추출
+        recent_search_queries = [item['query'] for item in recent_search_history]
 
-        serializer = SearchHistorySerializer(search_history, many=True)
+        # 최근 검색어에 해당하는 전체 검색 기록 가져오기
+        search_history = SearchHistory.objects.filter(user=user, query__in=recent_search_queries) \
+                             .order_by('-searched_at')[:5]
+
         response_data = {
             "success": True,
             "message": "최근 검색어 및 검색 기록이 성공적으로 불러와졌습니다.",
-            "recent_searches": [item['search_query'] for item in recent_search_history],
             "search_history": [
-                {"search_query": result.search_query, "searched_at": result.searched_at}
+                {"query": result.query, "searched_at": result.searched_at}
                 for result in search_history
             ]
         }
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
