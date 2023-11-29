@@ -62,7 +62,7 @@ export const ModalContent = styled.div`
 export const RecentSearchWrapper = styled.div`
   margin-left: 20px;
   width: 650px;
-  height: 45px;
+  height: 47px;
   overflow: hidden;
   //margin-bottom: 10px;
   margin-top: 20px;

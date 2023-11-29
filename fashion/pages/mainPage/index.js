@@ -107,44 +107,11 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
-            // try {
-            //     const response = await axios.get('http://127.0.0.1:8000/board/', {
-            //         headers: {
-            //             Authorization: `Bearer ${accessToken}`,
-            //         },
-            //     });
-            //     setBoard1(response.data);
-            //     console.log(setBoard1);
-            //     setIsBoard1Loaded(true); // Set the flag to indicate that data has been loaded
-            // } catch (error) {
-            //     console.error('서버 요청 오류:', error);
-            // }
-
         };
-
-        if (accessToken && !username && !isUserDataLoaded) {
+        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded) {
             fetchData();
         }
-    }, [accessToken, username, isUserDataLoaded]);
-
-    // async function fetchData1() {
-    //     try {
-    //         const response = await axios.get('http://127.0.0.1:8000/search/history/', {
-    //             headers: {
-    //                 Authorization: `Bearer ${accessToken}`,
-    //             },
-    //         });
-    //         return response.data;
-    //     } catch (error) {
-    //         throw error;
-    //     }
-    // }
-    //
-    // if (accessToken) {
-    //     fetchData1()
-    //         .then(data => setRecentSearch1(data))
-    //         .catch(handleError);
-    // }
+    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded]);
 
     function handleError(error) {
         if (error.response) {
