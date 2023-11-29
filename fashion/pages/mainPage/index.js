@@ -72,6 +72,7 @@ export default function BoardNewPage() {
     // }
 
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+    const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,66 +87,23 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setRecentSearch1(response.data);
+                setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
         };
 
-        if (accessToken && !username && !isUserDataLoaded) {
+        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded) {
             fetchData();
         }
-    }, [accessToken, username, isUserDataLoaded]);
-
-
-    // .catch(error => {
-    //     console.error('서버 요청 오류:', error);
-    // });
-
-    // axios.get('http://127.0.0.1:8000/httpboard/stylerank/', {
-    //     headers: {
-    //         Authorization: `Bearer ${accessToken}`,
-    //     },
-    // })
-    //     .then(response => {
-    //         // 서버에서 받은 사용자 정보를 상태에 저장
-    //         setUsername(response.data);
-    //     })
-    //     .catch(error => {
-    //         console.error('서버 요청 오류:', error);
-    //     });
-    //
-    // axios.get("http://127.0.0.1:8000/search-history/",)
-    //     .then(response => {
-    //         // 서버에서 받은 사용자 정보를 상태에 저장
-    //         setRecentSearch1(response.data);
-    //     })
-    //     .catch(error => {
-    //         console.error('서버 요청 오류:', error);
-    //     });
-
-
-    // if (accessToken) {
-    //     // 서버로 토큰과 함께 요청을 보냄
-    //     axios.get('http://127.0.0.1:8000/search_history/', {
-    //         headers: {
-    //             Authorization: `Bearer ${accessToken}`,
-    //         },
-    //     })
-    //         .then(response => {
-    //             // 서버에서 받은 사용자 정보를 상태에 저장
-    //             setRecentSearch1(response.data);
-    //         })
-    //         .catch(error => {
-    //             if (error.response) {
-    //                 // 서버 응답은 받았지만 오류 상태 코드인 경우
-    //                 console.error('최근 검색) 서버 응답 오류 상태 코드:', error.response.status);
-    //                 console.error('서버 응답 데이터:', error.response.data);
-    //             } else if (error.request) {
-    //                 // 요청은 보냈지만 응답을 받지 못한 경우
-    //                 console.error('서버 응답 없음');
-    //             } else {
-    //                 // 요청을 보내기 전에 발생한 오류
-    //                 console.error('서버 요청 오류:', error.message);
-    //             }
-    //         });
-    // }
+    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded]);
 
     const onChangeSearch = (event) => {
         setSearch(event.target.value);
@@ -330,6 +288,68 @@ export default function BoardNewPage() {
                                         {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
                                         {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
                                     </RecentSearchWrapper>
+                                    <PopularSearchWrapper>
+                                        <PopularSearchText>인기검색어</PopularSearchText>
+                                        <PopularSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">
+                                            {recentSearch1 ? (
+                                                <div>{recentSearch1.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </PopularSearchButton>
+                                        <PopularSearchButton onClick={onTagClickSubmit} data-text="긴팔">
+                                            {recentSearch2 ? (
+                                                <div>{recentSearch2.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </PopularSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="브라운 코디">
+                                            {recentSearch3 ? (
+                                                <div>{recentSearch3.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="레이어드">
+                                            {recentSearch4 ? (
+                                                <div>Welcome, {recentSearch4.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="틴트">
+                                            {recentSearch5 ? (
+                                                <div>Welcome, {recentSearch5.username}!</div>
+                                            ) : (
+                                                <div>
+                                                    Loading...
+                                                </div>
+                                            )}
+                                        </RecentSearchButton>
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">*/}
+                                        {/*    {recentSearch1 ? (*/}
+                                        {/*        <div>Welcome, {recentSearch6.username}!</div>*/}
+                                        {/*    ) : (*/}
+                                        {/*        <div>*/}
+                                        {/*            Loading...*/}
+                                        {/*        </div>*/}
+                                        {/*    )}*/}
+                                        {/*</RecentSearchButton>*/}
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근*/}
+                                        {/*</RecentSearchButton>*/}
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
+                                        {/*<RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>*/}
+                                    </PopularSearchWrapper>
                                     <TagWrapper>
                                         <TagText>태그</TagText>
                                         <TagButtonWrapper>

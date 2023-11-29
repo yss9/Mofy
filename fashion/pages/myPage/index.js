@@ -39,6 +39,8 @@ export default function BoardNewPage() {
     const [weight, setWeight] = useState(null);
     const [height, setHeight] = useState(null);
     const [shoeSize, setShoeSize] = useState(null);
+    const [clothType, setClothType] = useState(null);
+    const [skinType, setSkinType] = useState(null);
 
     const [isPopupOpen, setPopupOpen] = useState(false);
     const accessToken = Cookies.get('access_token');
@@ -96,6 +98,32 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/userinfo5/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                setClothType(response.data);
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/userinfo6/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                setSkinType(response.data);
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
         };
 
         if (accessToken && !username && !isUserDataLoaded) {
@@ -139,7 +167,16 @@ export default function BoardNewPage() {
                                 <ProfileTagWrapper>
                                     <ProfileTag>#모던</ProfileTag>
                                     <ProfileTag>#심플</ProfileTag>
-                                    <ProfileTag>#페미닌</ProfileTag>
+                                    <ProfileTag>#페미닌
+                                        {clothType ? (
+                                            <div>
+                                                <h1>{clothType.clothType}</h1>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p>Loading...</p>
+                                            </div>
+                                        )}</ProfileTag>
                                     <ProfileTag>키
                                         {height ? (
                                             <div>
