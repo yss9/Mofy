@@ -57,9 +57,6 @@ class PostSearchView(APIView):
         return Response(response_data, status=status.HTTP_201_CREATED)
 
 
-
-
-
 class SearchHistoryView(APIView):
     def get(self, request):
         user = request.user
