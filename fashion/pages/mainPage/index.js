@@ -48,6 +48,8 @@ export default function BoardNewPage() {
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
     const [recentSearch1, setRecentSearch1] = useState([null]);
+    const [popularSearch, setPopularSearch] = useState([null]);
+
     console.log("recentSearch1")
     console.log(recentSearch1)
     // const [recentSearch1, setRecentSearch1] = useState(null);
@@ -79,6 +81,7 @@ export default function BoardNewPage() {
 
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
     const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
+    const [isPopularSearchLoaded, setIsPopularSearchLoaded] = useState(false);
     const [isBoard1Loaded, setIsBoard1Loaded] = useState(false);
 
     useEffect(() => {
@@ -107,11 +110,24 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setPopularSearch(response.data);
+
+                console.log(setPopularSearch);
+                setIsPopularSearchLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
         };
-        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded) {
+        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded && !isPopularSearchLoaded) {
             fetchData();
         }
-    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded]);
+    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded, isPopularSearchLoaded]);
 
     function handleError(error) {
         if (error.response) {
@@ -359,6 +375,13 @@ export default function BoardNewPage() {
                                             <Rate>1.</Rate>
                                             <PopularSearchItems onClick={onTagClickSubmit}>
                                                 가을바지
+                                                {popularSearch1 ? (
+                                                    <div>{popularSearch1.username}!</div>
+                                                ) : (
+                                                    <div>
+                                                        Loading...
+                                                    </div>
+                                                )}
                                             </PopularSearchItems>
                                         </PopularSearchItemsWrapper>
                                         <PopularSearchItemsWrapper>
