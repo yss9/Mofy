@@ -48,23 +48,45 @@ export default function BoardNewPage() {
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
     const [recentSearch1, setRecentSearch1] = useState([null]);
+    const [recentSearch2, setRecentSearch2] = useState([null]);
+    const [recentSearch3, setRecentSearch3] = useState([null]);
+    const [recentSearch4, setRecentSearch4] = useState([null]);
+    const [recentSearch5, setRecentSearch5] = useState([null]);
     const [popularSearch, setPopularSearch] = useState([null]);
+    const [popularSearch1, setPopularSearch1] = useState([null]);
+    const [popularSearch2, setPopularSearch2] = useState([null]);
+    const [popularSearch3, setPopularSearch3] = useState([null]);
+    const [popularSearch4, setPopularSearch4] = useState([null]);
+    const [popularSearch5, setPopularSearch5] = useState([null]);
 
     console.log("recentSearch1")
     console.log(recentSearch1)
+    console.log("recentSearch2")
+    console.log(recentSearch2)
+    console.log("recentSearch3")
+    console.log(recentSearch3)
+    console.log("recentSearch4")
+    console.log(recentSearch4)
+    console.log("recentSearch5")
+    console.log(recentSearch5)
     console.log("popularSearch")
     console.log(popularSearch);
+    console.log("popularSearch1")
+    console.log(popularSearch1);
+    console.log("popularSearch2")
+    console.log(popularSearch2);
+    console.log("popularSearch3")
+    console.log(popularSearch3);
+    console.log("popularSearch4")
+    console.log(popularSearch4);
+    console.log("popularSearch5")
+    console.log(popularSearch5);
 
-    // const [recentSearch1, setRecentSearch1] = useState(null);
-    const [recentSearch2, setRecentSearch2] = useState(null);
-    const [recentSearch3, setRecentSearch3] = useState(null);
-    const [recentSearch4, setRecentSearch4] = useState(null);
-    const [recentSearch5, setRecentSearch5] = useState(null);
-    const [popularSearch1, setPopularSearch1] = useState(null);
-    const [popularSearch2, setPopularSearch2] = useState(null);
-    const [popularSearch3, setPopularSearch3] = useState(null);
-    const [popularSearch4, setPopularSearch4] = useState(null);
-    const [popularSearch5, setPopularSearch5] = useState(null);
+    //const [recentSearch1, setRecentSearch1] = useState([null]);
+    // const [recentSearch2, setRecentSearch2] = useState([null]);
+    // const [recentSearch3, setRecentSearch3] = useState([null]);
+    // const [recentSearch4, setRecentSearch4] = useState([null]);
+    // const [recentSearch5, setRecentSearch5] = useState([null]);
     const [board1, setBoard1] = useState(null);
 
 
@@ -106,7 +128,11 @@ export default function BoardNewPage() {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                setRecentSearch1(response.data);
+                setRecentSearch1(response.data.search_history1);
+                setRecentSearch2(response.data.search_history2);
+                setRecentSearch3(response.data.search_history3);
+                setRecentSearch4(response.data.search_history4);
+                setRecentSearch5(response.data.search_history5);
 
                 console.log(setRecentSearch1);
                 setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
@@ -120,6 +146,11 @@ export default function BoardNewPage() {
                     },
                 });
                 setPopularSearch(response.data);
+                // setPopularSearch1(response.data.popular_results1);
+                // setPopularSearch2(response.data.popular_results2);
+                // setPopularSearch3(response.data.popular_results3);
+                // setPopularSearch4(response.data.popular_results4);
+                // setPopularSearch5(response.data.popular_results5);
 
 
                 console.log(setPopularSearch);
