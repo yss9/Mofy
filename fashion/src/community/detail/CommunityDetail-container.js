@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {getDate} from "../../commons/libraries/utils";
 import React from 'react';
 import { Button } from 'antd';
+import Cookies from "js-cookie"
 
 
 export default function CommunityDetail() {
@@ -16,33 +17,50 @@ export default function CommunityDetail() {
     const [content, setContent] = useState("")
     const [datetime, setDatetime] = useState(null)
 
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
+
+    const[dataLoaded, setDataLoaded] = useState(false)
+    const[deleteLoaded, setDeleteLoaded] = useState(false)
 
     useEffect(()=>{
 
-        console.log("불러올게")
-        axios
-            .get(`http://127.0.0.1:8000/board/${boardID}/`)
-            .then((response) => {
-                const data = {
-                    title: response.data.title,
-                    content: response.data.content,
-                    datetime: response.data.datetime,
-                }
+        const fetchData = async () => {
 
-                setTitle(response.data.title)
-                setContent(response.data.content)
-                setDatetime(response.data.datetime)
+            const result = axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    }
+                })
+                .then((response) => {
+                    const data = {
+                        title: response.data.title,
+                        content: response.data.content,
+                        datetime: response.data.datetime,
+                    }
 
+                    setTitle(response.data.title)
+                    setContent(response.data.content)
+                    setDatetime(response.data.datetime)
 
-
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+                    setDataLoaded(true)
 
 
-    },[])
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+        }
+
+        if(accessToken && !dataLoaded){
+            fetchData()
+        }
+
+
+
+        },[accessToken, dataLoaded])
 
 
 
@@ -54,9 +72,14 @@ export default function CommunityDetail() {
     }
 
 
-    const onClickBoardDelete = async () => {
+    const onClickBoardDelete = () => {
+        const fetchData = async () => {
 
-        const result = await axios.delete(`http://127.0.0.1:8000/board/${boardID}/`, )
+            const result = await axios.delete(`http://127.0.0.1:8000/board/${boardID}/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            })
 
             .then(function (response) {
                 console.log(response.data.boardID);
@@ -64,18 +87,44 @@ export default function CommunityDetail() {
 
                 alert("게시물 삭제가 정상적으로 완료되었습니다!")
 
+                setDeleteLoaded(true)
+
 
             })
             .catch(function (error) {
                 console.log(error);
-            });
+            })
+        }
+
+        if(accessToken && !deleteLoaded){
+            fetchData()
+        }
 
     }
 
 
-  /*  const onClickReport = () => {
+   const onClickReport = async () => {
 
-    }*/
+        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report`, {
+               boardID: boardID,
+               userID:1,
+
+           })
+               .then(function (response) {
+                   console.log(response.data);
+
+                   alert("신고접수가 완료되었습니다!")
+
+
+               })
+               .catch(function (error) {
+                   console.log(error);
+               })
+
+    }
+
+
+
 
 
 
@@ -97,7 +146,7 @@ export default function CommunityDetail() {
                         </S.Info>
                     </S.AvatarWrapper>
                     <S.IconWrapper>
-                        <Button danger>신고하기</Button>
+                        <Button danger onClick={onClickReport}>신고하기</Button>
                     </S.IconWrapper>
                 </S.Header>
                 <S.Body>

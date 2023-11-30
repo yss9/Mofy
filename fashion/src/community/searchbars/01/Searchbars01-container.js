@@ -20,6 +20,5 @@ export default function Searchbars01(props) {
             onChange={props.onChangeSearchbar}
         />
       </Searchbar>
-  );
   )
 }
