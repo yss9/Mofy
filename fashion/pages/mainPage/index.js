@@ -48,6 +48,7 @@ export default function MainCotainer() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
+    const [profileImage, setProfileImage] = useState(null);
     const [recentSearch1, setRecentSearch1] = useState([null]);
     const [recentSearch2, setRecentSearch2] = useState([null]);
     const [recentSearch3, setRecentSearch3] = useState([null]);
@@ -123,6 +124,20 @@ export default function MainCotainer() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/user_image/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setProfileImage(response.data.profile_image_url);
+                setIsUserDataLoaded(true);
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+
+
             try {
                 const response = await axios.get('http://127.0.0.1:8000/search/history/', {
                     headers: {
@@ -520,7 +535,7 @@ export default function MainCotainer() {
                             <ProfileWrapper>
                                 <ProfileText>My Profile</ProfileText>
                                 <ProfileUserWrapper>
-                                    <ProfileImg src="https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"/>
+                                    <ProfileImg src={profileImage || "https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"}></ProfileImg>
                                     <ProfileName>
                                         {username ? (
                                             <div>{username.username}</div>
