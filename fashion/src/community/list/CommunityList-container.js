@@ -6,6 +6,10 @@ import {FireFilledIcon, Searchbar, SearchbarInput} from "../searchbars/01/Search
 import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils";
+import Cookies from "js-cookie"
+
+// file2.js
+// console.log(window.sharedVariable);  // 출력: Hello from file1!
 
 
 const SECRET = "!@#$";
@@ -21,26 +25,42 @@ export default function CommunityList() {
     const [reqData, setReqData] = useState([])
     const [keyword, setKeyword] = useState("")
 
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
+
+    const[dataLoaded, setDataLoaded] = useState(false)
 
 
 
 
     useEffect(()=>{
-        console.log("마운트가 완료되었디!")
-        axios
-            .get("http://127.0.0.1:8000/boardType/1/")
-            .then((response) => {
-                setReqData([...response.data])
+        const fetchData = async () => {
+
+            console.log("마운트가 완료되었디!")
+            const result = await axios.get("http://127.0.0.1:8000/boardType/1/", {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    }
+                })
+                .then((response) => {
+                    setReqData([...response.data])
 
 
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+                    console.log(response.data);
+
+                    setDataLoaded(true)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        if(accessToken && !dataLoaded){
+            fetchData()
+        }
 
 
-    },[])
+    },[accessToken, dataLoaded])
 
 
 
@@ -110,6 +130,7 @@ export default function CommunityList() {
                         </S.ColumnTitle>
                        <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
                     </S.Row>
+
                 ))}
 
 

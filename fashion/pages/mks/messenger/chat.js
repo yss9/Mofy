@@ -89,9 +89,13 @@ const Chat = () => {
                     <Wrapper>
                         <Messages>
                             {messages.map((message, index) => (
+<<<<<<< HEAD
                                 <ChatBubble key={index}>
                                     <strong>{message.sender}: </strong>{message.text}
                                 </ChatBubble>
+=======
+                                <ChatBubble key={index}>{message.text}</ChatBubble>
+>>>>>>> 888d7f40dd5cfed077cbe135aae84ee274641e2f
                             ))}
                         </Messages>
                     </Wrapper>
@@ -114,6 +118,7 @@ const Chat = () => {
 };
 
 export default Chat;
+<<<<<<< HEAD
 
 import React, { useEffect } from 'react';
 
@@ -238,4 +243,6 @@ const ChatComponent = () => {
 };
 
 export default ChatComponent;
+=======
+>>>>>>> 888d7f40dd5cfed077cbe135aae84ee274641e2f
 

@@ -5,6 +5,7 @@ import * as S from "./MarketBoardWrite-styles";
 import { Switch } from 'antd';
 import DaumPostcodeEmbed from "react-daum-postcode";
 import {Modal, Button, Popover} from 'antd'
+import Cookies from "js-cookie";
 
 export default function MarketBoardWrite(props){
     const router = useRouter()
@@ -28,6 +29,21 @@ export default function MarketBoardWrite(props){
 
     const [loading, setLoading] = useState(false);
     const [image, setImage] = useState(null)
+
+
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
+
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type' : 'application/json'
+        },
+    }
+
+
+
+
 
 
     const onChangeTitle = (event) => {
@@ -131,7 +147,7 @@ export default function MarketBoardWrite(props){
             formData.append('image', image);
             formData.append('title', title);
             formData.append('content', content);
-            formData.append('boardType', 2);
+            formData.append('boardType', 3);
             formData.append('userID', 1);
             formData.append('address', combinedString);
             formData.append('state', state);
@@ -139,8 +155,8 @@ export default function MarketBoardWrite(props){
             const result = await axios.post("http://127.0.0.1:8000/board/", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                },
-                tags: "dksds",
+                    Authorization: `Bearer ${accessToken}`,
+                }
 
             })
                 .then(function (response) {
@@ -186,6 +202,7 @@ export default function MarketBoardWrite(props){
             const result = await axios.put(`http://127.0.0.1:8000/board/${boardID}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
                 }
 
             })

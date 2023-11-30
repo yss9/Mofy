@@ -6,6 +6,7 @@ import {FireFilledIcon, Searchbar, SearchbarInput} from "../../community/searchb
 import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils"
+import Cookies from "js-cookie";
 
 const SECRET = "!@#$";
 
@@ -20,26 +21,45 @@ export default function StyleBoardList() {
     const [reqData, setReqData] = useState([])
     const [keyword, setKeyword] = useState("")
 
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
+
+    const[dataLoaded, setDataLoaded] = useState(false)
+
+
+
 
 
 
 
     useEffect(()=>{
-        console.log("마운트가 완료되었디!")
-        axios
-            .get("http://127.0.0.1:8000/boardType/2/")
-            .then((response) => {
-                setReqData([...response.data])
+        const fetchData = async () => {
 
-
-                console.log(response.data);
+            console.log("마운트가 완료되었디!")
+            const result = await axios.get("http://127.0.0.1:8000/boardType/2/", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
             })
-            .catch(function (error) {
-                console.log(error);
-            });
+                .then((response) => {
+                    setReqData([...response.data])
 
 
-    },[])
+                    console.log(response.data);
+
+                    setDataLoaded(true)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        if(accessToken && !dataLoaded){
+            fetchData()
+        }
+
+
+    },[accessToken, dataLoaded])
 
 
 

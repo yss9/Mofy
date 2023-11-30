@@ -179,11 +179,31 @@ export default function BoardNewPage() {
     const saveImgFile = () => {
         const file = imgRef.current.files[0];
         const reader = new FileReader();
+
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             setImgFile(reader.result);
         };
+
+        // Upload the image to Django backend
+        const formData = new FormData();
+        formData.append('image', file);
+
+        axios.post('http://localhost:8000/upload_image/', formData, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => {
+                console.log('Image uploaded successfully:', response.data);
+                // Optionally, you can update the UI or perform other actions after a successful upload
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+            });
     };
+
     return (
         <>
             <Wrapper>

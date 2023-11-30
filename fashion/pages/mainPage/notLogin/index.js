@@ -64,10 +64,34 @@ export default function BoardNewPage() {
     }
 
     const onEnterSubmit = (event) => {
-        if (event.key ==="Enter") {
-            window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + search;
+        if (event.key === "Enter") {
+            // Validate the search query
+            if (!search) {
+                console.error("검색어가 필요합니다.");
+                return;
+            }
+
+            axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
+                .then((response) => {
+                    if (response.data.success) { // * 데이터 가져오는거 성공하면
+
+                        console.log("검색 결과:");
+                        console.log(response.data.search_results);
+
+                        // * 나는 받아온 데이터들 중에 search_results 속성에 있는 값을 써먹었숨미다
+                        // * 일단 (response.data) 하고 로그에 뭐라고 뜨는지 확인한 다음에 원하는 속성 이름을 .속성이름 해서 추가하면 쇽샥 가져오기 가능!
+                        renderSearchResults(response.data.search_results); //
+                    } else {
+                        // Handle API error
+                        console.error("검색 실패: " + response.data.message);
+                    }
+                })
+                .catch((error) => {
+                    // Handle general API error
+                    console.error("API 호출 중 오류 발생:", error);
+                });
         }
-    }
+    };
 
     const onTagClickSubmit = (event) => {
         const buttonText = event.target.getAttribute('data-text');
@@ -184,108 +208,7 @@ export default function BoardNewPage() {
             <NotLoginWrapper>
                 <ConsentWrapper>
                     <Top>
-                        <SearchInput onClick={openModal} type="text" placeholder="검색어를 입력하세요."></SearchInput>
-                        {isModalOpen && (
-                            <ModalWrapper onClick={closeModal}>
-                                <ModalContent onClick={(e) => e.stopPropagation()}>
-                                    <RecentSearchWrapper>
-                                        <RecentSearchText>최근검색어</RecentSearchText>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">가을 원피스</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="긴팔">긴팔</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="브라운 코디">브라운 코디</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="레이어드">레이어드</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="틴트">틴트</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="최근">최근</RecentSearchButton>
-                                    </RecentSearchWrapper>
-                                    <TagWrapper>
-                                        <TagText>태그</TagText>
-                                        <TagButtonWrapper>
-                                            <TagButton onClick={onTagClickSubmit} data-text="가을">#가을</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="운동화">#운동화</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="후드">#후드</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="섀도우">#섀도우</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="여름쿨톤">#여름쿨톤</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
-
-                                        </TagButtonWrapper>
-                                        <MoreTagButton onClick={onMoreTagClickSubmit}>더보기</MoreTagButton>
-                                    </TagWrapper>
-                                    <PopularSearchWrapper>
-                                        <PopularSearchText>인기검색어</PopularSearchText>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>1.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                가을바지
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>2.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                겨울옷
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>3.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                부츠
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>4.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                목티
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>5.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                후리스
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>6.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                운동화
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>7.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                기모
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>8.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                잠옷
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>9.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                셋업
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                        <PopularSearchItemsWrapper>
-                                            <Rate>10.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                블록코어
-                                            </PopularSearchItems>
-                                        </PopularSearchItemsWrapper>
-                                    </PopularSearchWrapper>
-                                </ModalContent>
-                            </ModalWrapper>
-                        )}
+                        <SearchInput onKeyPress={onEnterSubmit} onChange={onChangeSearch} type="text" placeholder="검색어를 입력하세요."></SearchInput>
                         <Title onClick={onClickHome} src="../images/mofylogo.png"/>
                         <TopButton>Log Out</TopButton>
                         <TopButton onClick={onClickMyPage}>My Page</TopButton>

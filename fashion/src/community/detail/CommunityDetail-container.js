@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {getDate} from "../../commons/libraries/utils";
 import React from 'react';
 import { Button } from 'antd';
+import Cookies from "js-cookie"
 
 
 export default function CommunityDetail() {
@@ -15,34 +16,55 @@ export default function CommunityDetail() {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [datetime, setDatetime] = useState(null)
+    const [username, setUsername] = useState("");
 
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
 
-    useEffect(()=>{
+    const[dataLoaded, setDataLoaded] = useState(false)
+    const[deleteLoaded, setDeleteLoaded] = useState(false)
+    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
-        console.log("불러올게")
-        axios
-            .get(`http://127.0.0.1:8000/board/${boardID}/`)
-            .then((response) => {
-                const data = {
-                    title: response.data.title,
-                    content: response.data.content,
-                    datetime: response.data.datetime,
-                }
-
-                setTitle(response.data.title)
-                setContent(response.data.content)
-                setDatetime(response.data.datetime)
-
-
-
-
-            })
-            .catch(function (error) {
-                console.log(error);
+    const fetchData = async () => {
+        try {
+            // Fetch board data
+            const boardResponse = await axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
             });
 
+            const boardData = {
+                title: boardResponse.data.title,
+                content: boardResponse.data.content,
+                datetime: boardResponse.data.datetime,
+            };
 
-    },[])
+            setTitle(boardData.title);
+            setContent(boardData.content);
+            setDatetime(boardData.datetime);
+            setDataLoaded(true);
+
+            // Fetch user data
+            const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            setUsername(userResponse.data);
+            setIsUserDataLoaded(true);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (accessToken && !dataLoaded && !isUserDataLoaded) {
+            fetchData();
+        }
+    }, [accessToken, dataLoaded, isUserDataLoaded]);
+
 
 
 
@@ -55,27 +77,46 @@ export default function CommunityDetail() {
 
 
     const onClickBoardDelete = async () => {
-
-        const result = await axios.delete(`http://127.0.0.1:8000/board/${boardID}/`, )
-
-            .then(function (response) {
-                console.log(response.data.boardID);
-                router.push("/community/");
-
-                alert("게시물 삭제가 정상적으로 완료되었습니다!")
-
-
-            })
-            .catch(function (error) {
-                console.log(error);
+        try {
+            const response = await axios.delete(`http://127.0.0.1:8000/board/${boardID}/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
             });
+
+            console.log(response.data.boardID);
+            router.push("/community/");
+            alert("게시물 삭제가 정상적으로 완료되었습니다!");
+            setDeleteLoaded(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
+
+   const onClickReport = async () => {
+
+        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report`, {
+               boardID: boardID,
+               userID:1,
+
+           })
+               .then(function (response) {
+                   console.log(response.data);
+
+                   alert("신고접수가 완료되었습니다!")
+
+
+               })
+               .catch(function (error) {
+                   console.log(error);
+               })
 
     }
 
 
-  /*  const onClickReport = () => {
 
-    }*/
 
 
 
@@ -90,14 +131,14 @@ export default function CommunityDetail() {
                         {/*<S.Avatar src="/images/avatar.png" />*/}
                         <S.Info>
                             {/*<S.Writer>{props.data?.fetchBoard?.writer}</S.Writer>*/}
-                            <S.Writer>작성자</S.Writer>
+                            <S.Writer>{username.username}</S.Writer>
                             <S.CreatedAt>
                               {getDate(datetime)}
                             </S.CreatedAt>
                         </S.Info>
                     </S.AvatarWrapper>
                     <S.IconWrapper>
-                        <Button danger>신고하기</Button>
+                        <Button danger onClick={onClickReport}>신고하기</Button>
                     </S.IconWrapper>
                 </S.Header>
                 <S.Body>

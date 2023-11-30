@@ -3,6 +3,7 @@ import axios from "axios";
 //import CommunityWriteUI from "./CommunityWrite-presenter"
 import {useRouter} from "next/router";
 import * as S from "../../../src/community/write/CommunityWrite-styles";
+import Cookies from "js-cookie"
 
 
 export default function CommunityWrite(props){
@@ -16,6 +17,18 @@ export default function CommunityWrite(props){
     const [isActive, setIsActive] = useState(false);
     const [titleError, setTitleError] = useState("");
     const [contentError, setContentError] = useState("");
+
+
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
+
+
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type' : 'application/json'
+        },
+    }
 
 
     const onChangeTitle = (event) => {
@@ -71,7 +84,8 @@ export default function CommunityWrite(props){
                     boardType: 1,
                     userID: 1,
 
-                })
+                }, axiosConfig)
+
                  .then(function (response) {
                     console.log(response.data.boardID);
                      router.push(`/community/${response.data.boardID}`);
@@ -117,7 +131,8 @@ export default function CommunityWrite(props){
                 userID: 1,
                 title: updateBoardInput.title,
                 content:updateBoardInput.content,
-            })
+            }, axiosConfig)
+
                 .then(function (response) {
                     console.log(response.data.boardID);
                     router.push(`/community/${response.data.boardID}/`);

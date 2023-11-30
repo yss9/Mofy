@@ -41,6 +41,7 @@ export default function BoardNewPage() {
     const [shoeSize, setShoeSize] = useState(null);
     const [clothType, setClothType] = useState(null);
     const [skinType, setSkinType] = useState(null);
+    const [profileImage, setProfileImage] = useState(null);
 
     const [isPopupOpen, setPopupOpen] = useState(false);
     const accessToken = Cookies.get('access_token');
@@ -124,6 +125,18 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/user_image/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setProfileImage(response.data.profile_image_url);
+                setIsUserDataLoaded(true);
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
         };
 
         if (accessToken && !username && !isUserDataLoaded) {
@@ -156,7 +169,7 @@ export default function BoardNewPage() {
                             {/*<ProfileText>내 정보</ProfileText>*/}
                             <ProfileUserWrapper>
                                 <ProfileText>내 정보</ProfileText>
-                                <ProfileImg src="https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"/>
+                                <ProfileImg src={profileImage || "https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"}></ProfileImg>
                                 <ProfileName>
                                     {username ? (
                                         <div>{username.username}</div>
@@ -171,6 +184,7 @@ export default function BoardNewPage() {
                                         {clothType ? (
                                             <div>
                                                 <h1>{clothType.clothType}</h1>
+
                                             </div>
                                         ) : (
                                             <div>

@@ -5,6 +5,7 @@ import * as S from "./StyleBoardWrite-styles";
 import {ImageBox} from "./StyleBoardWrite-styles";
 import { PlusOutlined } from '@ant-design/icons';
 import { Input, Space, Tag, theme, Tooltip } from 'antd';
+import Cookies from "js-cookie";
 
 export default function StyleBoardWrite(props){
     const router = useRouter()
@@ -24,6 +25,17 @@ export default function StyleBoardWrite(props){
 
     const [image, setImage] = useState(null)
     const [tags, setTags] = useState("")
+
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
+
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type' : 'application/json'
+        },
+    }
+
 
 
 
@@ -64,7 +76,9 @@ export default function StyleBoardWrite(props){
             } else {
                 setIsActive(false);
             }
-        };
+        }
+
+
 
     const onChangeTag = (event) => {
         setTags(event.target.value)
@@ -103,12 +117,15 @@ export default function StyleBoardWrite(props){
             formData.append('boardType', 2);
             formData.append('like_num', 0);
             formData.append('userID', 1);
-          //  formData.append('tags', "태그")
+            formData.append('tags', tags)
 
 
             const result = await axios.post("http://127.0.0.1:8000/board/", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                   // 'Content-Type' : 'application/json'
+
                 },
 
             })
@@ -146,14 +163,17 @@ export default function StyleBoardWrite(props){
             formData.append('image', image);
             formData.append('title', title);
             formData.append('content', content);
-            formData.append('boardType', 3);
+            formData.append('boardType', 2);
             formData.append('userID', 1);
             formData.append('like_num', 0);
+
 
 
             const result = await axios.put(`http://127.0.0.1:8000/board/${boardID}/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
+                   // 'Content-Type' : 'application/json'
                 }
 
             })
