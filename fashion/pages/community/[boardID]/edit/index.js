@@ -1,4 +1,4 @@
-import CommunityWrite from "@/src/community/write/CommunityWrite-container";
+import CommunityWrite from "../../../../src/community/write/CommunityWrite-container";
 
 
 

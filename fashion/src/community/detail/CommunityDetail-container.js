@@ -16,51 +16,55 @@ export default function CommunityDetail() {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [datetime, setDatetime] = useState(null)
+    const [username, setUsername] = useState("");
 
     const accessToken = Cookies.get('access_token')
     const refreshToken = Cookies.get('refresh_token')
 
     const[dataLoaded, setDataLoaded] = useState(false)
     const[deleteLoaded, setDeleteLoaded] = useState(false)
+    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
-    useEffect(()=>{
+    const fetchData = async () => {
+        try {
+            // Fetch board data
+            const boardResponse = await axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
-        const fetchData = async () => {
+            const boardData = {
+                title: boardResponse.data.title,
+                content: boardResponse.data.content,
+                datetime: boardResponse.data.datetime,
+            };
 
-            const result = axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    }
-                })
-                .then((response) => {
-                    const data = {
-                        title: response.data.title,
-                        content: response.data.content,
-                        datetime: response.data.datetime,
-                    }
+            setTitle(boardData.title);
+            setContent(boardData.content);
+            setDatetime(boardData.datetime);
+            setDataLoaded(true);
 
-                    setTitle(response.data.title)
-                    setContent(response.data.content)
-                    setDatetime(response.data.datetime)
+            // Fetch user data
+            const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
-                    setDataLoaded(true)
-
-
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-
-
+            setUsername(userResponse.data);
+            setIsUserDataLoaded(true);
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
+    };
 
-        if(accessToken && !dataLoaded){
-            fetchData()
+    useEffect(() => {
+        if (accessToken && !dataLoaded && !isUserDataLoaded) {
+            fetchData();
         }
+    }, [accessToken, dataLoaded, isUserDataLoaded]);
 
-
-
-        },[accessToken, dataLoaded])
 
 
 
@@ -72,35 +76,23 @@ export default function CommunityDetail() {
     }
 
 
-    const onClickBoardDelete = () => {
-        const fetchData = async () => {
-
-            const result = await axios.delete(`http://127.0.0.1:8000/board/${boardID}/`, {
+    const onClickBoardDelete = async () => {
+        try {
+            const response = await axios.delete(`http://127.0.0.1:8000/board/${boardID}/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
-                }
-            })
+                },
+            });
 
-            .then(function (response) {
-                console.log(response.data.boardID);
-                router.push("/community/");
-
-                alert("게시물 삭제가 정상적으로 완료되었습니다!")
-
-                setDeleteLoaded(true)
-
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+            console.log(response.data.boardID);
+            router.push("/community/");
+            alert("게시물 삭제가 정상적으로 완료되었습니다!");
+            setDeleteLoaded(true);
+        } catch (error) {
+            console.log(error);
         }
+    };
 
-        if(accessToken && !deleteLoaded){
-            fetchData()
-        }
-
-    }
 
 
    const onClickReport = async () => {
@@ -139,7 +131,7 @@ export default function CommunityDetail() {
                         {/*<S.Avatar src="/images/avatar.png" />*/}
                         <S.Info>
                             {/*<S.Writer>{props.data?.fetchBoard?.writer}</S.Writer>*/}
-                            <S.Writer>작성자</S.Writer>
+                            <S.Writer>{username.username}</S.Writer>
                             <S.CreatedAt>
                               {getDate(datetime)}
                             </S.CreatedAt>
