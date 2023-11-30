@@ -80,6 +80,8 @@ class PostSearchView(APIView):
 #             "search_history5": serializer.data[4],
 #         }, status=status.HTTP_201_CREATED)
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class SearchHistoryView(APIView):
     def get(self, request):
         user = request.user
@@ -299,7 +301,8 @@ class PopularSearchView(APIView):
 #             "suggest_results5": unique_searches[4],
 #         }, status=status.HTTP_201_CREATED)
 
-
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 class SearchSuggestionView(APIView):
     def get(self, request):
         # 전체 사용자의 검색 기록 가져오기
