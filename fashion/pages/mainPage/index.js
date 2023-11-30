@@ -64,18 +64,6 @@ export default function MainCotainer() {
     const [exportSearch, setExportSearch] = useState("");
 
 
-
-    console.log("recentSearch1")
-    console.log(recentSearch1)
-    console.log("recentSearch2")
-    console.log(recentSearch2)
-    console.log("recentSearch3")
-    console.log(recentSearch3)
-    console.log("recentSearch4")
-    console.log(recentSearch4)
-    console.log("recentSearch5")
-    console.log(recentSearch5)
-    console.log("recentSearch1")
     console.log(recommendSearch1)
     console.log("recommendSearch2")
     console.log(recommendSearch2)
@@ -85,8 +73,8 @@ export default function MainCotainer() {
     console.log(recommendSearch4)
     console.log("recommendSearch5")
     console.log(recommendSearch5)
-    console.log("recentSearch")
-    console.log(recentSearch)
+    console.log("recentSearch1")
+    console.log(recentSearch1)
     console.log("recentSearch2")
     console.log(recentSearch2)
     console.log("recentSearch3")
@@ -158,12 +146,17 @@ export default function MainCotainer() {
 
                 // * 여기서는 DB 설계상 받아오는 값이 딱 하나 있는게 아니고 속성이 여러개라서, 받아오는 값 중에 원하는 속성을 지정해줬슴미다 (.search_history1)
                 setRecentSearch(response.data);
-                // setRecentSearch1(response.data.search_history1);
-                // setRecentSearch2(response.data.search_history2);
-                // setRecentSearch3(response.data.search_history3);
-                // setRecentSearch4(response.data.search_history4);
-                // setRecentSearch5(response.data.search_history5);
 
+                const recentSearchQueries = response.data.map(item => item.query);
+
+                // "query" 변수를 각각의 state 변수에 할당
+                setRecentSearch1(recentSearchQueries[0] || "");
+                setRecentSearch2(recentSearchQueries[1] || "");
+                setRecentSearch3(recentSearchQueries[2] || "");
+                setRecentSearch4(recentSearchQueries[3] || "");
+                setRecentSearch5(recentSearchQueries[4] || "");
+
+                setIsRecentSearch1Loaded(true);
                 // * 이거도 위에 try문처럼 반복 방지를 위해 추가함미도
                 setIsRecentSearch1Loaded(true);
             } catch (error) {
