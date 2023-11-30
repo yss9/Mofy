@@ -78,3 +78,43 @@ export const GoOptionBtn=styled.button`
   }
 
 `
+export const GoWriteBtn=styled.button`
+  margin-right: 30px;
+  border-radius: 20px;
+  height: 30px;
+  background-color: #ffdfe9;
+  font-size: 20px;
+  border: 1px solid #ffdfe9;
+  cursor: pointer;
+
+  :hover {
+    background-color: #d09cec;
+  }
+`
+export const GoSendMessageBtn=styled.button`
+  margin-right: 30px;
+  border-radius: 20px;
+  height: 30px;
+  background-color: #ffdfe9;
+  font-size: 20px;
+  border: 1px solid #ffdfe9;
+  cursor: pointer;
+
+  :hover {
+    background-color: #d09cec;
+  }
+`
+export const GoGetMessageBtn=styled.button`
+  margin-right: 30px;
+  border-radius: 20px;
+  height: 30px;
+  background-color: #ffdfe9;
+  font-size: 20px;
+  border: 1px solid #ffdfe9;
+  cursor: pointer;
+
+  :hover {
+    background-color: #d09cec;
+  }
+`
+

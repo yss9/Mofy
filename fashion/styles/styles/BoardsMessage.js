@@ -13,12 +13,32 @@ export const ConsentWrapper = styled.div`
 export const TitleWrapper = styled.div`
   display: flex;
   border-bottom: 1px solid black;
+  background-image: linear-gradient(to right, #b987d2, lightcoral);
 `;
 
 export const Title = styled.div`
   flex: 1;
   padding: 10px;
+  font-weight: 900;
 `;
+
+export const SubtitleWrapper=styled.div`
+  display: flex;
+  border-bottom: 1px solid black;
+  height: 40px;
+  //background-color: red;
+`
+
+export const SubTitle=styled.input`
+    height: 95%;
+  width: 100%;
+  border: none;
+  
+  ::placeholder{
+    color: black;
+    font-weight: 900;
+  }
+`
 export const BtnWrapper=styled.div`
     //background-color: red;
   text-align: right;
@@ -26,10 +46,13 @@ export const BtnWrapper=styled.div`
   margin-right: 10px;
 `
 export const SendBtn=styled.button`
-    border-radius: 20px;
+  border-radius: 20px;
   font-size: 15px;
-  
-  
+  background-color: #dcabca;
+  font-weight: 900;
+  cursor: pointer;
+  border: 1px solid gray;
+
 `
 export const NoteList = styled.div`
   border-bottom: 1px solid black;
@@ -61,12 +84,27 @@ export const Line = styled.hr`
 `;
 
 export const TextWrapper=styled.div`
+  margin-top: 5px;
   width: 100%;
-  height: 80%;
+  height: 70%;
 `
 export const Text =styled.textarea`
     width: 98%;
   height: 100%;
   background-color: transparent;
   border: none;
+`
+export  const ViewText=styled.div`
+  width: 98%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+
+`
+
+export const ViewTitle=styled.div`
+  height: 95%;
+  width: 75%;
+  border: none;
+  //background-color: red;
 `

@@ -6,11 +6,13 @@ import {
     TitleWrapper,
     NoteList,
     NoteItem,
-    AddNoteButton, AddNoteButtonWrapper,
+    AddNoteButton,AddNoteButtonWrapper,
     Line,
-} from '../../../styles/styles/BoardsMessage'
+} from '../../styles/styles/BoardsMessage'
 
-export default function BoardsNotePage() {
+//권한추가, 메세지&나에게쪽지쓴사람 백엔드에 올리는코드 추가해야뎀
+
+export default function MyGetMessage() {
     const [notes, setNotes] = useState([]);
 
     const addNote = () => {
@@ -28,7 +30,7 @@ export default function BoardsNotePage() {
             <Wrapper>
                 <ConsentWrapper>
                     <TitleWrapper>
-                        <Title>보낸 쪽지함</Title>
+                        <Title>받은 쪽지함</Title>
                         <AddNoteButtonWrapper>
                             <AddNoteButton onClick={addNote}>새로고침</AddNoteButton>
                         </AddNoteButtonWrapper>
