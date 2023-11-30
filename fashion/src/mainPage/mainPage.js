@@ -14,13 +14,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie'; // * 쿠키 import!
 // import {WeatherApp} from './WeatherApp'
 
-// window.sharedVariable = 'Hello from file1!';
-
-// module.exports = {
-//     myGlobalVariable: 'This is a global variable',
-// };
-// console.log("myGlobalVariable");
-// console.log(myGlobalVariable);
 
 // ================================== 앞에 * 있는 주석은 권한 설명임미다 ======================================
 
@@ -32,9 +25,6 @@ const onClickLogout = () => {
 }
 const onClickMyPage = () => {
     window.location.href = "http://localhost:3000/myPage";
-}
-const onClickCommunity = () => {
-    window.location.href = "http://localhost:3000/community";
 }
 const onClickEdit = () => {
     window.location.href = "http://localhost:3000/editPage";
@@ -59,9 +49,6 @@ export default function MainCotainer() {
     const [recommendSearch3, setRecommendSearch3] = useState([null]);
     const [recommendSearch4, setRecommendSearch4] = useState([null]);
     const [recommendSearch5, setRecommendSearch5] = useState([null]);
-    const [exportSearch, setExportSearch] = useState("");
-
-
 
     console.log("recentSearch1")
     console.log(recentSearch1)
@@ -228,6 +215,7 @@ export default function MainCotainer() {
                         // * 나는 받아온 데이터들 중에 search_results 속성에 있는 값을 써먹었숨미다
                         // * 일단 (response.data) 하고 로그에 뭐라고 뜨는지 확인한 다음에 원하는 속성 이름을 .속성이름 해서 추가하면 쇽샥 가져오기 가능!
                         renderSearchResults(response.data.search_results); //
+
 
                         window.location.href = "http://localhost:3000/community";
                     } else {
@@ -561,7 +549,7 @@ export default function MainCotainer() {
                     </Mid>
                     <Bottom>
                         <CommunityWrapper>
-                            <CommunityText onClick={onClickCommunity}>
+                            <CommunityText>
                                 Community
                                 {/*{styleRank1 ? (*/}
                                 {/*    <div>{styleRank1.username}!</div>*/}
