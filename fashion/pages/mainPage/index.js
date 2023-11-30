@@ -29,10 +29,7 @@ const onClickMyPage = () => {
 const onClickEdit = () => {
     window.location.href = "http://localhost:3000/editPage";
 }
-const onTagClickSubmit = (event) => {
-    const buttonText = event.target.getAttribute('data-text');
-    window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + encodeURIComponent(buttonText);
-}
+
 const API_KEY = '9ca687d0177634a47449391852d5e834';
 const city = 'Seoul';
 const WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
@@ -244,20 +241,40 @@ export default function BoardNewPage() {
         }
     };
 
+    const onTagClickSubmit = (event) => {
+        const buttonText = event.target.getAttribute('data-text');
+        console.log("Request URL:", "http://localhost:8000/search/");
+        console.log("Request Data:", { query: buttonText });
+        console.log("Request Headers:", axiosConfig.headers);
+
+        axios.post("http://localhost:8000/search/", { query: buttonText }, axiosConfig)
+            .then((response) => {
+                if (response.data.success) {
+
+                    console.log("검색 결과:");
+                    console.log(response.data.search_results);
+
+                    renderSearchResults(response.data.search_results); //
+                } else {
+                    // Handle API error
+                    console.error("검색 실패: " + response.data.message);
+                }
+            })
+            .catch((error) => {
+                // Handle general API error
+                console.error("API 호출 중 오류 발생:", error);
+            });
+    }
+
     // * ====================================== 권한 설명 끝! ===========================================
     // * 모르겠는거 물어봐주심 열심히 머리 굴려보겠습니당~
 
+
+
     const renderSearchResults = (results) => {
-        // Render the search results on your webpage
-        // You can use these results to display the Board's title and tags
         console.log("Rendering Search Results:", results);
     };
 
-    const onTagClickSubmit = (event) => {
-        const buttonText = event.target.getAttribute('data-text');
-        window.location.href = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + encodeURIComponent(buttonText);
-    }
-    //
     const onMoreTagClickSubmit = (event) => {
         window.location.href = "https://google.com";
     };
@@ -380,7 +397,7 @@ export default function BoardNewPage() {
                                             <TagButton onClick={onTagClickSubmit} data-text="후드">#후드</TagButton>
                                             <TagButton onClick={onTagClickSubmit} data-text="섀도우">#섀도우</TagButton>
                                             <TagButton onClick={onTagClickSubmit} data-text="여름쿨톤">#여름쿨톤</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
+                                            <TagButton onClick={onTagClickSubmit} data-text="은행">#은행</TagButton>
                                             <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
                                             <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
                                             <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
