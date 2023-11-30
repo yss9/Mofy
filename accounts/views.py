@@ -205,6 +205,47 @@ class UserEdit(APIView):
         return Response({"username": user.name}, status=status.HTTP_200_OK)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class UserEdit(APIView):
+    def post(self, request):
+        user = request.user
+
+        # Using get_or_create to get or create a UserData instance for the user
+        user_data, created = UserData.objects.get_or_create(user=user)
+
+        # Assuming the request data is in JSON format
+        edit_data = request.data
+
+        # Update user fields
+        user.name = edit_data.get('name', user.name)
+
+        new_password = edit_data.get('pw')
+        if new_password:
+            user.set_password(new_password)
+            user.save()
+
+        # Update UserData fields
+        if 'height' in edit_data and edit_data['height']:
+            user_data.height = edit_data['height']
+        if 'weight' in edit_data and edit_data['weight']:
+            user_data.weight = edit_data['weight']
+        if 'shoeSize' in edit_data and edit_data['shoeSize']:
+            user_data.shoeType = edit_data['shoeSize']
+        cloth_type = edit_data.get('clothType')
+        skin_type = edit_data.get('skinType')
+
+        if cloth_type is not None:
+            user_data.clothType = cloth_type
+        if skin_type is not None:
+            user_data.skinType = skin_type
+
+        user_data.save()
+
+        return Response({"username": user.name}, status=status.HTTP_200_OK)
+
+
+
 # @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
 # @permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
 # class UserInfoMyPage(APIView):
@@ -267,21 +308,33 @@ class UserskinType(APIView):
         return Response({"skinType": user_data.skinType})
 
 
-@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
-@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def upload_image(request):
     if request.method == 'POST':
-        # 이미지 파일은 request.FILES에서 가져온다.
-        image = request.FILES['image']
+        try:
+            image = request.data['image']
 
+            user = request.user
+            user_data = UserData.objects.get(user=user)
+
+            # Assuming user_data has an 'image' field
+            user_data.image = image
+            user_data.save()
+
+            return Response({'status': 'success'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'status': 'error', 'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({'status': 'error', 'message': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class UserImage(APIView):
+    def get(self, request):
         user = request.user  # 인증된 사용자 객체
         user_data = UserData.objects.get(user=user)
-
-        # 모델에 이미지 저장
-        uploaded_image = user_data(image=image)
-        uploaded_image.save()
-
-        return JsonResponse({'status': 'success'})
-    else:
-        return JsonResponse({'status': 'error'})
-
+        image_url = request.build_absolute_uri(user_data.image.url)
+        return JsonResponse({"profile_image_url": image_url})

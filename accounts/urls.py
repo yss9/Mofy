@@ -1,6 +1,9 @@
 from django.urls import include, path
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
-from .views import UserInfoView, UserEdit, Userdelete, Userweight, Userheight, Usershoesize, UserclothType, UserskinType
+from .views import UserInfoView, UserEdit, Userdelete, Userweight, Userheight, Usershoesize, UserclothType, \
+    UserskinType, upload_image, UserImage
 
 login_patterns = [
     path('normal/', views.login, name='login'),
@@ -21,4 +24,7 @@ urlpatterns = [
     path('userinfo4/', Usershoesize.as_view(), name='user-info4'),
     path('userinfo5/', UserclothType.as_view(), name='user-info5'),
     path('userinfo6/', UserskinType.as_view(), name='user-info6'),
+    path('upload_image/', views.upload_image, name='upload_image'),
+    path('user_image/', UserImage.as_view(), name='user_image'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
