@@ -1,19 +1,17 @@
-//나은 원본 코드
-
 import { useRouter } from "next/router";
 import {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import * as S from "../../../src/community/list/CommunityList-styles";
-import {FireFilledIcon, Searchbar, SearchbarInput} from "../searchbars/01/Searchbars01-styles";
+import * as S from "../styleBoard/list/StyleBoardList-styles";
+import {FireFilledIcon, Searchbar, SearchbarInput} from "../styleBoard/searchbars/01/Searchbars01-styles";
 import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
-import {getDate} from "../../commons/libraries/utils";
-import Cookies from "js-cookie"
+import {getDate} from "../commons/libraries/utils"
+import Cookies from "js-cookie";
 
 const SECRET = "!@#$";
 
 
-export default function CommunityList() {
+export default function StyleBoardList() {
 
 
     const router = useRouter();
@@ -31,15 +29,18 @@ export default function CommunityList() {
 
 
 
+
+
+
     useEffect(()=>{
         const fetchData = async () => {
 
             console.log("마운트가 완료되었디!")
-            const result = await axios.get("http://127.0.0.1:8000/boardType/1/", {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    }
-                })
+            const result = await axios.get("http://127.0.0.1:8000/boardType/2/", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            })
                 .then((response) => {
                     setReqData([...response.data])
 
@@ -73,14 +74,16 @@ export default function CommunityList() {
     };
 
 
+
+
     const onClickMoveToBoardNew = () => {
-    router.push("/searchBoard/new");
+    router.push("/styleBoard/new");
   }
 
   let eventData ;
 
   const onClickMoveToBoardDetail = (event) => {
-    router.push(`/community/${event.target.id}`);
+    router.push(`/styleBoard/${event.target.id}`);
     console.log(event.target.id)
 
 
@@ -101,11 +104,11 @@ export default function CommunityList() {
                     onChange={handleChange}
                 />
             </Searchbar>
-
-            커뮤니티
+            스타일보드
 
             <S.TableTop />
             <S.Row>
+                <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
                 <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
                 {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
                 <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
@@ -115,6 +118,7 @@ export default function CommunityList() {
             {reqData.filter(el => el.title.includes(keyword)).map(el => (
                     <S.Row key={el.boardID}>
 
+                        <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
                         <S.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
 
                             {el.title
@@ -128,7 +132,6 @@ export default function CommunityList() {
                         </S.ColumnTitle>
                        <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
                     </S.Row>
-
                 ))}
 
 

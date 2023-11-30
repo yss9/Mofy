@@ -1,3 +1,5 @@
+// 내 메인원본
+
 import {
     Wrapper, Title, TopButton, Top, Divide, Left, StylesWrapper, StylesText, Right,
     Styles, CommunityWrapper, ProfileWrapper, Bottom, TradeWrapper, Mid, WeatherWrapper,
