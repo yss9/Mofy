@@ -1,27 +1,21 @@
 import {
-    Wrapper, Title, TopButton, Top, Divide,
-    Left, StylesWrapper, StylesText, Right,
-    Styles, CommunityWrapper, ProfileWrapper,
-    Bottom, TradeWrapper, Mid, WeatherWrapper,
-    StylesImg, SearchInput, ConsentWrapper,
-    StylesImgWrapper, StylesUserName, StylesUserImg,
-    StylesUserWrapper, StylesTag, StylesTagWrapper,
-    ProfileText, ProfileUserWrapper, ProfileName,
-    ProfileImg, ProfileEdit, WeatherText,
-    WeatherInfo, TradeText, CommunityText,
-    WeatherImg, WeatherDetail, TemInfo,
-    ModalContent, ModalWrapper, RecentSearchWrapper,
-    RecentSearchButton, RecentSearchText,
-    Rate, PopularSearchText, PopularSearchItems, TagText,
-    TagButton, MoreTagButton, PopularSearchItemsWrapper,
-    PopularSearchWrapper, TagButtonWrapper, TagWrapper,
-    RecommendSearchWrapper, RecommendSearchText,
-    RecommendSearchButton
+    Wrapper, Title, TopButton, Top, Divide, Left, StylesWrapper, StylesText, Right,
+    Styles, CommunityWrapper, ProfileWrapper, Bottom, TradeWrapper, Mid, WeatherWrapper,
+    StylesImg, SearchInput, ConsentWrapper, StylesImgWrapper, StylesUserName, StylesUserImg,
+    StylesUserWrapper, StylesTag, StylesTagWrapper, ProfileText, ProfileUserWrapper, ProfileName,
+    ProfileImg, ProfileEdit, WeatherText, WeatherInfo, TradeText, CommunityText,
+    WeatherImg, WeatherDetail, TemInfo, ModalContent, ModalWrapper, RecentSearchWrapper,
+    RecentSearchButton, RecentSearchText, Rate, PopularSearchText, PopularSearchItems, TagText,
+    TagButton, MoreTagButton, PopularSearchItemsWrapper, PopularSearchWrapper, TagButtonWrapper,
+    TagWrapper, RecommendSearchWrapper, RecommendSearchText, RecommendSearchButton
 } from '../../styles/mainPageStyle'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'; // * 쿠키 import!
 // import {WeatherApp} from './WeatherApp'
+
+
+// ================================== 앞에 * 있는 주석은 권한 설명임미다 ======================================
 
 const onClickHome = () => {
     window.location.href = "http://localhost:3000/mainPage";
@@ -48,54 +42,64 @@ export default function BoardNewPage() {
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
     const [recentSearch1, setRecentSearch1] = useState([null]);
+    const [recentSearch2, setRecentSearch2] = useState([null]);
+    const [recentSearch3, setRecentSearch3] = useState([null]);
+    const [recentSearch4, setRecentSearch4] = useState([null]);
+    const [recentSearch5, setRecentSearch5] = useState([null]);
     const [popularSearch, setPopularSearch] = useState([null]);
+    const [recommendSearch1, setRecommendSearch1] = useState([null]);
+    const [recommendSearch2, setRecommendSearch2] = useState([null]);
+    const [recommendSearch3, setRecommendSearch3] = useState([null]);
+    const [recommendSearch4, setRecommendSearch4] = useState([null]);
+    const [recommendSearch5, setRecommendSearch5] = useState([null]);
 
-    console.log("recentSearch1")
-    console.log(recentSearch1)
-    //console.log("popularSearch")
-    //console.log(popularSearch);
-    // const [recentSearch1, setRecentSearch1] = useState(null);
-    const [recentSearch2, setRecentSearch2] = useState(null);
-    const [recentSearch3, setRecentSearch3] = useState(null);
-    const [recentSearch4, setRecentSearch4] = useState(null);
-    const [recentSearch5, setRecentSearch5] = useState(null);
-    const [popularSearch1, setPopularSearch1] = useState(null);
-    const [popularSearch2, setPopularSearch2] = useState(null);
-    const [popularSearch3, setPopularSearch3] = useState(null);
-    const [popularSearch4, setPopularSearch4] = useState(null);
-    const [popularSearch5, setPopularSearch5] = useState(null);
-    const [board1, setBoard1] = useState(null);
+    console.log("recommendSearch1")
+    console.log(recommendSearch1)
+    console.log("recommendSearch2")
+    console.log(recommendSearch2)
+    console.log("recentSearch3")
+    console.log(recommendSearch3)
+    console.log("recommendSearch4")
+    console.log(recommendSearch4)
+    console.log("recommendSearch5")
+    console.log(recommendSearch5)
 
-
-    const [mofyUser1, setMofyUser1] = useState(null);
-    const [mofyUser2, setMofyUser2] = useState(null);
-    const [mofyUser3, setMofyUser3] = useState(null);
-    const [mofyUser4, setMofyUser4] = useState(null);
-
+    // * 쿠키에 저장된 토큰 값(로그인 정보)을 써묵기 위해서 변수에 저장!
+    // * 토큰 값은 로그인할때 아래 주석 코드대로 저장됩니당 (pages/mks/login/index.js에 가면 볼 수 있움)
+    // * 우리는 로그인할때 저장된 내 id의 토큰값을 가지고 다니면서 이것저것 하기 위해서 토큰을 매 페이지마다 get해서 가져옵니당
+    //Cookies.set("access_token", response.data.access_token, { expires: 7 });
+    //Cookies.set("refresh_token", response.data.refresh_token, { expires: 7 });// 7일간 유지
     const accessToken = Cookies.get('access_token');
+
+    // * refreshToken은 안쓰는데 머... 그냥 이것도 위에거랑 같이 넣기만 하심 됩니당
     const refreshToken = Cookies.get('refresh_token');
 
-    // if () {
-    //     axios.get('board/stylerank', {
-    //
-    //     })
-    // }
 
+    // * -------------------------------------------- DB에서 get하기 -----------------------------------------------
+
+
+    // * get 요청이 반복되는걸 피하기 위해서 바로 밑에서 쓰이는 변수양 아래 주석에 설명 있움!
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
     const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
     const [isPopularSearchLoaded, setIsPopularSearchLoaded] = useState(false);
-    const [isBoard1Loaded, setIsBoard1Loaded] = useState(false);
+    const [isRecommendSearchLoaded, setIsRecommendSearchLoaded] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
+        const fetchData = async () => { // * 이건 get하면 계속 get 요청해서 컴터 힘들어해서 한번 get 되면 반복 안되도록 하는 코드인데
+            try {                                     // * 여기 try부터 catch문까지 get 요청의 한 묶음입니당
+
+                // * 원하는 url로 get 요청 보내기
                 const response = await axios.get('http://127.0.0.1:8000/userinfo/', {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${accessToken}`, // * 요청 보낼 때 내 토큰 값을 헤더에 넣어서 id 권한을 요청합니당!
                     },
                 });
-                setUsername(response.data);
-                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+                setUsername(response.data); // * response.data가 요청 보내면 받을 수 있는 값이고 나는 이걸 사용자 이름에다가 저장했엉
+
+                // * 이건 위에 말했던 반복 안되도록 하는 방법에 포함되는건데
+                // * 이거랑 같은 방식으로 위에 const[is~,setIs~] = useState(false);해서 try문마다 넣어주면 됩니당
+                setIsUserDataLoaded(true);
+
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
@@ -105,10 +109,16 @@ export default function BoardNewPage() {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                setRecentSearch1(response.data);
 
-                console.log(setRecentSearch1);
-                setIsRecentSearch1Loaded(true); // Set the flag to indicate that data has been loaded
+                // * 여기서는 DB 설계상 받아오는 값이 딱 하나 있는게 아니고 속성이 여러개라서, 받아오는 값 중에 원하는 속성을 지정해줬슴미다 (.search_history1)
+                setRecentSearch1(response.data.search_history1);
+                setRecentSearch2(response.data.search_history2);
+                setRecentSearch3(response.data.search_history3);
+                setRecentSearch4(response.data.search_history4);
+                setRecentSearch5(response.data.search_history5);
+
+                // * 이거도 위에 try문처럼 반복 방지를 위해 추가함미도
+                setIsRecentSearch1Loaded(true);
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
@@ -120,17 +130,36 @@ export default function BoardNewPage() {
                 });
                 setPopularSearch(response.data);
 
-
                 console.log(setPopularSearch);
-                setIsPopularSearchLoaded(true); // Set the flag to indicate that data has been loaded
+                setIsPopularSearchLoaded(true);
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/search/suggestions/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setRecommendSearch1(response.data.suggest_results1);
+                setRecommendSearch2(response.data.suggest_results2);
+                setRecommendSearch3(response.data.suggest_results3);
+                setRecommendSearch4(response.data.suggest_results4);
+                setRecommendSearch5(response.data.suggest_results5);
+
+                setIsRecommendSearchLoaded(true);
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
         };
-        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded && !isPopularSearchLoaded) {
+
+        // * 원하는 get 요청을 다 했다면 그동안 try문마다 true로 바꿔줬던 is~ 변수를 (accessToken && !username && !is어쩌구 && ...) 이렇게 추가합니당
+        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded && !isPopularSearchLoaded && !isRecommendSearchLoaded) {
             fetchData();
         }
-    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded, isPopularSearchLoaded]);
+
+        // * 여기에도 is~ 추가해주세용 여긴 ! 없움
+    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded, isPopularSearchLoaded, isRecommendSearchLoaded]);
 
     function handleError(error) {
         if (error.response) {
@@ -142,13 +171,15 @@ export default function BoardNewPage() {
         }
     }
 
-
-
-
     const onChangeSearch = (event) => {
         setSearch(event.target.value);
     }
 
+    // * -------------------------------------------- DB에 post하기 -----------------------------------------------
+
+    // * 이건 디비에 post할때 쓰는건데 예를들면 유저 정보 테이블이 있으면 모든 유저들이 같은 테이블에 저장되자나?
+    // * 이때 유저id를 알려줘야 얘가 다른 정보들을 받아서 디비에다 저장하는데 그 id값이 들어있는 토큰을 헤더에 담고 있는 놈임미다
+    // * get할때는 하나하나 헤더 어쩌구하면서 토큰 줬었는데 여기서는 그냥 보기 편하라고 표현방식만 다르게 한겁니당
     const axiosConfig = {
         headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -168,16 +199,39 @@ export default function BoardNewPage() {
             console.log("Request Data:", { query: search });
             console.log("Request Headers:", axiosConfig.headers);
 
-            // Make the API request
+            // * 나는 검색어 입력하고 엔터 누르면 이 함수 실행되게 했는데, input에 입력한 검색어를 search에 저장해서 디비 속성 query에 집어넣었습니담
+            // * 밑에 주석 코드처럼 여러 속성을 한번에 추가할 수도 있엉 pages/mks/signIn/index.js에 있는 코드 가져온거야!
+            // const userData = {
+            //     name: name,
+            //     userID: id,
+            //     password: pw,
+            //     email: email,
+            // };
+            //
+            // // Send data to the Django backend using Axios
+            // axios.post('http://localhost:8000/signup/', userData)
+            //     .then(response => {
+            //         // Handle successful response
+            //         console.log(response.data);
+            //         alert("회원가입 완료!");
+            //         window.location.href = "http://localhost:3000/mks/welcome";
+            //     })
+            //     .catch(error => {
+            //         // Handle error
+            //         console.error(error);
+            //         alert("회원가입에 실패했습니다. 다시 시도해주세요.");
+            //     });
+
             axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
                 .then((response) => {
-                    if (response.data.success) {
-                        // Handle success
+                    if (response.data.success) { // * 데이터 가져오는거 성공하면
+
                         console.log("검색 결과:");
                         console.log(response.data.search_results);
 
-                        // Assuming you have a function to render the search results on your webpage
-                        renderSearchResults(response.data.search_results);
+                        // * 나는 받아온 데이터들 중에 search_results 속성에 있는 값을 써먹었숨미다
+                        // * 일단 (response.data) 하고 로그에 뭐라고 뜨는지 확인한 다음에 원하는 속성 이름을 .속성이름 해서 추가하면 쇽샥 가져오기 가능!
+                        renderSearchResults(response.data.search_results); //
                     } else {
                         // Handle API error
                         console.error("검색 실패: " + response.data.message);
@@ -190,7 +244,9 @@ export default function BoardNewPage() {
         }
     };
 
-// Assume you have a function to render search results on your webpage
+    // * ====================================== 권한 설명 끝! ===========================================
+    // * 모르겠는거 물어봐주심 열심히 머리 굴려보겠습니당~
+
     const renderSearchResults = (results) => {
         // Render the search results on your webpage
         // You can use these results to display the Board's title and tags
@@ -258,99 +314,62 @@ export default function BoardNewPage() {
                                 <ModalContent onClick={(e) => e.stopPropagation()}>
                                     <RecentSearchWrapper>
                                         <RecentSearchText>최근검색어</RecentSearchText>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">
-                                            {recentSearch1 ? (
-                                                <div>{recentSearch1.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch1.query}>
+                                            {recentSearch1.query}
                                         </RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="긴팔">
-                                            {recentSearch2 ? (
-                                                <div>{recentSearch2.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch2.query}>
+                                            {recentSearch2.query}
                                         </RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="브라운 코디">
-                                            {recentSearch3 ? (
-                                                <div>{recentSearch3.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch3.query}>
+                                            {recentSearch3.query}
                                         </RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="레이어드">
-                                            {recentSearch4 ? (
-                                                <div>Welcome, {recentSearch4.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch4.query}>
+                                            {recentSearch4.query}
                                         </RecentSearchButton>
-                                        <RecentSearchButton onClick={onTagClickSubmit} data-text="틴트">
-                                            {recentSearch5 ? (
-                                                <div>Welcome, {recentSearch5.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch5.query}>
+                                            {recentSearch5.query}
                                         </RecentSearchButton>
-
                                     </RecentSearchWrapper>
                                     <RecommendSearchWrapper>
-                                        <RecommendSearchText>인기검색어</RecommendSearchText>
+                                        <RecommendSearchText>추천검색어</RecommendSearchText>
                                         <RecommendSearchButton onClick={onTagClickSubmit} data-text="가을 원피스">
-                                            {recentSearch1 ? (
-                                                <div>{recentSearch1.username}!</div>
-                                            ) : (
-                                                <div>
-                                                    Loading...
-                                                </div>
-                                            )}
+                                            {recommendSearch1}
                                         </RecommendSearchButton>
                                         <RecommendSearchButton onClick={onTagClickSubmit} data-text="긴팔"> 긴팔
-                                    {/*        {recentSearch2 ? (*/}
-                                    {/*            <div>{recentSearch2.username}!</div>*/}
-                                    {/*        ) : (*/}
-                                    {/*            <div>*/}
-                                    {/*                Loading...*/}
-                                    {/*            </div>*/}
-                                    {/*        )}*/}
+                                            {/*        {recentSearch2 ? (*/}
+                                            {/*            <div>{recentSearch2.username}!</div>*/}
+                                            {/*        ) : (*/}
+                                            {/*            <div>*/}
+                                            {/*                Loading...*/}
+                                            {/*            </div>*/}
+                                            {/*        )}*/}
                                         </RecommendSearchButton>
                                         <RecommendSearchButton onClick={onTagClickSubmit} data-text="브라운 코디"> 브라운 코디
-                                    {/*        {recentSearch3 ? (*/}
-                                    {/*            <div>{recentSearch3.username}!</div>*/}
-                                    {/*        ) : (*/}
-                                    {/*            <div>*/}
-                                    {/*                Loading...*/}
-                                    {/*            </div>*/}
-                                    {/*        )}*/}
+                                            {/*        {recentSearch3 ? (*/}
+                                            {/*            <div>{recentSearch3.username}!</div>*/}
+                                            {/*        ) : (*/}
+                                            {/*            <div>*/}
+                                            {/*                Loading...*/}
+                                            {/*            </div>*/}
+                                            {/*        )}*/}
                                         </RecommendSearchButton>
                                         <RecommendSearchButton onClick={onTagClickSubmit} data-text="레이어드"> 레이어드
-                                    {/*        {recentSearch4 ? (*/}
-                                    {/*            <div>Welcome, {recentSearch4.username}!</div>*/}
-                                    {/*        ) : (*/}
-                                    {/*            <div>*/}
-                                    {/*                Loading...*/}
-                                    {/*            </div>*/}
-                                    {/*        )}*/}
+                                            {/*        {recentSearch4 ? (*/}
+                                            {/*            <div>Welcome, {recentSearch4.username}!</div>*/}
+                                            {/*        ) : (*/}
+                                            {/*            <div>*/}
+                                            {/*                Loading...*/}
+                                            {/*            </div>*/}
+                                            {/*        )}*/}
                                         </RecommendSearchButton>
                                         <RecommendSearchButton onClick={onTagClickSubmit} data-text="틴트"> 틴트
-                                    {/*        {recentSearch5 ? (*/}
-                                    {/*            <div>Welcome, {recentSearch5.username}!</div>*/}
-                                    {/*        ) : (*/}
-                                    {/*            <div>*/}
-                                    {/*                Loading...*/}
-                                    {/*            </div>*/}
-                                    {/*        )}*/}
+                                            {/*        {recentSearch5 ? (*/}
+                                            {/*            <div>Welcome, {recentSearch5.username}!</div>*/}
+                                            {/*        ) : (*/}
+                                            {/*            <div>*/}
+                                            {/*                Loading...*/}
+                                            {/*            </div>*/}
+                                            {/*        )}*/}
                                         </RecommendSearchButton>
                                     </RecommendSearchWrapper>
                                     <TagWrapper>
@@ -376,39 +395,32 @@ export default function BoardNewPage() {
                                         <PopularSearchText>인기검색어</PopularSearchText>
                                         <PopularSearchItemsWrapper>
                                             <Rate>1.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                가을바지
-                                                {popularSearch ? (
-                                                    <div>{popularSearch.username}!</div>
-                                                ) : (
-                                                    <div>
-                                                        Loading...
-                                                    </div>
-                                                )}
+                                            <PopularSearchItems onClick={onTagClickSubmit} data-text={popularSearch.popular_results1}>
+                                                {popularSearch.popular_results1}
                                             </PopularSearchItems>
                                         </PopularSearchItemsWrapper>
                                         <PopularSearchItemsWrapper>
                                             <Rate>2.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                겨울옷
+                                            <PopularSearchItems onClick={onTagClickSubmit} data-text={popularSearch.popular_results2}>
+                                                {popularSearch.popular_results2}
                                             </PopularSearchItems>
                                         </PopularSearchItemsWrapper>
                                         <PopularSearchItemsWrapper>
                                             <Rate>3.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                부츠
+                                            <PopularSearchItems onClick={onTagClickSubmit} data-text={popularSearch.popular_results3}>
+                                                {popularSearch.popular_results3}
                                             </PopularSearchItems>
                                         </PopularSearchItemsWrapper>
                                         <PopularSearchItemsWrapper>
                                             <Rate>4.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                목티
+                                            <PopularSearchItems onClick={onTagClickSubmit} data-text={popularSearch.popular_results4}>
+                                                {popularSearch.popular_results4}
                                             </PopularSearchItems>
                                         </PopularSearchItemsWrapper>
                                         <PopularSearchItemsWrapper>
                                             <Rate>5.</Rate>
-                                            <PopularSearchItems onClick={onTagClickSubmit}>
-                                                후리스
+                                            <PopularSearchItems onClick={onTagClickSubmit} data-text={popularSearch.popular_results5}>
+                                                {popularSearch.popular_results5}
                                             </PopularSearchItems>
                                         </PopularSearchItemsWrapper>
                                         <PopularSearchItemsWrapper>
