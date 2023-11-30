@@ -26,9 +26,8 @@ export default function StyleBoardList() {
 
     const[dataLoaded, setDataLoaded] = useState(false)
 
-
-
-
+    const [recentSearch1, setRecentSearch1] = useState([null]);
+    const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
 
 
 
@@ -46,6 +45,23 @@ export default function StyleBoardList() {
 
 
                     console.log(response.data);
+
+                    setDataLoaded(true)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+                .then((response) => {
+                    setKeyword(response.data.search_history1.query);
+                    setRecentSearch1(response.data.search_history1.query);
+
+
+                    console.log(response.data.search_history1.query);
 
                     setDataLoaded(true)
                 })
@@ -100,7 +116,7 @@ export default function StyleBoardList() {
             <Searchbar>
                 <FireFilledIcon />
                 <SearchbarInput
-                    placeholder="검색어를 입력해 주세요."
+                    placeholder={recentSearch1}
                     onChange={handleChange}
                 />
             </Searchbar>

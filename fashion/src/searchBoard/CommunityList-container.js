@@ -31,56 +31,6 @@ export default function CommunityList() {
     const [recentSearch1, setRecentSearch1] = useState([null]);
     const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
 
-    useEffect(() => {
-        const fetchData = async () => { // * 이건 get하면 계속 get 요청해서 컴터 힘들어해서 한번 get 되면 반복 안되도록 하는 코드인데
-
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/boardType/1/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                setReqData([...response.data])
-
-                console.log(response.data);
-
-                setDataLoaded(true);
-
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/search/history/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                // * 여기서는 DB 설계상 받아오는 값이 딱 하나 있는게 아니고 속성이 여러개라서, 받아오는 값 중에 원하는 속성을 지정해줬슴미다 (.search_history1)
-                setRecentSearch1(response.data.search_history1);
-                setRecentSearch2(response.data.search_history2);
-                setRecentSearch3(response.data.search_history3);
-                setRecentSearch4(response.data.search_history4);
-                setRecentSearch5(response.data.search_history5);
-
-                // * 이거도 위에 try문처럼 반복 방지를 위해 추가함미도
-                setIsRecentSearch1Loaded(true);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-        };
-
-        // * 원하는 get 요청을 다 했다면 그동안 try문마다 true로 바꿔줬던 is~ 변수를 (accessToken && !username && !is어쩌구 && ...) 이렇게 추가합니당
-        if (accessToken && !isRecentSearch1Loaded && !setDataLoaded) {
-            fetchData();
-        }
-
-        // * 여기에도 is~ 추가해주세용 여긴 ! 없움
-    }, [accessToken, isRecentSearch1Loaded, dataLoaded]);
-
-
     useEffect(()=>{
         const fetchData = async () => {
 
@@ -101,22 +51,23 @@ export default function CommunityList() {
                 .catch(function (error) {
                     console.log(error);
                 });
-            // const response = await axios.get('http://127.0.0.1:8000/search/history/', {
-            //         headers: {
-            //             Authorization: `Bearer ${accessToken}`,
-            //         },
-            //     })
-            //     .then((response) => {
-            //         setRecentSearch1(response.data.search_history1);
-            //
-            //
-            //         console.log(response.data);
-            //
-            //         setDataLoaded(true)
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error);
-            //     });
+            const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((response) => {
+                    setKeyword(response.data.search_history1.query);
+                    setRecentSearch1(response.data.search_history1.query);
+
+
+                    console.log(response.data.search_history1.query);
+
+                    setDataLoaded(true)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
 
         }
 
@@ -164,7 +115,7 @@ export default function CommunityList() {
             <Searchbar>
                 <FireFilledIcon />
                 <SearchbarInput
-                    placeholder="검색어를 입력해 주세요."
+                    placeholder={recentSearch1}
                     onChange={handleChange}
                 />
             </Searchbar>
