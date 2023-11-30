@@ -25,6 +25,13 @@ export default function CommunityDetail() {
     const[deleteLoaded, setDeleteLoaded] = useState(false)
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type' : 'application/json'
+        },
+    }
+
     const fetchData = async () => {
         try {
             // Fetch board data
@@ -95,17 +102,17 @@ export default function CommunityDetail() {
 
 
 
-   const onClickReport = async () => {
+    const onClickReport = async () => {
 
-        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report`, {
+        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report/`, {
                boardID: boardID,
-               userID:1,
 
-           })
+           }, axiosConfig)
+
                .then(function (response) {
                    console.log(response.data);
 
-                   alert("신고접수가 완료되었습니다!")
+                   alert("신고접수가 성공적으로 완료되었습니다!")
 
 
                })
