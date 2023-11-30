@@ -243,7 +243,7 @@ export default function MainCotainer() {
                         // * 일단 (response.data) 하고 로그에 뭐라고 뜨는지 확인한 다음에 원하는 속성 이름을 .속성이름 해서 추가하면 쇽샥 가져오기 가능!
                         renderSearchResults(response.data.search_results); //
 
-                        // window.location.href = "http://localhost:3000/community";
+                        window.location.href = "http://localhost:3000/searchPage";
                     } else {
                         // Handle API error
                         console.error("검색 실패: " + response.data.message);
@@ -264,12 +264,16 @@ export default function MainCotainer() {
 
         axios.post("http://localhost:8000/search/", { query: buttonText }, axiosConfig)
             .then((response) => {
-                if (response.data.success) {
+                if (response.data.success) { // * 데이터 가져오는거 성공하면
 
                     console.log("검색 결과:");
                     console.log(response.data.search_results);
 
+                    // * 나는 받아온 데이터들 중에 search_results 속성에 있는 값을 써먹었숨미다
+                    // * 일단 (response.data) 하고 로그에 뭐라고 뜨는지 확인한 다음에 원하는 속성 이름을 .속성이름 해서 추가하면 쇽샥 가져오기 가능!
                     renderSearchResults(response.data.search_results); //
+
+                    window.location.href = "http://localhost:3000/searchPage";
                 } else {
                     // Handle API error
                     console.error("검색 실패: " + response.data.message);
