@@ -10,6 +10,8 @@ import {
     Line,
 } from '../../../styles/styles/BoardsMessage'
 
+//권한추가, 메세지&나에게쪽지쓴사람 백엔드에 올리는코드 추가해야뎀
+
 export default function BoardsNotePage() {
     const [notes, setNotes] = useState([]);
 
@@ -17,7 +19,7 @@ export default function BoardsNotePage() {
         const newNote = {
             id: notes.length + 1,
             userName: `사용자${notes.length + 1}`, // 사용자 이름 예시
-            content: `쪽지 내용 ${notes.length + 1}`,
+            content: `쪽지 제목 ${notes.length + 1}`,
         };
 
         setNotes([...notes, newNote]);
