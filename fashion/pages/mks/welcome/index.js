@@ -28,9 +28,6 @@ export default function BoardsWelcomePage(){
                     <GoLoginBtn onClick={onClickGoLogin}>
                         로그인하러 가기
                     </GoLoginBtn>
-                    <GoOptionBtn onClick={onClickSelectStyle}>
-                        개인정보 입력하러 가기
-                    </GoOptionBtn>
                 </BtnWrapper>
             </ConsentWrapper>
         </Wrapper>
