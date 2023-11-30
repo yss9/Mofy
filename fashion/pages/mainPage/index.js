@@ -9,18 +9,12 @@ import {
     TagButton, MoreTagButton, PopularSearchItemsWrapper, PopularSearchWrapper, TagButtonWrapper,
     TagWrapper, RecommendSearchWrapper, RecommendSearchText, RecommendSearchButton
 } from '../../styles/mainPageStyle'
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie'; // * 쿠키 import!
-// import {WeatherApp} from './WeatherApp'
+import Cookies from 'js-cookie';
+import _ from "lodash"; // * 쿠키 import!
+// import { GlobalProvider, useGlobalContext } from '../../GlobalContext';
 
-// window.sharedVariable = 'Hello from file1!';
-
-// module.exports = {
-//     myGlobalVariable: 'This is a global variable',
-// };
-// console.log("myGlobalVariable");
-// console.log(myGlobalVariable);
 
 // ================================== 앞에 * 있는 주석은 권한 설명임미다 ======================================
 
@@ -60,7 +54,6 @@ export default function MainCotainer() {
     const [recommendSearch4, setRecommendSearch4] = useState([null]);
     const [recommendSearch5, setRecommendSearch5] = useState([null]);
     const [exportSearch, setExportSearch] = useState("");
-
 
 
     console.log("recentSearch1")
@@ -171,6 +164,7 @@ export default function MainCotainer() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+
         };
 
         // * 원하는 get 요청을 다 했다면 그동안 try문마다 true로 바꿔줬던 is~ 변수를 (accessToken && !username && !is어쩌구 && ...) 이렇게 추가합니당
@@ -218,6 +212,9 @@ export default function MainCotainer() {
             console.log("Request Data:", { query: search });
             console.log("Request Headers:", axiosConfig.headers);
 
+            // console.log("goSearch");
+            // console.log(goSearch);
+
             axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
                 .then((response) => {
                     if (response.data.success) { // * 데이터 가져오는거 성공하면
@@ -229,7 +226,7 @@ export default function MainCotainer() {
                         // * 일단 (response.data) 하고 로그에 뭐라고 뜨는지 확인한 다음에 원하는 속성 이름을 .속성이름 해서 추가하면 쇽샥 가져오기 가능!
                         renderSearchResults(response.data.search_results); //
 
-                        window.location.href = "http://localhost:3000/community";
+                        // window.location.href = "http://localhost:3000/community";
                     } else {
                         // Handle API error
                         console.error("검색 실패: " + response.data.message);
