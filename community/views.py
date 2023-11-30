@@ -8,13 +8,14 @@ import extcolors
 
 from rest_framework import status
 from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from accounts.models import User
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
     ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers
-from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard, PhotoSave
+from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard, PhotoSave, Message
 
 
 def pal_crt(image):
@@ -45,7 +46,7 @@ def pal_crt(image):
     return rs_image
 
 
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 class Test(APIView):
 
     def get(self, request):
@@ -73,6 +74,7 @@ class BoardList(APIView):
         serializer = BoardSerializers(boards, many=True)
         return Response(serializer.data)
 
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         if request.user.is_authenticated:
             request.data['userID'] = request.user.id
@@ -112,6 +114,7 @@ class TagDetail(APIView):
 
 
 class SelectBoardType(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, pk, format=None):
         board = Board.objects.filter(boardType=pk)
         serializer = BoardSerializers(board, many=True)
@@ -125,8 +128,9 @@ class BoardDetail(APIView):
         board_serializer = BoardSerializers(board)
         return Response(board_serializer.data)
 
-
+    permission_classes = [IsAuthenticated]
     def post(self, request, pk, format=None):
+        request.data['userID'] = request.user.id
         serializer = CommentSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -134,8 +138,9 @@ class BoardDetail(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-
+    permission_classes = [IsAuthenticated]
     def put(self, request, pk, format=None):
+        request.data['userID'] = request.user.id
         board = Board.objects.get(pk=pk)
         serializer = BoardSerializers(board, data=request.data)
         if serializer.is_valid():
@@ -143,7 +148,10 @@ class BoardDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+    permission_classes = [IsAuthenticated]
     def delete(self, request, pk, format=None):
+        request.data['userID'] = request.user.id
         board = Board.objects.get(pk=pk)
         board.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -151,6 +159,7 @@ class BoardDetail(APIView):
 
 
 class CommentDetail(APIView):
+    permission_classes = [AllowAny]
     def get(self, request, pk, format=None):
         board = Board.objects.get(pk=pk)
         boardID = board.boardID
@@ -159,9 +168,10 @@ class CommentDetail(APIView):
         return Response(comment_serializer.data)
 
 
-
+@permission_classes([IsAuthenticated])
 class CommentPutDel(APIView):
     def put(self, request, pk, format=None):
+        request.data['userID'] = request.user.id
         comment = Comment.objects.get(pk=pk)
         serializer = CommentSerializers(comment, data=request.data)
         if serializer.is_valid():
@@ -170,6 +180,7 @@ class CommentPutDel(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
+        request.data['userID'] = request.user.id
         comment = Comment.objects.get(pk=pk)
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -177,54 +188,68 @@ class CommentPutDel(APIView):
 
 
 class LikeDetail(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request, pk, format=None):
-        board = Board.objects.get(pk=pk)
-        boardID = board.boardID
-        like = Like.objects.filter(boardID=boardID)
+        like = Like.objects.filter(boardID=pk)
         like_serializer = LikeSerializers(like, many=True)
         return Response(like_serializer.data)
 
+
+    permission_classes = [IsAuthenticated]
     def post(self, request, pk, format=None):
-        boardID = request.data['boardID']
-        userID = request.data['userID']
-        like = Like.objects.filter(boardID=boardID, userID=userID)
+        board = Board.objects.get(boardID=pk)
+        user = User.objects.get(id=request.user.id)
+        like = Like.objects.filter(boardID=board, userID=user)
         if like:
             like.delete()
             return Response(status=status.HTTP_200_OK)
         else:
-            serializer = LikeSerializers(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data,status=status.HTTP_201_CREATED)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            Like.objects.create(boardID=board, userID=user)
+            return Response(status=status.HTTP_201_CREATED)
+
 
 
 
 class Report(APIView):
+    permission_classes = [IsAdminUser]
     def get(self, request,pk):
         reportList = ReportBoardList.objects.all()
         reportList_serializer = ReportBoardListSerializers(reportList, many=True)
         return Response(reportList_serializer.data,status=status.HTTP_200_OK)
 
+    permission_classes = [IsAuthenticated]
     def post(self, request, pk):
-        reportBoard = ReportBoardList.objects.get(boardID=pk)
-        if reportBoard:
-            return Response(status=status.HTTP_208_ALREADY_REPORTED)
-        else:
-            ReportBoardList.objects.create(boardID=pk)
-            return Response(status=status.HTTP_200_OK)
+        board = Board.objects.get(boardID = pk)
+        reported_user = board.userID
+        ReportBoardList.objects.create(boardID=board,userID=reported_user)
+        return Response(status=status.HTTP_200_OK)
 
 
 
-
+@permission_classes([AllowAny])
 class StyleRankView(APIView):
     def get(self, request):
         one_week = datetime.now() - timedelta(days=7)
         styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:4]
-        print(styleranks.values())
         serializers = BoardSerializers(styleranks, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
 
 
+class GetMyBoard(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, pk):
+        boardType = pk
+        id = request.user.id
+        board = Board.objects.filter(boardType = boardType, userID = id)
+        serializer = BoardSerializers(board, many = True)
+        return Response(serializer.data, status = status.HTTP_200_OK)
 
+
+class GetMyLikeBoard(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        id = request.user.id
+        like = Like.objects.filter(userID = id)
+        serializer = LikeSerializers(like, many = True)
+        return Response(serializer.data, status = status.HTTP_200_OK)
 
