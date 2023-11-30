@@ -1,4 +1,4 @@
-import StyleBoardWrite from "@/src/styleBoard/write/StyleBoardWrite-container";
+import StyleBoardWrite from "../../../../src/styleBoard/write/StyleBoardWrite-container";
 
 
 export default function StyleBoardEditPage(){
