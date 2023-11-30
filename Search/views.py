@@ -79,7 +79,6 @@ class PostSearchView(APIView):
 #             "search_history4": serializer.data[3],
 #             "search_history5": serializer.data[4],
 #         }, status=status.HTTP_201_CREATED)
-
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 class SearchHistoryView(APIView):
@@ -98,10 +97,12 @@ class SearchHistoryView(APIView):
             query__in=recent_search_queries) \
             .order_by('-searched_at')[:5]
 
-        # Serializer를 사용하여 검색 기록 직렬화
+        # 수정된 Serializer를 사용하여 검색 기록 직렬화
         serializer = SearchHistorySerializer(search_history, many=True)
 
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+#
 # class SearchHistoryView(APIView):
 #     def get(self, request):
 #         user = request.user
