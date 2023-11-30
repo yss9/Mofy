@@ -165,6 +165,14 @@ class UserInfoView(APIView):
         return Response({"username": user.name})
 
 
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class Userid(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        return Response({"userID": user.id})
+
+
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 class UserEdit(APIView):

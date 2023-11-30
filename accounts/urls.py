@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 from .views import UserInfoView, UserEdit, Userdelete, Userweight, Userheight, Usershoesize, UserclothType, \
-    UserskinType, upload_image, UserImage
+    UserskinType, upload_image, UserImage, Userid
 
 login_patterns = [
     path('normal/', views.login, name='login'),
@@ -18,6 +18,7 @@ urlpatterns = [
     path('reset_password/step3/', views.reset_password_step3, name='reset_password_step3'),
     path('useredit/', UserEdit.as_view(), name='user-edit'),
     path('userdelete/', Userdelete.as_view(), name='user-delete'),
+    path('userinfoid/', Userid.as_view(), name='user-info0'),
     path('userinfo/', UserInfoView.as_view(), name='user-info'),
     path('userinfo2/', Userweight.as_view(), name='user-info2'),
     path('userinfo3/', Userheight.as_view(), name='user-info3'),
