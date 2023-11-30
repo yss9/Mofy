@@ -7,6 +7,9 @@ import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils";
 
+// file2.js
+// console.log(window.sharedVariable);  // 출력: Hello from file1!
+
 
 const SECRET = "!@#$";
 
@@ -20,8 +23,6 @@ export default function CommunityList() {
 
     const [reqData, setReqData] = useState([])
     const [keyword, setKeyword] = useState("")
-
-
 
 
 

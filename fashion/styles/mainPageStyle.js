@@ -469,7 +469,7 @@ export const WeatherInfo = styled.div`
   color: #311f20;
   float: right;
 `
-export const CommunityText = styled.div`
+export const CommunityText = styled.button`
   width: 320px;
   height: 50px;
   font-size: 25px;
