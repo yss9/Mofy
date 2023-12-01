@@ -50,16 +50,12 @@ export default function BoardNewPage() {
     const [classic, setClassic] = useState(false);
     // const [modern, setModern] = useState(false);
 
-<<<<<<< HEAD
     const [normal, setnormal] = useState(false);
     const [dry, setdry] = useState(false);
     const [oily, setoily] = useState(false);
     const [combination, setcombination] = useState(false);
     const [sensitive, setsensitive] = useState(false);
     const [acne, setacne] = useState(false);
-=======
-
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
 
 
     const [nameError, setNameError] = useState("");
@@ -144,157 +140,126 @@ export default function BoardNewPage() {
     }
     const onClickSimple = () => {
         if (!simple){
-<<<<<<< HEAD
             setSimple(!simple);
         }
         else{
             setSimple(!simple);
-=======
             setSimple(true);
         }
         else{
             setSimple(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickModern = () => {
         if (!modern){
-<<<<<<< HEAD
             setModern(!modern);
         }
         else{
             setModern(!modern);
-=======
             setModern(true);
         }
         else{
             setModern(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickFeminine = () => {
         if (!feminine){
-<<<<<<< HEAD
             setFeminine(!feminine);
         }
         else{
             setFeminine(!feminine);
-=======
             setFeminine(true);
         }
         else{
             setFeminine(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickDandy = () => {
         if (!dandy){
-<<<<<<< HEAD
             setDandy(!dandy);
         }
         else{
             setDandy(!dandy);
-=======
             setDandy(true);
         }
         else{
             setDandy(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickRetro = () => {
         if (!retro){
-<<<<<<< HEAD
             setRetro(!retro);
         }
         else{
             setRetro(!retro);
-=======
             setRetro(true);
         }
         else{
             setRetro(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickMinimal = () => {
         if (!minimal){
-<<<<<<< HEAD
             setMinimal(!minimal);
         }
         else{
             setMinimal(!minimal);
-=======
             setMinimal(true);
         }
         else{
             setMinimal(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickCasual = () => {
         if (!casual){
-<<<<<<< HEAD
             setCasual(!casual);
         }
         else{
             setCasual(!casual);
-=======
             setCasual(true);
         }
         else{
             setCasual(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickStreet = () => {
         if (!street){
-<<<<<<< HEAD
             setStreet(!street);
         }
         else{
             setStreet(!street);
-=======
             setStreet(true);
         }
         else{
             setStreet(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickSporty = () => {
         if (!sporty){
-<<<<<<< HEAD
             setSporty(!sporty);
         }
         else{
             setSporty(!sporty);
-=======
             setSporty(true);
         }
         else{
             setSporty(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickUrban = () => {
         if (!urban){
-<<<<<<< HEAD
             setUrban(!urban);
         }
         else{
             setUrban(!urban);
-=======
             setUrban(true);
         }
         else{
             setUrban(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
     const onClickClassic = () => {
         if (!classic){
-<<<<<<< HEAD
             setClassic(!classic);
         }
         else{
@@ -349,12 +314,10 @@ export default function BoardNewPage() {
         }
         else{
             setacne(!acne);
-=======
             setClassic(true);
         }
         else{
             setClassic(false);
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
         }
     }
 
@@ -408,7 +371,6 @@ export default function BoardNewPage() {
 
 
         axios.post('http://127.0.0.1:8000/clothTypeSet/', {
-<<<<<<< HEAD
             Simple: simple,
             Modern: modern,
             Feminine: feminine,
@@ -442,7 +404,6 @@ export default function BoardNewPage() {
             combination: combination,
             sensitive: sensitive,
             acne: acne,
-=======
             simple: simple,
             modern: modern,
             feminine: feminine,
@@ -451,7 +412,6 @@ export default function BoardNewPage() {
             sporty: sporty,
             urban: urban,
             classic: classic,
->>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
 
             // skinType: Array.from(skinTypeArray),
         }, {
