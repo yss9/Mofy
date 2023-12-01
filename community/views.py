@@ -314,6 +314,9 @@ class MessageDetail(APIView):
         return Response(serializers.data, status = status.HTTP_200_OK)
 
 
+
+'''
+
 @authentication_classes([JWTAuthentication])
 @permission_classes([AllowAny])
 class SearchTag(APIView):
@@ -325,3 +328,4 @@ class SearchTag(APIView):
         taged_boards = Board.objects.filter(boardID__in = board_ids)
         serializer = BoardSerializers(taged_boards, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+'''
