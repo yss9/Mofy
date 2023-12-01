@@ -5,6 +5,7 @@ import * as S from "./colorPaletteStyles";
 import {ImageBox} from "./colorPaletteStyles";
 import { PlusOutlined } from '@ant-design/icons';
 import { Input, Space, Tag, theme, Tooltip } from 'antd';
+import Cookies from "js-cookie";
 
 export default function ColorPaletteWrite(props){
     const router = useRouter()
@@ -12,6 +13,8 @@ export default function ColorPaletteWrite(props){
     const [isOpen, setIsOpen] = useState(false);
     const [reqData, setReqData] = useState([])
 
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
 
 
 
@@ -43,6 +46,7 @@ export default function ColorPaletteWrite(props){
             const result = await axios.post("http://127.0.0.1:8000/Test/", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${accessToken}`,
                 },
 
             })

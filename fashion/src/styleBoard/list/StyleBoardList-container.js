@@ -116,7 +116,6 @@ export default function StyleBoardList() {
 
             <S.TableTop />
             <S.Row>
-                <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
                 <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
                 {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
                 <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
@@ -126,7 +125,6 @@ export default function StyleBoardList() {
             {reqData.filter(el => el.title.includes(keyword)).map(el => (
                     <S.Row key={el.boardID}>
 
-                        <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
                         <S.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
 
                             {el.title

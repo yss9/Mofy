@@ -4,17 +4,26 @@ import {useState} from "react";
 import axios from "axios";
 import {useRouter} from "next/router";
 import { Flex, Input } from 'antd';
+import Cookies from "js-cookie";
 const { TextArea } = Input;
 export default function BoardCommentWrite(){
     const router = useRouter()
     const {boardID} = router.query
 
-   /* const [inputs, setInputs] = useState({
-        comment:"",
-    })*/
 
     const [comment, setComment] = useState("")
-    //const [datetime, setDatetime] = useState(null)
+
+
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
+
+
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type' : 'application/json'
+        },
+    }
 
     const onChangeComment = (event) => {
         setComment(event.target.value)
@@ -23,17 +32,15 @@ export default function BoardCommentWrite(){
 
 
 
-
-
-   const onClickSubmit = async () => {
+    const onClickSubmit = async () => {
         const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/`, {
             comment: comment,
             userID: 1,
             boardID: boardID,
-        })
+        }, axiosConfig)
             .then(function (response) {
                 console.log(response.data.boardID);
-                alert("댓글 등록이 정상적으로 완료되었습니다!")
+                alert("댓글 등록이 정상적으로 완료되었습니다!(페이지를 나갔다 다시 들어오세요)")
                 setComment("")
 
 
@@ -54,7 +61,7 @@ export default function BoardCommentWrite(){
 
         return(
             <>
-                 작성자<br/>
+
                     <TextArea
                         showCount
                         maxLength={100}
@@ -64,6 +71,7 @@ export default function BoardCommentWrite(){
                             height: 200,
                             resize: 'none',
                             width: 800,
+                            marginLeft:"300px"
                         }}
                     />
            {/*   내용: <input type="text" id= "comment" onChange={onChangeComment}/>*/}

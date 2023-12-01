@@ -7,7 +7,6 @@ import {getDate} from "../../commons/libraries/utils";
 import { CommentOutlined } from '@ant-design/icons';
 import React from 'react';
 import { FloatButton , Button, Popover} from 'antd';
-import Chat from '../../../pages/mks/messenger/chat';
 import Cookies from "js-cookie";
 
 
@@ -36,6 +35,13 @@ export default function MarketBoardDetail() {
 
 
     const [showChat, setShowChat] = useState(false);
+
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type' : 'application/json'
+        },
+    }
 
 
     const fetchData = async () => {
@@ -144,6 +150,26 @@ export default function MarketBoardDetail() {
         setShowChat(!showChat);
     };
 
+    const onClickReport = async () => {
+
+        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report/`, {
+            boardID: boardID,
+
+        }, axiosConfig)
+
+            .then(function (response) {
+                console.log(response.data);
+
+                alert("신고접수가 성공적으로 완료되었습니다!")
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+    }
+
 
     return (
         <S.Wrapper>
@@ -161,8 +187,9 @@ export default function MarketBoardDetail() {
                     </S.AvatarWrapper>
                     <S.IconWrapper>
                         <Popover content={address? address:"사용자가 위치설정을 하지 않았어요"} title="위치">
-                            <Button type="primary">여기서 만나요!</Button>
+                            <Button type="primary" style={{marginRight: "30px"}}>여기서 만나요!</Button>
                         </Popover>
+                        <Button danger onClick={onClickReport}>신고하기</Button>
                     </S.IconWrapper>
                 </S.Header>
                 <S.Body>

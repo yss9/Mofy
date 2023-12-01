@@ -118,3 +118,10 @@ export const Image = styled.img`
   height: 480px;
   margin-bottom: 30px;
 `;
+
+
+export const TagWrapper = styled.div`
+  display: flex;
+  margin-top: 20px;
+
+`

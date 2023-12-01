@@ -22,6 +22,7 @@ export default function StyleBoardDetail() {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [datetime, setDatetime] = useState(null)
+    const [like_num, setLike_num] = useState(0)
     const [imageURL, setImageURL] = useState(null);
     const [tagList, setTagList] = useState([]);
 
@@ -87,6 +88,7 @@ export default function StyleBoardDetail() {
             setContent(imageResponse.data.content);
             setDatetime(imageResponse.data.datetime);
             setTagList(imageResponse.data.tags.split(',')); // 쉼표로 분할하여 배열로 설정
+            setLike_num(imageResponse.data.like_num)
             setDataLoaded(true);
 
             // Fetch user data
@@ -98,60 +100,6 @@ export default function StyleBoardDetail() {
 
             setUsername(userResponse.data);
             setIsImgDataLoaded(true);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-        try {
-            // 이미지 및 게시물 데이터를 병렬로 불러오기
-            const imageResponse = await axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            })
-
-
-            // 이미지 URL이 상대 경로로 저장되어 있으므로, 기본 URL과 결합하여 전체 URL 생성
-            const baseURL = 'http://127.0.0.1:8000';
-            const fullURL = baseURL + imageResponse.data.image;
-
-            // 이미지를 불러오기
-            const imageBlobResponse = await axios.get(fullURL, {
-                responseType: 'arraybuffer',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            if (imageBlobResponse.status === 200) {
-                const contentType = imageBlobResponse.headers['content-type'];
-                const blob = new Blob([imageBlobResponse.data], {type: contentType});
-
-                // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
-                const objectURL = URL.createObjectURL(blob);
-                setImageURL(objectURL);
-            } else {
-                console.error('Failed to fetch image');
-            }
-
-
-            console.log(imageResponse.data)
-
-            // 게시물 데이터 설정
-            setTitle(imageResponse.data.title);
-            setContent(imageResponse.data.content);
-            setDatetime(imageResponse.data.datetime);
-            setTags(imageResponse.data.tags)
-            setDataLoaded(true);
-
-            // Fetch user data
-            const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            setUsername(userResponse.data);
-            setIsUserDataLoaded(true);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -177,14 +125,12 @@ export default function StyleBoardDetail() {
             setIsLiked(!isLiked);
 
             // Make a POST request to the Django backend API endpoint
-            const response = await axios.post("http://127.0.0.1:8000/board/6/like/", {
-                boardID: 6,
+            const response = await axios.post(`http://127.0.0.1:8000/board/${boardID}/like/`, {
+                boardID: boardID,
 
             }, axiosConfig);
 
-
             console.log(response.data);
-
 
         } catch (error) {
             console.error('Error updating like status', error);
@@ -219,7 +165,28 @@ export default function StyleBoardDetail() {
         } catch (error) {
             console.log(error);
         }
-    };
+    }
+
+
+    const onClickReport = async () => {
+
+        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report/`, {
+            boardID: boardID,
+
+        }, axiosConfig)
+
+            .then(function (response) {
+                console.log(response.data);
+
+                alert("신고접수가 성공적으로 완료되었습니다!")
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+    }
 
 
 
@@ -238,12 +205,18 @@ export default function StyleBoardDetail() {
                             </S.CreatedAt>
                         </S.Info>
                     </S.AvatarWrapper>
+                    <S.IconWrapper>
+                        <Button danger onClick={onClickReport}>신고하기</Button>
+                    </S.IconWrapper>
                 </S.Header>
+
+                <S.TagWrapper>
                 {tagList.map((tag, index) => (
                     <Tag key={index} color={tagColors[index % tagColors.length]}>
-                        {tag}
+                        #{tag}
                     </Tag>
                 ))}
+              </S.TagWrapper>
 
 
 
@@ -253,8 +226,8 @@ export default function StyleBoardDetail() {
                     <S.Contents>{content}</S.Contents>
                     <S.ImageWrapper>{imageURL && <S.Image src={imageURL} alt="Fetched" />}</S.ImageWrapper>
 
-                   {/* <p>{likes} 좋아요</p>*/}
-                    <Button type="primary" danger onClick={handleLikeClick}>
+
+                    <Button type="primary" danger onClick={handleLikeClick} style={{marginLeft: "450px"}}>
                         {isLiked ? '좋아요 취소' : '스타일 좋아요!'}
                     </Button>
                 </S.Body>

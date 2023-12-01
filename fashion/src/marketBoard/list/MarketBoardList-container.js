@@ -7,6 +7,7 @@ import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils";
 import Cookies from "js-cookie";
+import { Button } from 'antd';
 
 
 const SECRET = "!@#$";
@@ -93,6 +94,9 @@ export default function MarketBoardList() {
     setKeyword(value);
   };
 
+  const onClickChat = () => {
+      window.location.href = "http://localhost:3000/mks/writeMessage/"
+  }
 
     return (
         <S.Wrapper>
@@ -105,23 +109,25 @@ export default function MarketBoardList() {
             </Searchbar>
 
             <h2>중고마켓</h2>
+            <Button type="primary" onClick={onClickChat}>1:1 채팅하기</Button>
 
             <S.TableTop />
             <S.Row>
-                <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
-                <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
                 <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
                 {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
                 <S.ColumnHeaderBasic>가격</S.ColumnHeaderBasic>
                 <S.ColumnHeaderBasic>판매상태</S.ColumnHeaderBasic>
+                <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
             </S.Row>
+
+
 
 
             {reqData.filter(el => el.title.includes(keyword)).map(el => (
                     <S.Row key={el.boardID}>
 
-                        <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
-                        <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
+
+
                         <S.ColumnTitle id={el.boardID}  props ={eventData} onClick={onClickMoveToBoardDetail} >
 
                             {el.title
@@ -135,6 +141,7 @@ export default function MarketBoardList() {
                         </S.ColumnTitle>
                         <S.ColumnBasic>{el.price}원</S.ColumnBasic>
                         <S.ColumnBasic>{el.state ? "판매중" : "판매완료"}</S.ColumnBasic>
+                        <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
                     </S.Row>
                 ))}
 
