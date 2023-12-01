@@ -32,16 +32,13 @@ class PostSearchView(APIView):
 
         search_results = Board.objects.filter(Q(title__icontains=query) | Q(tags__icontains=query)).distinct()
 
-        # Check if the user has searched the same query before
         existing_search_history = SearchHistory.objects.filter(user=user, query=query).first()
 
         if existing_search_history:
-            # Increment the count for the existing search history
             existing_search_history.count = F('count') + 1
             existing_search_history.searched_at = timezone.now()  # 현재 시간으로 갱신
             existing_search_history.save()
         else:
-            # Save a new search history for the user and query
             SearchHistory.objects.create(user=user, query=query)
 
         # Board 모델의 title로 검색
@@ -69,7 +66,6 @@ class SearchHistoryView(APIView):
             query__in=recent_search_queries) \
             .order_by('-searched_at')[:5]
 
-        # 수정된 Serializer를 사용하여 검색 기록 직렬화
         serializer = SearchHistorySerializer(search_history, many=True)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
