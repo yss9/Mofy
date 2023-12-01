@@ -1,19 +1,18 @@
-//나은 원본 코드
-
 import { useRouter } from "next/router";
 import {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import * as S from "../../../src/community/list/CommunityList-styles";
-import {FireFilledIcon, Searchbar, SearchbarInput} from "../searchbars/01/Searchbars01-styles";
+import * as S from "../marketBoard/list/MarketBoardList-styles";
+import {FireFilledIcon, Searchbar, SearchbarInput} from "../marketBoard/searchbars/01/Searchbars01-styles";
 import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
-import {getDate} from "../../commons/libraries/utils";
-import Cookies from "js-cookie"
+import {getDate} from "../commons/libraries/utils";
+import Cookies from "js-cookie";
+
 
 const SECRET = "!@#$";
 
 
-export default function CommunityList() {
+export default function MarketBoardList() {
 
 
     const router = useRouter();
@@ -23,10 +22,14 @@ export default function CommunityList() {
     const [reqData, setReqData] = useState([])
     const [keyword, setKeyword] = useState("")
 
+
     const accessToken = Cookies.get('access_token')
     const refreshToken = Cookies.get('refresh_token')
 
     const[dataLoaded, setDataLoaded] = useState(false)
+
+    const [recentSearch1, setRecentSearch1] = useState([null]);
+    const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
 
 
 
@@ -35,16 +38,33 @@ export default function CommunityList() {
         const fetchData = async () => {
 
             console.log("마운트가 완료되었디!")
-            const result = await axios.get("http://127.0.0.1:8000/boardType/1/", {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    }
-                })
+            const result = await axios.get("http://127.0.0.1:8000/boardType/3/", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            })
                 .then((response) => {
                     setReqData([...response.data])
 
 
                     console.log(response.data);
+
+                    setDataLoaded(true)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+                .then((response) => {
+                    setKeyword(response.data.search_history1.query);
+                    setRecentSearch1(response.data.search_history1.query);
+
+
+                    console.log(response.data.search_history1.query);
 
                     setDataLoaded(true)
                 })
@@ -73,14 +93,16 @@ export default function CommunityList() {
     };
 
 
+
+
     const onClickMoveToBoardNew = () => {
-    router.push("/community/new");
+    router.push("/marketBoard/new");
   }
 
   let eventData ;
 
   const onClickMoveToBoardDetail = (event) => {
-    router.push(`/community/${event.target.id}`);
+    router.push(`/marketBoard/${event.target.id}`);
     console.log(event.target.id)
 
 
@@ -97,25 +119,29 @@ export default function CommunityList() {
             <Searchbar>
                 <FireFilledIcon />
                 <SearchbarInput
-                    placeholder="검색어를 입력해 주세요."
+                    placeholder={recentSearch1}
                     onChange={handleChange}
                 />
             </Searchbar>
-
-            커뮤니티
+            중고마켓
 
             <S.TableTop />
             <S.Row>
+                <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
+                <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
                 <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
                 {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
-                <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
+                <S.ColumnHeaderBasic>가격</S.ColumnHeaderBasic>
+                <S.ColumnHeaderBasic>판매상태</S.ColumnHeaderBasic>
             </S.Row>
 
 
             {reqData.filter(el => el.title.includes(keyword)).map(el => (
                     <S.Row key={el.boardID}>
 
-                        <S.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
+                        <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
+                        <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
+                        <S.ColumnTitle id={el.boardID}  props ={eventData} onClick={onClickMoveToBoardDetail} >
 
                             {el.title
                                 .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
@@ -126,9 +152,9 @@ export default function CommunityList() {
                                     </S.TextToken>
                                 ))}
                         </S.ColumnTitle>
-                       <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
+                        <S.ColumnBasic>{el.price}원</S.ColumnBasic>
+                        <S.ColumnBasic>{el.state ? "판매중" : "판매완료"}</S.ColumnBasic>
                     </S.Row>
-
                 ))}
 
 
@@ -137,7 +163,7 @@ export default function CommunityList() {
                 {/*  <Paginations01 refetch={props.refetch} count={props.count} />*/}
                 <S.Button onClick={onClickMoveToBoardNew}>
                     {/*<S.PencilIcon src="/images/board/list/write.png" />*/}
-                    게시물 등록하기
+                    판매글 올리기
                 </S.Button>
             </S.Footer>
         </S.Wrapper>

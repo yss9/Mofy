@@ -37,6 +37,22 @@ export default function BoardNewPage() {
     const [weight, setWeight] = useState("");
     const [shoeSize, setShoeSize] = useState("");
 
+    const [simple, setSimple] = useState(false);
+    const [modern, setModern] = useState(false);
+    const [feminine, setFeminine] = useState(false);
+    const [dandy, setDandy] = useState(false);
+    const [retro, setRetro] = useState(false);
+    const [minimal, setMinimal] = useState(false);
+    const [casual, setCasual] = useState(false);
+    const [street, setStreet] = useState(false);
+    const [sporty, setSporty] = useState(false);
+    const [urban, setUrban] = useState(false);
+    const [classic, setClassic] = useState(false);
+    // const [modern, setModern] = useState(false);
+
+
+
+
     const [nameError, setNameError] = useState("");
     const [pwError, setPwError] = useState("");
     const [heightError, setHeightError] = useState("");
@@ -117,6 +133,94 @@ export default function BoardNewPage() {
             setShoeSizeError("")
         }
     }
+    const onClickSimple = () => {
+        if (!simple){
+            setSimple(true);
+        }
+        else{
+            setSimple(false);
+        }
+    }
+    const onClickModern = () => {
+        if (!modern){
+            setModern(true);
+        }
+        else{
+            setModern(false);
+        }
+    }
+    const onClickFeminine = () => {
+        if (!feminine){
+            setFeminine(true);
+        }
+        else{
+            setFeminine(false);
+        }
+    }
+    const onClickDandy = () => {
+        if (!dandy){
+            setDandy(true);
+        }
+        else{
+            setDandy(false);
+        }
+    }
+    const onClickRetro = () => {
+        if (!retro){
+            setRetro(true);
+        }
+        else{
+            setRetro(false);
+        }
+    }
+    const onClickMinimal = () => {
+        if (!minimal){
+            setMinimal(true);
+        }
+        else{
+            setMinimal(false);
+        }
+    }
+    const onClickCasual = () => {
+        if (!casual){
+            setCasual(true);
+        }
+        else{
+            setCasual(false);
+        }
+    }
+    const onClickStreet = () => {
+        if (!street){
+            setStreet(true);
+        }
+        else{
+            setStreet(false);
+        }
+    }
+    const onClickSporty = () => {
+        if (!sporty){
+            setSporty(true);
+        }
+        else{
+            setSporty(false);
+        }
+    }
+    const onClickUrban = () => {
+        if (!urban){
+            setUrban(true);
+        }
+        else{
+            setUrban(false);
+        }
+    }
+    const onClickClassic = () => {
+        if (!classic){
+            setClassic(true);
+        }
+        else{
+            setClassic(false);
+        }
+    }
 
     // const [clothTypes, setClothTypes] = useState(["Shirt", "Pants", "Jacket"]);
 
@@ -131,7 +235,19 @@ export default function BoardNewPage() {
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');
     const onClickSave = () => {
-        window.location.href="http://localhost:3000/myPage"
+        // window.location.href="http://localhost:3000/myPage"
+        console.log(simple)
+        console.log(modern)
+        console.log(feminine)
+        console.log(dandy)
+        console.log(retro)
+        console.log(minimal)
+        console.log(casual)
+        console.log(street)
+        console.log(sporty)
+        console.log(urban)
+        console.log(classic)
+
 
         axios.post('http://127.0.0.1:8000/useredit/', {
             name: name,
@@ -139,8 +255,8 @@ export default function BoardNewPage() {
             weight: weight,
             height: height,
             shoeSize: shoeSize,
-            clothType: Array.from(clothTypeArray),
-            skinType: Array.from(skinTypeArray),
+
+            // skinType: Array.from(skinTypeArray),
         }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -148,29 +264,40 @@ export default function BoardNewPage() {
             },
         })
 
+
+
             .catch(error => {
                 console.error('서버 요청 오류:', error);
             });
+
+
+        axios.post('http://127.0.0.1:8000/clothTypeSet/', {
+            simple: simple,
+            modern: modern,
+            feminine: feminine,
+            casual: casual,
+            street: street,
+            sporty: sporty,
+            urban: urban,
+            classic: classic,
+
+            // skinType: Array.from(skinTypeArray),
+        }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+        })
+
+
+
+            .catch(error => {
+                console.error('서버 요청 오류:', error);
+            });
+
     }
-    // if (accessToken) {
-    //     // 서버로 토큰과 함께 요청을 보냄
-    //     axios.post('http://127.0.0.1:8000/userinfo/', {
-    //         headers: {
-    //             Authorization: `Bearer ${accessToken}`,
-    //         },
-    //         userID:setId ,
-    //         password: setPw,
-    //         weight: setWeight,
-    //         height: setHeight
-    //     })
-    //         .then(response => {
-    //             // 서버에서 받은 사용자 정보를 상태에 저장
-    //             setUsername(response.data.username);
-    //         })
-    //         .catch(error => {
-    //             console.error('서버 요청 오류:', error);
-    //         });
-    // }
+
+
     const handleClick = () => {
         // 클릭 상태를 반전시킵니다.
         setClicked(!isClicked);
@@ -218,7 +345,7 @@ export default function BoardNewPage() {
                     <Mid>
                         <EditText>프로필 수정</EditText>
                         <EditImgWrapper>
-                            <UserImg src={imgFile ? imgFile :"https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"}/>
+                            <UserImg src={imgFile ? imgFile :"images/nothingImg.png"}/>
                             <label>
                                 <OverlayImage src={"https://cdn-icons-png.flaticon.com/512/5218/5218413.png"}/>
                                 <OverlayImageInput type="file" accept="image/*" onChange={saveImgFile} ref={imgRef}/>
@@ -241,21 +368,17 @@ export default function BoardNewPage() {
                         <EditClothTypeWrapper>
                             <EditClothTypeText>옷 타입</EditClothTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton onClick={handleClick}>
-                                    #Simple
-                                    {/*{isClicked ? '클릭됨' : '클릭 안됨'}*/}
-
-                                </EditTypeButton>
-                                <EditTypeButton id={"modern"} onClick={ClothTypeIsClicked}>#Modern</EditTypeButton>
-                                <EditTypeButton id={"feminine"} onClick={ClothTypeIsClicked}>#Feminine</EditTypeButton>
-                                <EditTypeButton id={"dandy"} onClick={ClothTypeIsClicked}>#Dandy</EditTypeButton>
-                                <EditTypeButton id={"retro"} onClick={ClothTypeIsClicked}>#Retro</EditTypeButton>
-                                <EditTypeButton id={"minimal"} onClick={ClothTypeIsClicked}>#Minimal</EditTypeButton>
-                                <EditTypeButton id={"casual"} onClick={ClothTypeIsClicked}>#Casual</EditTypeButton>
-                                <EditTypeButton id={"street"} onClick={ClothTypeIsClicked}>#Street</EditTypeButton>
-                                <EditTypeButton id={"sporty"} onClick={ClothTypeIsClicked}>#Sporty</EditTypeButton>
-                                <EditTypeButton id={"urban"} onClick={ClothTypeIsClicked}>#Urban</EditTypeButton>
-                                <EditTypeButton id={"classic"} onClick={ClothTypeIsClicked}>#Classic</EditTypeButton>
+                                <EditTypeButton id={"simple"} onClick={onClickSimple}>#Simple</EditTypeButton>
+                                <EditTypeButton id={"modern"} onClick={onClickModern}>#Modern</EditTypeButton>
+                                <EditTypeButton id={"feminine"} onClick={onClickFeminine}>#Feminine</EditTypeButton>
+                                <EditTypeButton id={"dandy"} onClick={onClickDandy}>#Dandy</EditTypeButton>
+                                <EditTypeButton id={"retro"} onClick={onClickRetro}>#Retro</EditTypeButton>
+                                <EditTypeButton id={"minimal"} onClick={onClickMinimal}>#Minimal</EditTypeButton>
+                                <EditTypeButton id={"casual"} onClick={onClickCasual}>#Casual</EditTypeButton>
+                                <EditTypeButton id={"street"} onClick={onClickStreet}>#Street</EditTypeButton>
+                                <EditTypeButton id={"sporty"} onClick={onClickSporty}>#Sporty</EditTypeButton>
+                                <EditTypeButton id={"urban"} onClick={onClickUrban}>#Urban</EditTypeButton>
+                                <EditTypeButton id={"classic"} onClick={onClickClassic}>#Classic</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditClothTypeWrapper>
                         <EditSkinTypeWrapper>

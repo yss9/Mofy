@@ -13,10 +13,14 @@ export default function CommunityDetail() {
 
     const {boardID} = router.query
 
+    //보드 타입
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [datetime, setDatetime] = useState(null)
+
+    // 계정 타입
     const [username, setUsername] = useState("");
+    const [userID, setUserID] = useState(0)
 
     const accessToken = Cookies.get('access_token')
     const refreshToken = Cookies.get('refresh_token')
@@ -24,6 +28,13 @@ export default function CommunityDetail() {
     const[dataLoaded, setDataLoaded] = useState(false)
     const[deleteLoaded, setDeleteLoaded] = useState(false)
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type' : 'application/json'
+        },
+    }
 
     const fetchData = async () => {
         try {
@@ -88,6 +99,7 @@ export default function CommunityDetail() {
             router.push("/community/");
             alert("게시물 삭제가 정상적으로 완료되었습니다!");
             setDeleteLoaded(true);
+
         } catch (error) {
             console.log(error);
         }
@@ -95,17 +107,17 @@ export default function CommunityDetail() {
 
 
 
-   const onClickReport = async () => {
+    const onClickReport = async () => {
 
-        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report`, {
+        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report/`, {
                boardID: boardID,
-               userID:1,
 
-           })
+           }, axiosConfig)
+
                .then(function (response) {
                    console.log(response.data);
 
-                   alert("신고접수가 완료되었습니다!")
+                   alert("신고접수가 성공적으로 완료되었습니다!")
 
 
                })
