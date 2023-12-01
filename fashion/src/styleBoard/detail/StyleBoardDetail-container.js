@@ -199,7 +199,7 @@ export default function StyleBoardDetail() {
                     <S.Contents>{content}</S.Contents>
                     <S.ImageWrapper>{imageURL && <S.Image src={imageURL} alt="Fetched" />}</S.ImageWrapper>
 
-                    <p>{like_num} 좋아요</p>
+
                     <Button type="primary" danger onClick={handleLikeClick}>
                         {isLiked ? '좋아요 취소' : '스타일 좋아요!'}
                     </Button>
