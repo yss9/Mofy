@@ -42,6 +42,7 @@ python manage.py runserver
 - 리액트 서버 실행 -
 1. 프로젝트 파일열기
 2. yarn 설치 후 실행
+   
 yarn install
 
 yarn dev  
