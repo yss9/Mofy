@@ -12,8 +12,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie'; // * 쿠키 import!
-import MainCommunityList from "../../src/mainCommunityList/mainCommunityList"
-import MainMarketBoardList from "../../src/mainMarketBordList/mainMarketBoardList";
 // import {WeatherApp} from './WeatherApp'
 
 // window.sharedVariable = 'Hello from file1!';
@@ -48,9 +46,8 @@ const WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cit
 export default function MainCotainer() {
     const [weatherData, setWeatherData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [search, setSearch] = useState(null);
+    const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
-    const [recentSearch, setRecentSearch] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
     const [recentSearch1, setRecentSearch1] = useState([null]);
     const [recentSearch2, setRecentSearch2] = useState([null]);
@@ -66,15 +63,7 @@ export default function MainCotainer() {
     const [exportSearch, setExportSearch] = useState("");
 
 
-    console.log(recommendSearch1)
-    console.log("recommendSearch2")
-    console.log(recommendSearch2)
-    console.log("recommendSearch3")
-    console.log(recommendSearch3)
-    console.log("recommendSearch4")
-    console.log(recommendSearch4)
-    console.log("recommendSearch5")
-    console.log(recommendSearch5)
+
     console.log("recentSearch1")
     console.log(recentSearch1)
     console.log("recentSearch2")
@@ -85,6 +74,16 @@ export default function MainCotainer() {
     console.log(recentSearch4)
     console.log("recentSearch5")
     console.log(recentSearch5)
+    console.log("recentSearch1")
+    console.log(recommendSearch1)
+    console.log("recommendSearch2")
+    console.log(recommendSearch2)
+    console.log("recentSearch3")
+    console.log(recommendSearch3)
+    console.log("recommendSearch4")
+    console.log(recommendSearch4)
+    console.log("recommendSearch5")
+    console.log(recommendSearch5)
 
     // * 쿠키에 저장된 토큰 값(로그인 정보)을 써묵기 위해서 변수에 저장!
     // * 토큰 값은 로그인할때 아래 주석 코드대로 저장됩니당 (pages/mks/login/index.js에 가면 볼 수 있움)
@@ -147,18 +146,12 @@ export default function MainCotainer() {
                 });
 
                 // * 여기서는 DB 설계상 받아오는 값이 딱 하나 있는게 아니고 속성이 여러개라서, 받아오는 값 중에 원하는 속성을 지정해줬슴미다 (.search_history1)
-                setRecentSearch(response.data);
+                setRecentSearch1(response.data.search_history1);
+                setRecentSearch2(response.data.search_history2);
+                setRecentSearch3(response.data.search_history3);
+                setRecentSearch4(response.data.search_history4);
+                setRecentSearch5(response.data.search_history5);
 
-                const recentSearchQueries = response.data.map(item => item.query);
-
-                // "query" 변수를 각각의 state 변수에 할당
-                setRecentSearch1(recentSearchQueries[0] || "");
-                setRecentSearch2(recentSearchQueries[1] || "");
-                setRecentSearch3(recentSearchQueries[2] || "");
-                setRecentSearch4(recentSearchQueries[3] || "");
-                setRecentSearch5(recentSearchQueries[4] || "");
-
-                setIsRecentSearch1Loaded(true);
                 // * 이거도 위에 try문처럼 반복 방지를 위해 추가함미도
                 setIsRecentSearch1Loaded(true);
             } catch (error) {
@@ -242,14 +235,13 @@ export default function MainCotainer() {
 
             axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
                 .then((response) => {
-                    if (response.data) { // * 데이터 가져오는거 성공하면
+                    if (response.data.success) { // * 데이터 가져오는거 성공하면
 
                         console.log("검색 결과:");
-                        console.log(response.data);
+                        console.log(response.data.search_results);
 
                         // * 나는 받아온 데이터들 중에 search_results 속성에 있는 값을 써먹었숨미다
                         // * 일단 (response.data) 하고 로그에 뭐라고 뜨는지 확인한 다음에 원하는 속성 이름을 .속성이름 해서 추가하면 쇽샥 가져오기 가능!
-                        renderSearchResults(response.data); //
                         renderSearchResults(response.data.search_results); //
 
                         window.location.href = "http://localhost:3000/community";
@@ -273,7 +265,7 @@ export default function MainCotainer() {
 
         axios.post("http://localhost:8000/search/", { query: buttonText }, axiosConfig)
             .then((response) => {
-                if (response.data) {
+                if (response.data.success) {
 
                     console.log("검색 결과:");
                     console.log(response.data.search_results);
@@ -593,15 +585,10 @@ export default function MainCotainer() {
                                 {/*        Loading...*/}
                                 {/*    </div>*/}
                                 {/*)}*/}
-                                <MainCommunityList/>
                             </CommunityText>
                         </CommunityWrapper>
                         <TradeWrapper>
-                            <TradeText>
-                                Market
-                                <MainMarketBoardList/>
-
-                            </TradeText>
+                            <TradeText>Used Trade</TradeText>
                         </TradeWrapper>
                     </Bottom>
                 </ConsentWrapper>

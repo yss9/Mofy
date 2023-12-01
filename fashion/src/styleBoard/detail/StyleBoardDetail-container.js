@@ -33,10 +33,66 @@ export default function StyleBoardDetail() {
     const [dataLoaded, setDataLoaded] = useState(false)
     const [deleteLoaded, setDeleteLoaded] = useState(false)
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+    const [isImgDataLoaded, setIsImgDataLoaded] = useState(false);
+
 
 
 
     const fetchData = async () => {
+        try {
+            // 이미지 및 게시물 데이터를 병렬로 불러오기
+            const imageResponse = await axios.get(`http://127.0.0.1:8000/board/6/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+
+
+            // 이미지 URL이 상대 경로로 저장되어 있으므로, 기본 URL과 결합하여 전체 URL 생성
+            const baseURL = 'http://127.0.0.1:8000';
+            const fullURL = baseURL + imageResponse.data.image;
+
+            // 이미지를 불러오기
+            const imageBlobResponse = await axios.get(fullURL, {
+                responseType: 'arraybuffer',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (imageBlobResponse.status === 200) {
+                const contentType = imageBlobResponse.headers['content-type'];
+                const blob = new Blob([imageBlobResponse.data], {type: contentType});
+
+                // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
+                const objectURL = URL.createObjectURL(blob);
+                setImageURL(objectURL);
+            } else {
+                console.error('Failed to fetch image');
+            }
+
+            console.log("imageResponse.data")
+            console.log(imageResponse.data)
+
+            // 게시물 데이터 설정
+            setTitle(imageResponse.data.title);
+            setContent(imageResponse.data.content);
+            setDatetime(imageResponse.data.datetime);
+            setTags(imageResponse.data.tags)
+            setDataLoaded(true);
+
+            // Fetch user data
+            const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            setUsername(userResponse.data);
+            setIsImgDataLoaded(true);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
             try {
                 // 이미지 및 게시물 데이터를 병렬로 불러오기
                 const imageResponse = await axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
