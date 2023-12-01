@@ -1,5 +1,6 @@
-import CommunityList from "../../src/community/list/CommunityList-container";
-
+import CommunityList from "../../src/community/list/CommunityList-container"
 export default function CommunityPage(){
-    return <CommunityList/>
+    return(
+        <CommunityList/>
+    )
 }
