@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import * as S from "../../src/community/list/CommunityList-styles";
+import * as S from "./reportListPage-styles";
 import {getDate} from "../../src/commons/libraries/utils";
 import Cookies from "js-cookie"
 
 
-export default function CommunityList() {
+export default function ReportList() {
     const router = useRouter();
 
     const [reqData, setReqData] = useState([]);

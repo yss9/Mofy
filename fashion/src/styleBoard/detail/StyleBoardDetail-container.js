@@ -15,7 +15,6 @@ export default function StyleBoardDetail() {
     const {boardID} = router.query
 
 
-
     const [likes, setLikes] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
 
@@ -24,7 +23,8 @@ export default function StyleBoardDetail() {
     const [content, setContent] = useState("")
     const [datetime, setDatetime] = useState(null)
     const [imageURL, setImageURL] = useState(null);
-    const [tags, setTags] = useState("")
+    const [tagList, setTagList] = useState([]);
+
     const [username, setUsername] = useState("");
 
     const accessToken = Cookies.get('access_token')
@@ -35,13 +35,21 @@ export default function StyleBoardDetail() {
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
     const [isImgDataLoaded, setIsImgDataLoaded] = useState(false);
 
+    const tagColors = ['processing', 'error', 'warning', 'default'];
 
+
+    const axiosConfig = {
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+    }
 
 
     const fetchData = async () => {
         try {
             // 이미지 및 게시물 데이터를 병렬로 불러오기
-            const imageResponse = await axios.get(`http://127.0.0.1:8000/board/6/`, {
+            const imageResponse = await axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -78,7 +86,7 @@ export default function StyleBoardDetail() {
             setTitle(imageResponse.data.title);
             setContent(imageResponse.data.content);
             setDatetime(imageResponse.data.datetime);
-            setTags(imageResponse.data.tags)
+            setTagList(imageResponse.data.tags.split(',')); // 쉼표로 분할하여 배열로 설정
             setDataLoaded(true);
 
             // Fetch user data
@@ -93,84 +101,98 @@ export default function StyleBoardDetail() {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-            try {
-                // 이미지 및 게시물 데이터를 병렬로 불러오기
-                const imageResponse = await axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
+        try {
+            // 이미지 및 게시물 데이터를 병렬로 불러오기
+            const imageResponse = await axios.get(`http://127.0.0.1:8000/board/${boardID}/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
 
 
-                // 이미지 URL이 상대 경로로 저장되어 있으므로, 기본 URL과 결합하여 전체 URL 생성
-                const baseURL = 'http://127.0.0.1:8000';
-                const fullURL = baseURL + imageResponse.data.image;
+            // 이미지 URL이 상대 경로로 저장되어 있으므로, 기본 URL과 결합하여 전체 URL 생성
+            const baseURL = 'http://127.0.0.1:8000';
+            const fullURL = baseURL + imageResponse.data.image;
 
-                // 이미지를 불러오기
-                const imageBlobResponse = await axios.get(fullURL, {
-                    responseType: 'arraybuffer',
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
+            // 이미지를 불러오기
+            const imageBlobResponse = await axios.get(fullURL, {
+                responseType: 'arraybuffer',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
-                if (imageBlobResponse.status === 200) {
-                    const contentType = imageBlobResponse.headers['content-type'];
-                    const blob = new Blob([imageBlobResponse.data], {type: contentType});
+            if (imageBlobResponse.status === 200) {
+                const contentType = imageBlobResponse.headers['content-type'];
+                const blob = new Blob([imageBlobResponse.data], {type: contentType});
 
-                    // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
-                    const objectURL = URL.createObjectURL(blob);
-                    setImageURL(objectURL);
-                } else {
-                    console.error('Failed to fetch image');
-                }
-
-
-                console.log(imageResponse.data)
-
-                // 게시물 데이터 설정
-                setTitle(imageResponse.data.title);
-                setContent(imageResponse.data.content);
-                setDatetime(imageResponse.data.datetime);
-                setTags(imageResponse.data.tags)
-                setDataLoaded(true);
-
-                // Fetch user data
-                const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                setUsername(userResponse.data);
-                setIsUserDataLoaded(true);
-            } catch (error) {
-                console.error('Error fetching data:', error);
+                // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
+                const objectURL = URL.createObjectURL(blob);
+                setImageURL(objectURL);
+            } else {
+                console.error('Failed to fetch image');
             }
 
+
+            console.log(imageResponse.data)
+
+            // 게시물 데이터 설정
+            setTitle(imageResponse.data.title);
+            setContent(imageResponse.data.content);
+            setDatetime(imageResponse.data.datetime);
+            setTags(imageResponse.data.tags)
+            setDataLoaded(true);
+
+            // Fetch user data
+            const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            setUsername(userResponse.data);
+            setIsUserDataLoaded(true);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+
     }
-
-
 
 
     useEffect(() => {
-    if (accessToken && !dataLoaded && !isUserDataLoaded) {
-        fetchData();
-    }
-}, [accessToken, dataLoaded, isUserDataLoaded])
-
-
-
-
-    const handleLikeClick = () => {
-        if (isLiked) {
-            setLikes(likes - 1);
-        } else {
-            setLikes(likes + 1);
+        if (accessToken && !dataLoaded && !isUserDataLoaded) {
+            fetchData();
         }
+    }, [accessToken, dataLoaded, isUserDataLoaded])
 
-        setIsLiked(!isLiked);
+
+    const handleLikeClick = async () => {
+        try {
+            // Update local state
+            if (isLiked) {
+                setLikes(likes - 1);
+            } else {
+                setLikes(likes + 1);
+            }
+            setIsLiked(!isLiked);
+
+            // Make a POST request to the Django backend API endpoint
+            const response = await axios.post("http://127.0.0.1:8000/board/6/like/", {
+                boardID: 6,
+
+            }, axiosConfig);
+
+
+            console.log(response.data);
+
+
+        } catch (error) {
+            console.error('Error updating like status', error);
+        }
     }
+
+
+
 
 
 
@@ -217,21 +239,21 @@ export default function StyleBoardDetail() {
                         </S.Info>
                     </S.AvatarWrapper>
                 </S.Header>
-                        <Tag color="success">{tags? tags:"없음"}</Tag>
+                {tagList.map((tag, index) => (
+                    <Tag key={index} color={tagColors[index % tagColors.length]}>
+                        {tag}
+                    </Tag>
+                ))}
 
 
-               {/*         <Tag color="processing">데이트룩</Tag>
-                        <Tag color="error">꽃놀이</Tag>
-                        <Tag color="warning">warning</Tag>
-                        <Tag color="default">default</Tag>
-*/}
+
 
                 <S.Body>
                     <S.Title>{title}</S.Title>
                     <S.Contents>{content}</S.Contents>
-                    <S.Contents>{tags}</S.Contents>
                     <S.ImageWrapper>{imageURL && <S.Image src={imageURL} alt="Fetched" />}</S.ImageWrapper>
-                    <p>{likes} 좋아요</p>
+
+                   {/* <p>{likes} 좋아요</p>*/}
                     <Button type="primary" danger onClick={handleLikeClick}>
                         {isLiked ? '좋아요 취소' : '스타일 좋아요!'}
                     </Button>

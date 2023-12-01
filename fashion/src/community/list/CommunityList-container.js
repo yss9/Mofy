@@ -102,7 +102,7 @@ export default function CommunityList() {
                 />
             </Searchbar>
 
-            커뮤니티
+            <h2>커뮤니티</h2>
 
             <S.TableTop />
             <S.Row>

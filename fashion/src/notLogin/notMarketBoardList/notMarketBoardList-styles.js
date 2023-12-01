@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-  width: 550px;
-  
+  width: 1200px;
+  margin: 100px;
 `;
 
 export const TableTop = styled.div`
   border-top: 2px solid gray;
-  margin-top: 50px;
+  margin-top: 20px;
 `;
 
 export const TableBottom = styled.div`
@@ -22,7 +22,7 @@ export const Row = styled.div`
   border-bottom: 1px solid gray;
 
   :hover {
-    color: fuchsia;
+    color: blue;
   }
 `;
 
@@ -47,7 +47,7 @@ export const ColumnTitle = styled.div`
   cursor: pointer;
 
   :hover {
-    color: fuchsia;
+    color: blue;
   }
 `;
 
