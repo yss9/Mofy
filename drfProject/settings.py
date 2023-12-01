@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
     'rest_authtoken',
 
-    "mainApp",
     "community",
     'accounts',
     "Search",
