@@ -5,7 +5,7 @@ import {
     Bottom, TradeWrapper, Mid, WeatherWrapper,
     StylesImg, SearchInput, ConsentWrapper,
     StylesImgWrapper, StylesUserName, StylesUserImg,
-    StylesUserWrapper, StylesTag, StylesTagWrapper,
+    StylesUserWrapper, StylesTagWrapper,
     ProfileText, ProfileUserWrapper, ProfileName,
     ProfileImg, ProfileEdit, WeatherText,
     WeatherInfo, TradeText, CommunityText,
@@ -16,7 +16,7 @@ import {
     TagButton, MoreTagButton, PopularSearchItemsWrapper,
     PopularSearchWrapper, TagButtonWrapper, TagWrapper,
     ProfileNonUserWrapper, LoginText, LoginInput, LoginWrapper,
-    Bar, LoginButton, Check, SignIn, FindPw, FindId, LoginOption
+    Bar, LoginButton, Check, SignIn, FindPw, FindId, LoginOption, NotLoginTitle
 } from '../../../styles/mainPageStyle'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -208,8 +208,8 @@ export default function BoardNewPage() {
             <NotLoginWrapper>
                 <ConsentWrapper>
                     <Top>
-                        <SearchInput onKeyPress={onEnterSubmit} onChange={onChangeSearch} type="text" placeholder="검색어를 입력하세요."></SearchInput>
-                        <Title onClick={onClickHome} src="../images/mofylogo.png"/>
+                        {/*<SearchInput onKeyPress={onEnterSubmit} onChange={onChangeSearch} type="text" placeholder="검색어를 입력하세요."></SearchInput>*/}
+                        <NotLoginTitle onClick={onClickHome} src="../images/mofylogo.png"/>
                         <TopButton>Log Out</TopButton>
                         <TopButton onClick={onClickMyPage}>My Page</TopButton>
                     </Top>
@@ -227,10 +227,10 @@ export default function BoardNewPage() {
                                         <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
                                         <StylesUserName>유저1</StylesUserName>
                                     </StylesUserWrapper>
-                                    <StylesTagWrapper>
-                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
-                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
-                                    </StylesTagWrapper>
+                                    {/*<StylesTagWrapper>*/}
+                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
+                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
+                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
@@ -240,10 +240,10 @@ export default function BoardNewPage() {
                                         <StylesUserImg src="https://cdn.imweb.me/upload/S201612025840bcf9c3866/4f56d1796c287.jpeg"/>
                                         <StylesUserName>유저2</StylesUserName>
                                     </StylesUserWrapper>
-                                    <StylesTagWrapper>
-                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
-                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
-                                    </StylesTagWrapper>
+                                    {/*<StylesTagWrapper>*/}
+                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
+                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
+                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
@@ -253,10 +253,10 @@ export default function BoardNewPage() {
                                         <StylesUserImg src="https://img.allurekorea.com/allure/2023/03/style_641ae6d429619-560x700.jpg"/>
                                         <StylesUserName>유저3</StylesUserName>
                                     </StylesUserWrapper>
-                                    <StylesTagWrapper>
-                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
-                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
-                                    </StylesTagWrapper>
+                                    {/*<StylesTagWrapper>*/}
+                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
+                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
+                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
@@ -266,10 +266,10 @@ export default function BoardNewPage() {
                                         <StylesUserImg src="https://i0.codibook.net/files/1980071220075/2d55f946cdfb98/1120481683.jpg"/>
                                         <StylesUserName>유저4</StylesUserName>
                                     </StylesUserWrapper>
-                                    <StylesTagWrapper>
-                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
-                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
-                                    </StylesTagWrapper>
+                                    {/*<StylesTagWrapper>*/}
+                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
+                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
+                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                             </StylesWrapper>
                         </Left>

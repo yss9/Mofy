@@ -57,11 +57,14 @@ export default function CommunityList() {
                     },
                 })
                 .then((response) => {
-                    setKeyword(response.data.search_history1.query);
-                    setRecentSearch1(response.data.search_history1.query);
 
 
-                    console.log(response.data.search_history1.query);
+
+                    setKeyword(response.data[0].query);
+                    setRecentSearch1(response.data[0].query);
+
+
+                    console.log(response.data[0].query);
 
                     setDataLoaded(true)
                 })

@@ -225,6 +225,16 @@ export const PopularSearchItems = styled.button`
   }
 `
 
+export const NotLoginTitle = styled.img`
+  width: 220px;
+  height: auto;
+  margin-left: 500px;
+  margin-top: 20px;
+  float: left;
+  &:hover {
+    cursor: pointer;
+  }
+`
 export const Title = styled.img`
   width: 220px;
   height: auto;
@@ -330,12 +340,7 @@ export const StylesUserImg = styled.img`
   border-radius: 100px;
   object-fit: cover;
 `
-export const StylesUserName = styled.div`
-  margin-left: 13px;
-  margin-top: 17px;
-  font-size: 15px;
-  float: left;
-`
+
 export const ProfileWrapper = styled.div`
   //background-color: #efe4e4;
   width: 330px;
@@ -379,20 +384,30 @@ export const StylesUserWrapper = styled.div`
   height: 40px;
   //background-color: black;
 `
-export const StylesTag = styled.button`
+export const StylesUserName = styled.button`
   font-size: 12px;
   color: #91526c;
-  //margin-left: 5px;
+  margin-left: 10px;
   margin-top: 3px;
   float: left;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(84, 66, 66, 0);
   border: none;
+
+`
+export const StylesTitle = styled.div`
+  width: 110px;
+  margin-left: 13px;
+  margin-top: 17px;
+  font-size: 15px;
+  float: left;
+  //background-color: darkslateblue;
   cursor: pointer;
 
   &:hover {
     text-decoration: underline;
   }
 `
+
 export const StylesTagWrapper = styled.div`
   width: 150px;
   height: 30px;
@@ -417,6 +432,7 @@ export const ProfileImg = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 100px;
+  border: 2px solid rgb(247, 232, 239);
   object-fit: cover;
   float: left;
 `
@@ -470,21 +486,27 @@ export const WeatherInfo = styled.div`
   float: right;
 `
 export const CommunityText = styled.button`
-  width: 320px;
+  width: 550px;
   height: 50px;
   font-size: 25px;
   font-weight: bold;
   color: #d683a4;
   margin-top: 20px;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(255, 192, 203, 0);
 `
-export const TradeText = styled.div`
-  width: 320px;
+export const TradeText = styled.button`
+  width: 550px;
   height: 50px;
   font-size: 25px;
   font-weight: bold;
   color: #dc829b;
   margin-top: 20px;
   margin-left: 20px;
+  cursor: pointer;
+  border: none;
+  background-color: rgba(255, 192, 203, 0);
 `
 export const WeatherImg = styled.img`
   width: 35px;

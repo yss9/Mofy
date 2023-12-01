@@ -131,6 +131,7 @@ export const DeleteUser = styled.button`
 export const UserImg = styled.img`
   width: 200px;
   height: 200px;
+  border: 2px solid rgba(178, 164, 181, 0.45);
   border-radius: 100px;
   object-fit: cover;
   margin-left: 50px;
@@ -233,7 +234,7 @@ export const OverlayImage = styled.img`
   border-radius: 100px;
   object-fit: cover;
   background-color: white;
-  border: 2px solid #c9a7c0;
+  border: 2px solid rgba(178, 164, 181, 0.94);;
   cursor: pointer;
 `
 export const EditTypeButtonWrapper = styled.div`
@@ -248,7 +249,7 @@ export const EditTypeButton = styled.button`
   background-color: white;
   // background-color: ${({ isClicked }) => (isClicked ? 'blue' : 'green')};
   //text-decoration: underline;
-  border: 2px solid pink;
+  border: 2px solid rgba(189, 133, 199, 0.39);
   font-size: 17px;
   margin-right: 10px;
   margin-bottom: 5px;

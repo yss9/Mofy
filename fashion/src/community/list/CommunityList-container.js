@@ -74,7 +74,7 @@ export default function CommunityList() {
 
 
     const onClickMoveToBoardNew = () => {
-    router.push("/searchBoard/new");
+    router.push("/community/new");
   }
 
   let eventData ;
