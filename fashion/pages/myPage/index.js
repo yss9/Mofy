@@ -191,6 +191,18 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/userinfo4/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                setShoeSize(response.data);
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
 
             try {
                 const response = await axios.get('http://127.0.0.1:8000/clothTypeView/', {
