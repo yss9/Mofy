@@ -2,7 +2,7 @@ import {
     Wrapper, Title, TopButton, Top, Divide, Left, StylesWrapper, StylesText, Right,
     Styles, CommunityWrapper, ProfileWrapper, Bottom, TradeWrapper, Mid, WeatherWrapper,
     StylesImg, SearchInput, ConsentWrapper, StylesImgWrapper, StylesUserName, StylesUserImg,
-    StylesUserWrapper, StylesTitle, StylesTagWrapper, ProfileText, ProfileUserWrapper, ProfileName,
+    StylesUserWrapper, StylesTag, StylesTagWrapper, ProfileText, ProfileUserWrapper, ProfileName,
     ProfileImg, ProfileEdit, WeatherText, WeatherInfo, TradeText, CommunityText,
     WeatherImg, WeatherDetail, TemInfo, ModalContent, ModalWrapper, RecentSearchWrapper,
     RecentSearchButton, RecentSearchText, Rate, PopularSearchText, PopularSearchItems, TagText,
@@ -36,16 +36,9 @@ const onClickMyPage = () => {
 const onClickCommunity = () => {
     window.location.href = "http://localhost:3000/community";
 }
-const onClickTrade = () => {
-    window.location.href = "http://localhost:3000/marketBoard";
-}
 const onClickEdit = () => {
     window.location.href = "http://localhost:3000/editPage";
 }
-const onClickImg1 = () => {
-    window.location.href = "http://localhost:3000/editPage";
-}
-
 
 const API_KEY = '9ca687d0177634a47449391852d5e834';
 const city = 'Seoul';
@@ -56,11 +49,6 @@ export default function MainCotainer() {
     const [search, setSearch] = useState("");
     const [username, setUsername] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
-    const [profileImage1, setProfileImage1] = useState(null);
-    const [profileImage2, setProfileImage2] = useState(null);
-    const [profileImage3, setProfileImage3] = useState(null);
-    const [profileImage4, setProfileImage4] = useState(null);
-
     const [recentSearch1, setRecentSearch1] = useState([null]);
     const [recentSearch2, setRecentSearch2] = useState([null]);
     const [recentSearch3, setRecentSearch3] = useState([null]);
@@ -72,32 +60,30 @@ export default function MainCotainer() {
     const [recommendSearch3, setRecommendSearch3] = useState([null]);
     const [recommendSearch4, setRecommendSearch4] = useState([null]);
     const [recommendSearch5, setRecommendSearch5] = useState([null]);
+    const [exportSearch, setExportSearch] = useState("");
 
-    const [styleRank1board, setStyleRank1board] = useState(0);
-    const [styleRank1user, setStyleRank1user] = useState(null);
-    const [styleRank2board, setStyleRank2board] = useState(null);
-    const [styleRank2user, setStyleRank2user] = useState(null);
-    const [styleRank3board, setStyleRank3board] = useState(null);
-    const [styleRank3user, setStyleRank3user] = useState(null);
-    const [styleRank4board, setStyleRank4board] = useState(null);
-    const [styleRank4user, setStyleRank4user] = useState(null);
-    const [styleRank1username, setStyleRank1username] = useState(null);
-    const [styleRank2username, setStyleRank2username] = useState(null);
-    const [styleRank3username, setStyleRank3username] = useState(null);
-    const [styleRank4username, setStyleRank4username] = useState(null);
-    const [styleRankBoards, setStyleRankBoards] = useState([null]);
 
-    const [boardID1, setBoardID1] = useState(0);
-    const [boardID2, setBoardID2] = useState(0);
-    const [boardID3, setBoardID3] = useState(0);
-    const [boardID4, setBoardID4] = useState(0);
 
-    const [titleID1, setTitleID1] = useState(null);
-    const [titleID2, setTitleID2] = useState(null);
-    const [titleID3, setTitleID3] = useState(null);
-    const [titleID4, setTitleID4] = useState(null);
-
-    const [reqData, setReqData] = useState([]);
+    console.log("recentSearch1")
+    console.log(recentSearch1)
+    console.log("recentSearch2")
+    console.log(recentSearch2)
+    console.log("recentSearch3")
+    console.log(recentSearch3)
+    console.log("recentSearch4")
+    console.log(recentSearch4)
+    console.log("recentSearch5")
+    console.log(recentSearch5)
+    console.log("recentSearch1")
+    console.log(recommendSearch1)
+    console.log("recommendSearch2")
+    console.log(recommendSearch2)
+    console.log("recentSearch3")
+    console.log(recommendSearch3)
+    console.log("recommendSearch4")
+    console.log(recommendSearch4)
+    console.log("recommendSearch5")
+    console.log(recommendSearch5)
 
     // * 쿠키에 저장된 토큰 값(로그인 정보)을 써묵기 위해서 변수에 저장!
     // * 토큰 값은 로그인할때 아래 주석 코드대로 저장됩니당 (pages/mks/login/index.js에 가면 볼 수 있움)
@@ -115,42 +101,24 @@ export default function MainCotainer() {
 
     // * get 요청이 반복되는걸 피하기 위해서 바로 밑에서 쓰이는 변수양 아래 주석에 설명 있움!
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
-    const [isUserDataLoaded0, setIsUserDataLoaded0] = useState(false);
-    const [isUserDataLoaded1, setIsUserDataLoaded1] = useState(false);
-    const [isUserDataLoaded2, setIsUserDataLoaded2] = useState(false);
-    const [isUserDataLoaded3, setIsUserDataLoaded3] = useState(false);
-    const [isUserDataLoaded4, setIsUserDataLoaded4] = useState(false);
     const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
     const [isPopularSearchLoaded, setIsPopularSearchLoaded] = useState(false);
     const [isRecommendSearchLoaded, setIsRecommendSearchLoaded] = useState(false);
-    // const [isStyleRankLoaded, setIsStyleRankLoaded] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await axios.get("http://127.0.0.1:8000/boardType/1/", {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                }
-            })
-                .then((response) => {
-                    setReqData([...response.data])
+        const fetchData = async () => { // * 이건 get하면 계속 get 요청해서 컴터 힘들어해서 한번 get 되면 반복 안되도록 하는 코드인데
+            try {                                     // * 여기 try부터 catch문까지 get 요청의 한 묶음입니당
 
-
-                    console.log(response.data);
-
-                    setDataLoaded0(true);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-            try {
-
+                // * 원하는 url로 get 요청 보내기
                 const response = await axios.get('http://127.0.0.1:8000/userinfo/', {
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${accessToken}`, // * 요청 보낼 때 내 토큰 값을 헤더에 넣어서 id 권한을 요청합니당!
                     },
                 });
-                setUsername(response.data);
+                setUsername(response.data); // * response.data가 요청 보내면 받을 수 있는 값이고 나는 이걸 사용자 이름에다가 저장했엉
+
+                // * 이건 위에 말했던 반복 안되도록 하는 방법에 포함되는건데
+                // * 이거랑 같은 방식으로 위에 const[is~,setIs~] = useState(false);해서 try문마다 넣어주면 됩니당
                 setIsUserDataLoaded(true);
 
             } catch (error) {
@@ -177,14 +145,14 @@ export default function MainCotainer() {
                     },
                 });
 
-                console.log("!response.data")
-                console.log(response.data)
-                setRecentSearch1(response.data[0].query);
-                setRecentSearch2(response.data[1].query);
-                setRecentSearch3(response.data[2].query);
-                setRecentSearch4(response.data[3].query);
-                setRecentSearch5(response.data[4].query);
+                // * 여기서는 DB 설계상 받아오는 값이 딱 하나 있는게 아니고 속성이 여러개라서, 받아오는 값 중에 원하는 속성을 지정해줬슴미다 (.search_history1)
+                setRecentSearch1(response.data.search_history1);
+                setRecentSearch2(response.data.search_history2);
+                setRecentSearch3(response.data.search_history3);
+                setRecentSearch4(response.data.search_history4);
+                setRecentSearch5(response.data.search_history5);
 
+                // * 이거도 위에 try문처럼 반복 방지를 위해 추가함미도
                 setIsRecentSearch1Loaded(true);
             } catch (error) {
                 console.error('서버 요청 오류:', error);
@@ -218,174 +186,15 @@ export default function MainCotainer() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
-            try {
-                const response = await axios.get('http://localhost:8000/board/stylerank', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                // 변수 선언과 값 할당
-                const boardID1 = response.data[0].boardID;
-                const userID1 = response.data[0].userID;
-                setBoardID1(boardID1);
-
-                const boardID2 = response.data[1].boardID;
-                const userID2 = response.data[1].userID;
-                setBoardID2(boardID2);
-
-                const boardID3 = response.data[2].boardID;
-                const userID3 = response.data[2].userID;
-                setBoardID3(boardID3);
-
-                const boardID4 = response.data[3].boardID;
-                const userID4 = response.data[3].userID;
-                setBoardID4(boardID4);
-
-                // 로그 출력
-                console.log("스타일랭크 response.data[0].boardID:", boardID1);
-                console.log("스타일랭크 response.data[0].userID:", userID1);
-                console.log("스타일랭크 response.data[1].boardID:", boardID2);
-                console.log("스타일랭크 response.data[1].userID:", userID2);
-                console.log("스타일랭크 response.data[2].boardID:", boardID3);
-                console.log("스타일랭크 response.data[2].userID:", userID3);
-                console.log("스타일랭크 response.data[3].boardID:", boardID4);
-                console.log("스타일랭크 response.data[3].userID:", userID4);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/board/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setBoardID1(async prevBoardID1 => {
-                    console.log("boardID1")
-                    console.log(prevBoardID1);
-                    const targetBoard = response.data.find(board => board.boardID === prevBoardID1);
-
-                    if (targetBoard) {
-                        await setTitleID1(targetBoard.title);
-                    } else {
-                        console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID1})를 찾을 수 없습니다.`);
-                    }
-
-                    return prevBoardID1;
-                });
-                setBoardID2(async prevBoardID2 => {
-                    console.log("boardID2")
-                    console.log(prevBoardID2);
-                    const targetBoard = response.data.find(board => board.boardID === prevBoardID2);
-
-                    if (targetBoard) {
-                        await setTitleID2(targetBoard.title);
-                    } else {
-                        console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID2})를 찾을 수 없습니다.`);
-                    }
-                    return prevBoardID2;
-                });
-                setBoardID3(async prevBoardID3 => {
-                    console.log("boardID3")
-                    console.log(prevBoardID3);
-                    const targetBoard = response.data.find(board => board.boardID === prevBoardID3);
-
-                    if (targetBoard) {
-                        await setTitleID3(targetBoard.title);
-                    } else {
-                        console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID3})를 찾을 수 없습니다.`);
-                    }
-                    return prevBoardID3;
-                });
-                setBoardID4(async prevBoardID4 => {
-                    console.log("boardID4")
-                    console.log(prevBoardID4);
-                    const targetBoard = response.data.find(board => board.boardID === prevBoardID4);
-
-                    if (targetBoard) {
-                        await setTitleID4(targetBoard.title);
-                    } else {
-                        console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID4})를 찾을 수 없습니다.`);
-                    }
-                    return prevBoardID4;
-                });
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-
-
-            try {
-                const response = await axios.get(`http://127.0.0.1:8000/userinfo/?userID=${styleRank1user}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                // console.log(response.data.username)
-                setStyleRank1username(response.data.username);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-            try {
-                const response = await axios.get(`http://127.0.0.1:8000/userinfo/?userID=${styleRank2user}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                // console.log(response.data.username)
-                setStyleRank2username(response.data.username);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-            try {
-                const response = await axios.get(`http://127.0.0.1:8000/userinfo/?userID=${styleRank3user}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                // console.log(response.data.username)
-                setStyleRank3username(response.data.username);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-            try {
-                const response = await axios.get(`http://127.0.0.1:8000/userinfo/?userID=${styleRank4user}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                // console.log(response.data.username)
-                setStyleRank4username(response.data.username);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-
-
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/user_image/?user_id=${styleRank1user}', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                console.log("사진가져오자");
-                console.log(response.data);
-
-
-                setProfileImage1(response.data.profile_image_url);
-                setIsUserDataLoaded1(true);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
-
-
         };
 
-        if (accessToken && !username && !isUserDataLoaded0 && !isUserDataLoaded && !isUserDataLoaded1 && !isUserDataLoaded2 && !isUserDataLoaded3 && !isUserDataLoaded4 && !isRecentSearch1Loaded && !isPopularSearchLoaded && !isRecommendSearchLoaded) {
+        // * 원하는 get 요청을 다 했다면 그동안 try문마다 true로 바꿔줬던 is~ 변수를 (accessToken && !username && !is어쩌구 && ...) 이렇게 추가합니당
+        if (accessToken && !username && !isUserDataLoaded && !isRecentSearch1Loaded && !isPopularSearchLoaded && !isRecommendSearchLoaded) {
             fetchData();
         }
 
-    }, [accessToken, username, isUserDataLoaded0, isUserDataLoaded, isUserDataLoaded1, isUserDataLoaded2, isUserDataLoaded3, isUserDataLoaded4, isRecentSearch1Loaded, isPopularSearchLoaded, isRecommendSearchLoaded]);
+        // * 여기에도 is~ 추가해주세용 여긴 ! 없움
+    }, [accessToken, username, isUserDataLoaded, isRecentSearch1Loaded, isPopularSearchLoaded, isRecommendSearchLoaded]);
 
     function handleError(error) {
         if (error.response) {
@@ -426,14 +235,16 @@ export default function MainCotainer() {
 
             axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
                 .then((response) => {
-                    if (response.data) { // * 데이터 가져오는거 성공하면
+                    if (response.data.success) { // * 데이터 가져오는거 성공하면
 
                         console.log("검색 결과:");
-                        console.log(response.data);
+                        console.log(response.data.search_results);
 
-                        renderSearchResults(response.data);
+                        // * 나는 받아온 데이터들 중에 search_results 속성에 있는 값을 써먹었숨미다
+                        // * 일단 (response.data) 하고 로그에 뭐라고 뜨는지 확인한 다음에 원하는 속성 이름을 .속성이름 해서 추가하면 쇽샥 가져오기 가능!
+                        renderSearchResults(response.data.search_results); //
 
-                        window.location.href = "http://localhost:3000/searchPage";
+                        window.location.href = "http://localhost:3000/community";
                     } else {
                         // Handle API error
                         console.error("검색 실패: " + response.data.message);
@@ -454,14 +265,12 @@ export default function MainCotainer() {
 
         axios.post("http://localhost:8000/search/", { query: buttonText }, axiosConfig)
             .then((response) => {
-                if (response.data) { // * 데이터 가져오는거 성공하면
+                if (response.data.success) {
 
                     console.log("검색 결과:");
-                    console.log(response.data);
+                    console.log(response.data.search_results);
 
-                    renderSearchResults(response.data);
-
-                    window.location.href = "http://localhost:3000/searchPage";
+                    renderSearchResults(response.data.search_results); //
                 } else {
                     // Handle API error
                     console.error("검색 실패: " + response.data.message);
@@ -538,31 +347,21 @@ export default function MainCotainer() {
                                 <ModalContent onClick={(e) => e.stopPropagation()}>
                                     <RecentSearchWrapper>
                                         <RecentSearchText>최근검색어</RecentSearchText>
-                                        {recentSearch1 && recentSearch1[0] !== null && (
-                                            <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch1}>
-                                                {recentSearch1}
-                                            </RecentSearchButton>
-                                        )}
-                                        {recentSearch2 && recentSearch2[0] !== null && (
-                                            <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch2}>
-                                                {recentSearch2}
-                                            </RecentSearchButton>
-                                        )}
-                                        {recentSearch3 && recentSearch3[0] !== null && (
-                                            <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch3}>
-                                                {recentSearch3}
-                                            </RecentSearchButton>
-                                        )}
-                                        {recentSearch4 && recentSearch4[0] !== null && (
-                                            <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch4}>
-                                                {recentSearch4}
-                                            </RecentSearchButton>
-                                        )}
-                                        {recentSearch5 && recentSearch5[0] !== null && (
-                                            <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch5}>
-                                                {recentSearch5}
-                                            </RecentSearchButton>
-                                        )}
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch1.query}>
+                                            {recentSearch1.query}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch2.query}>
+                                            {recentSearch2.query}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch3.query}>
+                                            {recentSearch3.query}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch4.query}>
+                                            {recentSearch4.query}
+                                        </RecentSearchButton>
+                                        <RecentSearchButton onClick={onTagClickSubmit} data-text={recentSearch5.query}>
+                                            {recentSearch5.query}
+                                        </RecentSearchButton>
                                     </RecentSearchWrapper>
                                     <RecommendSearchWrapper>
                                         <RecommendSearchText>추천검색어</RecommendSearchText>
@@ -590,13 +389,16 @@ export default function MainCotainer() {
                                             <TagButton onClick={onTagClickSubmit} data-text="후드">#후드</TagButton>
                                             <TagButton onClick={onTagClickSubmit} data-text="섀도우">#섀도우</TagButton>
                                             <TagButton onClick={onTagClickSubmit} data-text="여름쿨톤">#여름쿨톤</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="ootd">#ootd</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="원피스">#원피스</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="코디추천">#코디추천</TagButton>
-                                            <TagButton onClick={onTagClickSubmit} data-text="코트">#코트</TagButton>
+                                            <TagButton onClick={onTagClickSubmit} data-text="은행">#은행</TagButton>
+                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
+                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
+                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
+                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
+                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
+                                            <TagButton onClick={onTagClickSubmit} data-text="태그">#태그</TagButton>
 
                                         </TagButtonWrapper>
-                                        {/*<MoreTagButton onClick={onMoreTagClickSubmit}>더보기</MoreTagButton>*/}
+                                        <MoreTagButton onClick={onMoreTagClickSubmit}>더보기</MoreTagButton>
                                     </TagWrapper>
                                     <PopularSearchWrapper>
                                         <PopularSearchText>인기검색어</PopularSearchText>
@@ -676,55 +478,56 @@ export default function MainCotainer() {
 
                                 <Styles>
                                     <StylesImgWrapper>
-                                        <StylesImg onClick={onClickImg1} src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg" />
+                                        <StylesImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg" />
                                     </StylesImgWrapper>
                                     <StylesUserWrapper>
-                                        <StylesUserImg src={profileImage1 || "images/nothingImg.png"}/>
-                                        <StylesTitle>{titleID1}</StylesTitle>
-                                        <StylesUserName>{styleRank1username}</StylesUserName>
+                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
+                                        <StylesUserName>유저1
+                                        </StylesUserName>
                                     </StylesUserWrapper>
+                                    <StylesTagWrapper>
+                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
+                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
+                                    </StylesTagWrapper>
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
                                         <StylesImg src="https://cdn.imweb.me/upload/S201612025840bcf9c3866/4f56d1796c287.jpeg"/>
                                     </StylesImgWrapper>
                                     <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID2}</StylesTitle>
-                                        <StylesUserName>{styleRank2username}</StylesUserName>
+                                        <StylesUserImg src="https://cdn.imweb.me/upload/S201612025840bcf9c3866/4f56d1796c287.jpeg"/>
+                                        <StylesUserName>유저2</StylesUserName>
                                     </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
+                                    <StylesTagWrapper>
+                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
+                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
+                                    </StylesTagWrapper>
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
                                         <StylesImg src="https://img.allurekorea.com/allure/2023/03/style_641ae6d429619-560x700.jpg"/>
                                     </StylesImgWrapper>
                                     <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID3}</StylesTitle>
-                                        <StylesUserName>{styleRank3username}</StylesUserName>
+                                        <StylesUserImg src="https://img.allurekorea.com/allure/2023/03/style_641ae6d429619-560x700.jpg"/>
+                                        <StylesUserName>유저3</StylesUserName>
                                     </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
+                                    <StylesTagWrapper>
+                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
+                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
+                                    </StylesTagWrapper>
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
                                         <StylesImg src="https://i0.codibook.net/files/1980071220075/2d55f946cdfb98/1120481683.jpg"/>
                                     </StylesImgWrapper>
                                     <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID4}</StylesTitle>
-                                        <StylesUserName>{styleRank4username}</StylesUserName>
+                                        <StylesUserImg src="https://i0.codibook.net/files/1980071220075/2d55f946cdfb98/1120481683.jpg"/>
+                                        <StylesUserName>유저4</StylesUserName>
                                     </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
+                                    <StylesTagWrapper>
+                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
+                                        <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>
+                                    </StylesTagWrapper>
                                 </Styles>
                             </StylesWrapper>
                         </Left>
@@ -732,7 +535,7 @@ export default function MainCotainer() {
                             <ProfileWrapper>
                                 <ProfileText>My Profile</ProfileText>
                                 <ProfileUserWrapper>
-                                    <ProfileImg src={profileImage || "images/nothingImg.png"}></ProfileImg>
+                                    <ProfileImg src={profileImage || "https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"}></ProfileImg>
                                     <ProfileName>
                                         {username ? (
                                             <div>{username.username}</div>
@@ -785,7 +588,7 @@ export default function MainCotainer() {
                             </CommunityText>
                         </CommunityWrapper>
                         <TradeWrapper>
-                            <TradeText onClick={onClickTrade}>Used Trade</TradeText>
+                            <TradeText>Used Trade</TradeText>
                         </TradeWrapper>
                     </Bottom>
                 </ConsentWrapper>

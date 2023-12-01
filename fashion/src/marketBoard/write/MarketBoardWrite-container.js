@@ -16,6 +16,7 @@ export default function MarketBoardWrite(props){
     const [content, setContent] = useState("")
     const [price, setPrice] = useState(0)
     const [state, setState] = useState(false);
+    const [userID, setUserID] = useState(0)
 
 
     const [isActive, setIsActive] = useState(false)
@@ -148,7 +149,7 @@ export default function MarketBoardWrite(props){
             formData.append('title', title);
             formData.append('content', content);
             formData.append('boardType', 3);
-            formData.append('userID', 1);
+            formData.append('userID', userID);
             formData.append('address', combinedString);
             formData.append('state', state);
 

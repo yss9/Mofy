@@ -334,7 +334,7 @@ export default function BoardNewPage() {
                             <CommunityText>Community</CommunityText>
                         </CommunityWrapper>
                         <TradeWrapper>
-                            <TradeText>Used Trade</TradeText>
+                            <TradeText>Market</TradeText>
                         </TradeWrapper>
                     </Bottom>
                 </ConsentWrapper>

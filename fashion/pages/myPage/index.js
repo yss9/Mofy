@@ -50,17 +50,12 @@ export default function BoardNewPage() {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [datetime, setDatetime] = useState(null)
-    // const [imageURL, setImageURL] = useState(null);
+    const [imageURL, setImageURL] = useState(null);
     const [tags, setTags] = useState("")
 
     const[userID, setUserID] = useState(0)
 
-    const [imageURL, setImageURL] = useState(null);
-    const [imageURL1, setImageURL1] = useState(null);
-    const [imageURL2, setImageURL2] = useState(null);
-    const [imageURL3, setImageURL3] = useState(null);
-    const [imageURL4, setImageURL4] = useState(null);
-    const [imageURL5, setImageURL5] = useState(null);
+    // const [imageURL, setImageURL] = useState(null);
 
     const [isPopupOpen, setPopupOpen] = useState(false);
     const accessToken = Cookies.get('access_token');
@@ -75,7 +70,7 @@ export default function BoardNewPage() {
 
             try {
                 // 이미지 및 게시물 데이터를 병렬로 불러오기
-                const imageResponse= await axios.get(`http://127.0.0.1:8000/board/1/`, {
+                const imageResponse= await axios.get(`http://127.0.0.1:8000/board/6/`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -101,7 +96,7 @@ export default function BoardNewPage() {
 
                     // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
                     const objectURL = URL.createObjectURL(blob);
-                    setImageURL1(objectURL);
+                    setImageURL(objectURL);
                 } else {
                     console.error('Failed to fetch image');
                 }
@@ -109,58 +104,11 @@ export default function BoardNewPage() {
 
                 console.log(imageResponse.data)
 
-                setDataLoaded(true);
-
-                // Fetch user data
-                const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                setUsername(userResponse.data);
-                setIsUserDataLoaded(true);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-
-            try {
-                // 이미지 및 게시물 데이터를 병렬로 불러오기
-                const imageResponse= await axios.get(`http://127.0.0.1:8000/board/2/`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-
-
-
-                // 이미지 URL이 상대 경로로 저장되어 있으므로, 기본 URL과 결합하여 전체 URL 생성
-                const baseURL = 'http://127.0.0.1:8000';
-                const fullURL = baseURL + imageResponse.data.image;
-
-                // 이미지를 불러오기
-                const imageBlobResponse = await axios.get(fullURL, {
-                    responseType: 'arraybuffer',
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                if (imageBlobResponse.status === 200) {
-                    const contentType = imageBlobResponse.headers['content-type'];
-                    const blob = new Blob([imageBlobResponse.data], {type: contentType});
-
-                    // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
-                    const objectURL = URL.createObjectURL(blob);
-                    setImageURL2(objectURL);
-                } else {
-                    console.error('Failed to fetch image');
-                }
-
-
-                console.log(imageResponse.data)
-
-
+                // 게시물 데이터 설정
+                setTitle(imageResponse.data.title);
+                setContent(imageResponse.data.content);
+                setDatetime(imageResponse.data.datetime);
+                setTags(imageResponse.data.tags)
                 setDataLoaded(true);
 
                 // Fetch user data
@@ -404,7 +352,7 @@ export default function BoardNewPage() {
                             <MofyImgDiv>
                                 {imageURL && <MoImg src={imageURL} alt="Fetched" />}
                             </MofyImgDiv>
-                            <div>{imageURL && <img src={imageURL} alt="Fetched" />}</div>
+                            {/*<div>{imageURL && <img src={imageURL} alt="Fetched" />}</div>*/}
                             <MofyImgDiv/><MofyImgDiv/>
                             <MofyImgDiv/><MofyImgDiv/><MofyImgDiv/>
                         </MyMofyWrapper>
