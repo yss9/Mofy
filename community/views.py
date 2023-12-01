@@ -153,8 +153,10 @@ class BoardDetail(APIView):
     def delete(self, request, pk, format=None):
         request.data['userID'] = request.user.id
         board = Board.objects.get(pk=pk)
-        board.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if board.userID == request.user.id:
+            board.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
 
 
 
