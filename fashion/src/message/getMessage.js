@@ -6,8 +6,8 @@ import {
     TitleWrapper,
     NoteList,
     NoteItem,
-    AddNoteButton,AddNoteButtonWrapper,
-    Line,
+    AddNoteButton, AddNoteButtonWrapper,
+    Line, GoOutBtn,
 } from '../../styles/styles/BoardsMessage'
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -39,6 +39,10 @@ export default function BoardsNotePage() {
         }
     }, [accessToken]);
 
+    const onClickMarket = () => {
+        window.location.href = "http://localhost:3000/marketBoard/"
+    }
+
     return (
         <>
             <Wrapper>
@@ -47,6 +51,7 @@ export default function BoardsNotePage() {
                         <Title>받은 쪽지함</Title>
                         <AddNoteButtonWrapper>
                             <AddNoteButton onClick={addNote}>새로고침</AddNoteButton>
+                            <GoOutBtn onClick={onClickMarket}>✕</GoOutBtn>
                         </AddNoteButtonWrapper>
                     </TitleWrapper>
                     <NoteList>
