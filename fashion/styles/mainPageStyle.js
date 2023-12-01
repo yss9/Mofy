@@ -264,6 +264,24 @@ export const TopButton = styled.button`
 export const Top = styled.div`
   width: 1200px;
   height: 130px;
+  //background-color: red;
+`
+
+export const FashionBtn=styled.button`
+  width: 90px;
+  height: 32px;
+  margin-top: 120px;
+  margin-right: 15px;
+  float: right;
+  background-color: #ffa5a5;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: bolder;
+  &:hover {
+    background-color: rgba(232, 202, 239, 0.49);
+  }
+
 `
 export const Divide = styled.div`
   width: 1200px;

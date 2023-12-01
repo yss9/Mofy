@@ -10,7 +10,7 @@ import {
     NoteItem,
     AddNoteButton,
     AddNoteButtonWrapper,
-    Line,
+    Line, GoOutBtn,
 } from "../../styles/styles/BoardsMessage";
 
 export default function MySendMessage() {
@@ -36,6 +36,10 @@ export default function MySendMessage() {
         }
     }, [accessToken]);
 
+    const onClickMarket = () => {
+        window.location.href = "http://localhost:3000/marketBoard/"
+    }
+
     return (
         <>
             <Wrapper>
@@ -44,6 +48,7 @@ export default function MySendMessage() {
                         <Title>보낸 메세지함</Title>
                         <AddNoteButtonWrapper>
                             <AddNoteButton onClick={fetchMessages}>새로고침</AddNoteButton>
+                            <GoOutBtn onClick={onClickMarket}>✕</GoOutBtn>
                         </AddNoteButtonWrapper>
                     </TitleWrapper>
                     <NoteList>

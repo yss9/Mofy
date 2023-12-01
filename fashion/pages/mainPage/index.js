@@ -7,13 +7,14 @@ import {
     WeatherImg, WeatherDetail, TemInfo, ModalContent, ModalWrapper, RecentSearchWrapper,
     RecentSearchButton, RecentSearchText, Rate, PopularSearchText, PopularSearchItems, TagText,
     TagButton, MoreTagButton, PopularSearchItemsWrapper, PopularSearchWrapper, TagButtonWrapper,
-    TagWrapper, RecommendSearchWrapper, RecommendSearchText, RecommendSearchButton
+    TagWrapper, RecommendSearchWrapper, RecommendSearchText, RecommendSearchButton, FashionBtn, FashionBtnWrapper
 } from '../../styles/mainPageStyle'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import MainCommunityList from "../../src/mainCommunityList/mainCommunityList";
 import MainMarketBoardList from "../../src/mainMarketBordList/mainMarketBoardList"; // * 쿠키 import!
+import { Button, Popover } from 'antd';
 // import {WeatherApp} from './WeatherApp'
 
 // window.sharedVariable = 'Hello from file1!';
@@ -879,6 +880,9 @@ export default function MainCotainer() {
         setIsModalOpen(false);
     };
 
+    const onClickFashion = () => {
+        window.location.href = "http://localhost:3000/styleBoard/"
+    }
     return (
 
         <>
@@ -1023,6 +1027,10 @@ export default function MainCotainer() {
                         <Title onClick={onClickHome} src="images/mofylogo.png"/>
                         <TopButton onClick={onClickLogout}>Log Out</TopButton>
                         <TopButton onClick={onClickMyPage}>My Page</TopButton>
+
+                        <Popover content="✨✨ 궁금해? 들어와보던가 ♡🌷💕" styles={{marginTop:"30px"}}>
+                            <FashionBtn onClick={onClickFashion}>Fashion★</FashionBtn>
+                        </Popover>
                     </Top>
                     <Divide/>
                     <Mid>
