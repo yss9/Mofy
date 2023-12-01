@@ -7,7 +7,6 @@ import {getDate} from "../../commons/libraries/utils";
 import { CommentOutlined } from '@ant-design/icons';
 import React from 'react';
 import { FloatButton , Button, Popover} from 'antd';
-import Chat from '../../../pages/mks/messenger/chat';
 import Cookies from "js-cookie";
 
 

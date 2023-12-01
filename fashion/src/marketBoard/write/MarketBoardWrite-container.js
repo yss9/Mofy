@@ -152,6 +152,7 @@ export default function MarketBoardWrite(props){
             formData.append('userID', userID);
             formData.append('address', combinedString);
             formData.append('state', state);
+            formData.append('price', price)
 
             const result = await axios.post("http://127.0.0.1:8000/board/", formData, {
                 headers: {
@@ -199,6 +200,7 @@ export default function MarketBoardWrite(props){
             formData.append('userID', 1);
             formData.append('address', combinedString);
             formData.append('state', state);
+            formData.append('price', price)
 
             const result = await axios.put(`http://127.0.0.1:8000/board/${boardID}/`, formData, {
                 headers: {
@@ -267,16 +269,7 @@ export default function MarketBoardWrite(props){
 
                 <S.ImageWrapper>
                     <S.Label>상품 사진을 추가해주세요!</S.Label>
-                    {/*     <S.ImageBox>
-                        {fileUrls.map((el, index) => (
-                            <Uploads01
-                                key={uuidv4()}
-                                index={index}
-                                fileUrl={el}
-                                onChangeFileUrls={onChangeFileUrls}
-                            />
-                        ))}
-                    </S.ImageBox>*/}
+
                     <input type="file" onChange={handleImageChange} />
 
 
