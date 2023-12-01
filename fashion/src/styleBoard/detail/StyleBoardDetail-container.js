@@ -165,7 +165,28 @@ export default function StyleBoardDetail() {
         } catch (error) {
             console.log(error);
         }
-    };
+    }
+
+
+    const onClickReport = async () => {
+
+        const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/report/`, {
+            boardID: boardID,
+
+        }, axiosConfig)
+
+            .then(function (response) {
+                console.log(response.data);
+
+                alert("신고접수가 성공적으로 완료되었습니다!")
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+    }
 
 
 
@@ -184,6 +205,9 @@ export default function StyleBoardDetail() {
                             </S.CreatedAt>
                         </S.Info>
                     </S.AvatarWrapper>
+                    <S.IconWrapper>
+                        <Button danger onClick={onClickReport}>신고하기</Button>
+                    </S.IconWrapper>
                 </S.Header>
                 {tagList.map((tag, index) => (
                     <Tag key={index} color={tagColors[index % tagColors.length]}>
