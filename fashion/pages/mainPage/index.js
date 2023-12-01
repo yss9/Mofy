@@ -1032,55 +1032,23 @@ export default function MainCotainer() {
 
                                 <Styles>
                                     <StylesImgWrapper>
-                                        {/*<StylesImg onClick={onClickImg1} src={rankImage1 || "images/firstImg.jpg"} />*/}
+                                        <StylesImg src={"https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"} />
                                     </StylesImgWrapper>
-                                    <StylesUserWrapper>
-                                        <StylesUserImg src={profileImage1 || "images/firstImg.jpg"}/>
-                                        <StylesTitle>{titleID1}</StylesTitle>
-                                        <StylesUserName>{styleRank1username}</StylesUserName>
-                                    </StylesUserWrapper>
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
-                                        <StylesImg/>
+                                        <StylesImg src={"https://cdn.imweb.me/upload/S201612025840bcf9c3866/4f56d1796c287.jpeg"}/>
                                     </StylesImgWrapper>
-                                    <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID2}</StylesTitle>
-                                        <StylesUserName>{styleRank2username}</StylesUserName>
-                                    </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
                                         <StylesImg src="https://img.allurekorea.com/allure/2023/03/style_641ae6d429619-560x700.jpg"/>
                                     </StylesImgWrapper>
-                                    <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID3}</StylesTitle>
-                                        <StylesUserName>{styleRank3username}</StylesUserName>
-                                    </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
                                         <StylesImg src="https://i0.codibook.net/files/1980071220075/2d55f946cdfb98/1120481683.jpg"/>
                                     </StylesImgWrapper>
-                                    <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID4}</StylesTitle>
-                                        <StylesUserName>{styleRank4username}</StylesUserName>
-                                    </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                             </StylesWrapper>
                         </Left>

@@ -290,7 +290,7 @@ export const StylesWrapper = styled.div`
   //background-color: darkgrey;
   margin-left: 50px;
   width: 860px;
-  height: 450px;
+  height: 400px;
   //float: left;
 
 `
@@ -313,7 +313,8 @@ export const TradeWrapper = styled.div`
 `
 export const StylesText = styled.h2`
   //background-color: white;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 40px;
   color: #c784b9;
 `
 export const Styles = styled.div`
@@ -327,7 +328,7 @@ export const Styles = styled.div`
 `
 export const StylesImg = styled.img`
   //max-width: 100%;
-  max-height: 250px;
+  max-height: 300px;
   //width: 170px;
   //background-color: red;
 `
@@ -344,10 +345,11 @@ export const StylesUserImg = styled.img`
 export const ProfileWrapper = styled.div`
   //background-color: #efe4e4;
   width: 330px;
-  height: 200px;
+  height: 170px;
 `
 export const Bottom = styled.div`
   width: 1200px;
+  //background-color: grey;
   //overflow: hidden;
   //&::before {
   //  content: "";
@@ -362,6 +364,7 @@ export const Bottom = styled.div`
   //}
 `
 export const Mid = styled.div`
+    //background-color: grey;
 `
 export const WeatherWrapper = styled.div`
   width: 310px;
@@ -370,6 +373,7 @@ export const WeatherWrapper = styled.div`
   border: 5px solid #ede2e2;
   padding-left: 1px;
   padding-top: 12px;
+  //background-color: grey;
 `
 export const StylesImgWrapper = styled.div`
   border-radius: 10px;
@@ -474,7 +478,7 @@ export const WeatherText = styled.div`
   font-size: 25px;
   font-weight: bold;
   color: #e4808e;
-  margin-top: 40px;
+  margin-top: 30px;
   //background-color: darkslateblue;
 `
 export const TemInfo = styled.div`
