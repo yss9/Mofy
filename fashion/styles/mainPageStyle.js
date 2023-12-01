@@ -394,6 +394,16 @@ export const StylesUserName = styled.button`
   border: none;
 
 `
+export const StylesTag = styled.button`
+  font-size: 12px;
+  color: #91526c;
+  margin-left: 10px;
+  margin-top: 3px;
+  float: left;
+  background-color: rgba(84, 66, 66, 0);
+  border: none;
+
+`
 export const StylesTitle = styled.div`
   width: 110px;
   margin-left: 13px;
