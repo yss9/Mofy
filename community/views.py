@@ -14,7 +14,7 @@ from rest_framework.response import Response
 
 from accounts.models import User
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
-    ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers
+    ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers, MessageSerializers
 from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard, PhotoSave, Message
 
 
@@ -143,10 +143,12 @@ class BoardDetail(APIView):
         request.data['userID'] = request.user.id
         board = Board.objects.get(pk=pk)
         serializer = BoardSerializers(board, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if board.userID == request.user.id:
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
     permission_classes = [IsAuthenticated]
@@ -156,7 +158,7 @@ class BoardDetail(APIView):
         if board.userID == request.user.id:
             board.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        
+
 
 
 
@@ -265,3 +267,39 @@ class GetMyLikeBoard(APIView):
         serializer = BoardSerializers(liked_boards, many = True)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
+class Chat(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        board = Board.objects.get(boardID = 1)
+        receive_id = request.data['receiveID']
+        re_user = User.objects.get(userID = receive_id)
+        messaged = Message()
+        messaged.boardID = board
+        messaged.sendID = request.user
+        messaged.receiveID = re_user
+        messaged.message = request.data['message']
+        messaged.save()
+        return Response(status=status.HTTP_200_OK)
+
+class MessageBox(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        us_msg = request.user.id
+        if pk == 1:
+            messages = Message.objects.filter(sendID = us_msg)
+            serializer = MessageSerializers(messages, many=True)
+            return Response(serializer.data, status = status.HTTP_200_OK)
+        elif pk == 2:
+            messages = Message.objects.filter(receiveID = us_msg)
+            serializer = MessageSerializers(messages, many = True)
+            return Response(serializer.data, status = status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class MessageDetail(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request, pk):
+        message = Message.objects.get(id = pk)
+        serializers = MessageSerializers(message)
+        return Response(serializers.data, status = status.HTTP_200_OK)
