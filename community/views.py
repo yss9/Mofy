@@ -209,15 +209,16 @@ class LikeDetail(APIView):
 
 
 
-
-class Report(APIView):
-
+class ReportList(APIView):
     permission_classes = [IsAdminUser]
-    def get(self, request, pk):
+
+    def get(self, request):
         reportList = ReportBoardList.objects.all()
         reportList_serializer = ReportBoardListSerializers(reportList, many=True)
-        return Response(reportList_serializer.data,status=status.HTTP_200_OK)
+        return Response(reportList_serializer.data, status=status.HTTP_200_OK)
 
+
+class Report(APIView):
 
     permission_classes = [IsAuthenticated]
     def post(self, request, pk):
