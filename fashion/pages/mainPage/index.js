@@ -12,6 +12,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie'; // * 쿠키 import!
+import MainCommunityList from "../../src/mainCommunityList/mainCommunityList"
+import MainMarketBoardList from "../../src/mainMarketBordList/mainMarketBoardList";
 // import {WeatherApp} from './WeatherApp'
 
 // window.sharedVariable = 'Hello from file1!';
@@ -591,10 +593,15 @@ export default function MainCotainer() {
                                 {/*        Loading...*/}
                                 {/*    </div>*/}
                                 {/*)}*/}
+                                <MainCommunityList/>
                             </CommunityText>
                         </CommunityWrapper>
                         <TradeWrapper>
-                            <TradeText>Used Trade</TradeText>
+                            <TradeText>
+                                Market
+                                <MainMarketBoardList/>
+
+                            </TradeText>
                         </TradeWrapper>
                     </Bottom>
                 </ConsentWrapper>
