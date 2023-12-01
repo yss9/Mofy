@@ -94,3 +94,17 @@ export const Text =styled.textarea`
   background-color: transparent;
   border: none;
 `
+export  const ViewText=styled.div`
+  width: 98%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+
+`
+
+export const ViewTitle=styled.div`
+  height: 95%;
+  width: 75%;
+  border: none;
+  //background-color: red;
+`
