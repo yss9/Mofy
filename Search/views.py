@@ -16,36 +16,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
+from community.serializers import BoardSerializers
 
-class PostSearchView(APIView):
-    def post(self, request):
-        query = request.data.get('query')
-
-        if not query:
-            return Response({"success": False, "message": "검색어가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
-
-        user = request.user
-
-        # Check if the user has searched the same query before
-        existing_search_history = SearchHistory.objects.filter(user=user, query=query).first()
-
-        if existing_search_history:
-            # Update the existing search history
-            existing_search_history.count = F('count') + 1
-            existing_search_history.searched_at = timezone.now()  # 현재 시간으로 갱신
-            existing_search_history.save()
-        else:
-            # Save a new search history for the user and query
-            SearchHistory.objects.create(user=user, query=query, count=1, searched_at=timezone.now())
-
-        # Board 모델의 title로 검색
-        search_results = Board.objects.filter(Q(title__icontains=query) | Q(tags__icontains=query)).distinct()
-        serializer = BoardSerializers(search_results, many=True)
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-# @authentication_classes([JWTAuthentication])
-# @permission_classes([IsAuthenticated])
 # class PostSearchView(APIView):
 #     def post(self, request):
 #         query = request.data.get('query')
@@ -55,24 +27,54 @@ class PostSearchView(APIView):
 #
 #         user = request.user
 #
-#         search_results = Board.objects.filter(Q(title__icontains=query) | Q(tags__icontains=query)).distinct()
-#
 #         # Check if the user has searched the same query before
 #         existing_search_history = SearchHistory.objects.filter(user=user, query=query).first()
 #
 #         if existing_search_history:
-#             # Increment the count for the existing search history
+#             # Update the existing search history
 #             existing_search_history.count = F('count') + 1
 #             existing_search_history.searched_at = timezone.now()  # 현재 시간으로 갱신
 #             existing_search_history.save()
 #         else:
 #             # Save a new search history for the user and query
-#             SearchHistory.objects.create(user=user, query=query)
+#             SearchHistory.objects.create(user=user, query=query, count=1, searched_at=timezone.now())
 #
 #         # Board 모델의 title로 검색
+#         search_results = Board.objects.filter(Q(title__icontains=query) | Q(tags__icontains=query)).distinct()
 #         serializer = BoardSerializers(search_results, many=True)
 #
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# @authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class PostSearchView(APIView):
+    def post(self, request):
+        query = request.data.get('query')
+
+        if not query:
+            return Response({"success": False, "message": "검색어가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+
+        search_results = Board.objects.filter(Q(title__icontains=query) | Q(tags__icontains=query)).distinct()
+
+        # Check if the user has searched the same query before
+        existing_search_history = SearchHistory.objects.filter(user=user, query=query).first()
+
+        if existing_search_history:
+            # Increment the count for the existing search history
+            existing_search_history.count = F('count') + 1
+            existing_search_history.searched_at = timezone.now()  # 현재 시간으로 갱신
+            existing_search_history.save()
+        else:
+            # Save a new search history for the user and query
+            SearchHistory.objects.create(user=user, query=query)
+
+        # Board 모델의 title로 검색
+        serializer = BoardSerializers(search_results, many=True)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 
