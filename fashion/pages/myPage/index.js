@@ -13,6 +13,9 @@ import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
 import ReportList from "../../src/repostListPage/reportListPage";
+import MyBoardList1 from "../../src/getMyBoard1/getMyBoard";
+import MyBoardList2 from "../../src/getMyBoard2/getMyBoard";
+import MyBoardList3 from "../../src/getMyBoard3/getMyBoard";
 // import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
 // import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
 
@@ -457,12 +460,19 @@ export default function BoardNewPage() {
                     <Bottom>
                         <MyMofyWrapper>
                             <MyMofyText>My MOFY</MyMofyText>
-                            <MofyImgDiv>
-                                {imageURL && <MoImg src={imageURL} alt="Fetched" />}
-                            </MofyImgDiv>
-                            {/*<div>{imageURL && <img src={imageURL} alt="Fetched" />}</div>*/}
-                            <MofyImgDiv/><MofyImgDiv/>
-                            <MofyImgDiv/><MofyImgDiv/><MofyImgDiv/>
+                            <div>
+                                1
+                                <MyBoardList1/>
+                            </div>
+                            <div>
+                                2
+                                <MyBoardList2/>
+                            </div>
+                            <div>
+                                3
+                                <MyBoardList3/>
+                            </div>
+
                         </MyMofyWrapper>
                         <YourMofyWrapper>
                             <YourMofyText>Your MOFY</YourMofyText>
