@@ -8,7 +8,6 @@ urlpatterns = [
     path('', include('mainApp.urls')),
     path('', include('community.urls')),
     path('', include('accounts.urls')),
-    path('', include('chat.urls')),
     path('', include('Search.urls')),
 
 ]

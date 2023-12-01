@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "community",
     'accounts',
     "Search",
-    'chat',
     'channels',
 ]
 
