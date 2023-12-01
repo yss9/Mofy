@@ -108,20 +108,18 @@ export default function MarketBoardList() {
 
             <S.TableTop />
             <S.Row>
-                <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
-                <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
                 <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
                 {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
                 <S.ColumnHeaderBasic>가격</S.ColumnHeaderBasic>
                 <S.ColumnHeaderBasic>판매상태</S.ColumnHeaderBasic>
+                <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
             </S.Row>
 
 
             {reqData.filter(el => el.title.includes(keyword)).map(el => (
                     <S.Row key={el.boardID}>
 
-                        <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
-                        <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
+
                         <S.ColumnTitle id={el.boardID}  props ={eventData} onClick={onClickMoveToBoardDetail} >
 
                             {el.title
@@ -135,6 +133,7 @@ export default function MarketBoardList() {
                         </S.ColumnTitle>
                         <S.ColumnBasic>{el.price}원</S.ColumnBasic>
                         <S.ColumnBasic>{el.state ? "판매중" : "판매완료"}</S.ColumnBasic>
+                        <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
                     </S.Row>
                 ))}
 

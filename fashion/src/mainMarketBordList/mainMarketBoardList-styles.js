@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
   width: 550px;
+  font-size: 10px;
   
 `;
 
@@ -47,7 +48,7 @@ export const ColumnTitle = styled.div`
   cursor: pointer;
 
   :hover {
-    color: blue;
+    color: fuchsia;
   }
 `;
 
