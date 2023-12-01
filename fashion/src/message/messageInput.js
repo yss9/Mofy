@@ -82,7 +82,7 @@ export default function MessageInput() {
                 <ConsentWrapper>
                     <TitleWrapper>
                         <Title>쪽지 보내기</Title>
-                        <GoOutBtn onClick={onClickMarket}>✕</GoOutBtn>
+                        <GoOutBtn onClick={onClickMarket}>x</GoOutBtn>
                     </TitleWrapper>
                     <SubtitleWrapper>
                         <SubTitle

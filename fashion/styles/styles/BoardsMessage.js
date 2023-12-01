@@ -4,7 +4,7 @@ export const Wrapper = styled.div``;
 
 export const ConsentWrapper = styled.div`
   width: 300px;
-  height: 500px;
+  height: 400px;
   background-color: white;
   border: 1px solid black;
   overflow-y: auto; /* 세로 스크롤이 필요한 경우 자동으로 스크롤바 생성 */
@@ -109,10 +109,5 @@ export const ViewTitle=styled.div`
   //background-color: red;
 `
 export const GoOutBtn=styled.button`
-  background-color: transparent;
-  border: none;
-  font-weight: 900;
-  font-size: 15px;
-  cursor: pointer;
   
 `

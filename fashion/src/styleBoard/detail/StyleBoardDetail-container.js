@@ -209,11 +209,14 @@ export default function StyleBoardDetail() {
                         <Button danger onClick={onClickReport}>신고하기</Button>
                     </S.IconWrapper>
                 </S.Header>
+
+                <S.TagWrapper>
                 {tagList.map((tag, index) => (
                     <Tag key={index} color={tagColors[index % tagColors.length]}>
-                        {tag}
+                        #{tag}
                     </Tag>
                 ))}
+              </S.TagWrapper>
 
 
 
@@ -224,7 +227,7 @@ export default function StyleBoardDetail() {
                     <S.ImageWrapper>{imageURL && <S.Image src={imageURL} alt="Fetched" />}</S.ImageWrapper>
 
 
-                    <Button type="primary" danger onClick={handleLikeClick}>
+                    <Button type="primary" danger onClick={handleLikeClick} style={{marginLeft: "450px"}}>
                         {isLiked ? '좋아요 취소' : '스타일 좋아요!'}
                     </Button>
                 </S.Body>

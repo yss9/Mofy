@@ -12,6 +12,10 @@ import {
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
+import ReportList from "../../src/repostListPage/reportListPage";
+import MyBoardList1 from "../../src/getMyBoard1/getMyBoard";
+import MyBoardList2 from "../../src/getMyBoard2/getMyBoard";
+import MyBoardList3 from "../../src/getMyBoard3/getMyBoard";
 // import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
 // import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
 
@@ -28,12 +32,16 @@ const onClickEdit = () => {
 const Popup = ({ onClose }) => {
     return (
         <ReportWrapper>
-            <ReportTop>
-                <ReportText>Report List</ReportText>
-                <ReportExitButton onClick={onClose}>X</ReportExitButton>
-            </ReportTop>
 
-            <ReportListWrapper></ReportListWrapper>
+                <ReportExitButton onClick={onClose}>X</ReportExitButton>
+                <ReportText>
+                    Report List
+                    <ReportList/>
+                </ReportText>
+
+
+
+
 
         </ReportWrapper>
     );
@@ -452,40 +460,20 @@ export default function BoardNewPage() {
                     <Bottom>
                         <MyMofyWrapper>
                             <MyMofyText>My MOFY</MyMofyText>
-                            <MofyImgDiv>
-                                {imageURL && <MoImg src={imageURL} alt="Fetched" />}
-                            </MofyImgDiv>
-                            {/*<div>{imageURL && <img src={imageURL} alt="Fetched" />}</div>*/}
-                            <MofyImgDiv/><MofyImgDiv/>
-                            <MofyImgDiv/><MofyImgDiv/><MofyImgDiv/>
-                        </MyMofyWrapper>
-                        <YourMofyWrapper>
-                            <YourMofyText>Your MOFY</YourMofyText>
-                            <MofyImg/><MofyImg/><MofyImg/>
-                        </YourMofyWrapper>
-                        <MyCommunityListWrapper>
-                            <MyCommunityListText>My Community List</MyCommunityListText>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                        </MyCommunityListWrapper>
-                        <SellListWrapper>
-                            <SellListText>Sell List</SellListText>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                        </SellListWrapper>
+                            <div>
+                                <h3>커뮤니티</h3>
+                                <MyBoardList1/>
+                            </div>
+                            <div>
+                                <h3>스타일보드</h3>
+                                <MyBoardList2/>
+                            </div>
+                            <div>
+                                <h3>중고마켓</h3>
+                                <MyBoardList3/>
+                            </div>
 
+                        </MyMofyWrapper>
                     </Bottom>
                 </ConsentWrapper>
             </Wrapper>
