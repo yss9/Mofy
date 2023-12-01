@@ -199,6 +199,18 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/userinfo4/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                setShoeSize(response.data);
+                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
 
             try {
                 const response = await axios.get('http://127.0.0.1:8000/clothTypeView/', {
@@ -210,57 +222,57 @@ export default function BoardNewPage() {
                 console.log(response.data.Simple)
                 if(response.data.Simple === true){
                     console.log("simple 추가")
-                    tempArray.push("#Simple")
+                    tempArray.push("#Simple     ")
                 }
 
                 if(response.data.Modern === true){
                     console.log("modern 추가")
-                    tempArray.push("#Modern")
+                    tempArray.push("#Modern     ")
                 }
 
                 if(response.data.Feminine === true){
                     console.log("feminine 추가")
-                    tempArray.push("#Feminine")
+                    tempArray.push("#Feminine     ")
                 }
 
                 if(response.data.Dandy === true){
                     console.log("dandy 추가")
-                    tempArray.push("#Dandy")
+                    tempArray.push("#Dandy     ")
                 }
 
                 if(response.data.Retro === true){
                     console.log("Retro 추가")
-                    tempArray.push("#Retro")
+                    tempArray.push("#Retro     ")
                 }
 
                 if(response.data.Minimal === true){
                     console.log("minimal 추가")
-                    tempArray.push("#Minimal")
+                    tempArray.push("#Minimal     ")
                 }
 
                 if(response.data.Casual === true){
                     console.log("casual 추가")
-                    tempArray.push("#Casual")
+                    tempArray.push("#Casual     ")
                 }
 
                 if(response.data.Street === true){
                     console.log("street 추가")
-                    tempArray.push("#Street")
+                    tempArray.push("#Street     ")
                 }
 
                 if(response.data.Sporty === true){
                     console.log("sporty 추가")
-                    tempArray.push("#Sporty")
+                    tempArray.push("#Sporty     ")
                 }
 
                 if(response.data.Urban === true){
                     console.log("urban 추가")
-                    tempArray.push("#Urban")
+                    tempArray.push("#Urban     ")
                 }
 
                 if(response.data.Classic === true){
                     console.log("classic 추가")
-                    tempArray.push("#Classic")
+                    tempArray.push("#Classic     ")
                 }
 
 
@@ -390,7 +402,7 @@ export default function BoardNewPage() {
                             {/*<ProfileText>내 정보</ProfileText>*/}
                             <ProfileUserWrapper>
                                 <ProfileText>내 정보</ProfileText>
-                                <ProfileImg src={profileImage || "images/nothingImg.png"}></ProfileImg>
+                                <ProfileImg src={profileImage || "images/firstImg.png"}></ProfileImg>
                                 <ProfileName>
                                     {username ? (
                                         <div>{username.username}</div>
@@ -399,10 +411,18 @@ export default function BoardNewPage() {
                                     )}
                                 </ProfileName>
                                 <ProfileTagWrapper>
-                                    <ProfileTag>
-                                        <div>{myArray}</div>
-                                        <div>{myArray2}</div>
-                                    </ProfileTag>
+                                    <ProfileArrayTag>
+                                        Cloth Type
+                                        <div>
+                                            <ProfileTagValue>{myArray}</ProfileTagValue>
+                                        </div>
+                                    </ProfileArrayTag>
+                                    <ProfileArrayTag>
+                                        Cloth Type
+                                        <div>
+                                            <ProfileTagValue>{myArray}</ProfileTagValue>
+                                        </div>
+                                    </ProfileArrayTag>
                                     <ProfileValueWrapper>
                                         <ProfileTag>키</ProfileTag>
                                         <ProfileTag>

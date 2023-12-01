@@ -45,9 +45,7 @@ const onClickTrade = () => {
 const onClickEdit = () => {
     window.location.href = "http://localhost:3000/editPage";
 }
-const onClickImg1 = () => {
-    window.location.href = "http://localhost:3000/editPage";
-}
+
 
 
 const API_KEY = '9ca687d0177634a47449391852d5e834';
@@ -60,9 +58,36 @@ export default function MainCotainer() {
     const [username, setUsername] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
     const [profileImage1, setProfileImage1] = useState(null);
+    const [rank1image, setRank1image] = useState(null);
     const [profileImage2, setProfileImage2] = useState(null);
     const [profileImage3, setProfileImage3] = useState(null);
     const [profileImage4, setProfileImage4] = useState(null);
+
+
+    const [imageURL, setImageURL] = useState(null);
+    const [dataLoaded, setDataLoaded] = useState(false);
+
+    const [rank1boardID, setRank1boardID] = useState(0);
+    const [rank1title, setRank1title] = useState("");
+    const [rank1userID, setRank1userID] = useState(0);
+    // const [rank1image, setRank1image] = useState("");
+
+
+    // const [rankboardID1, setRankboardID1] = useState(0);
+    // const [rankboardID2, setRankboardID2] = useState(0);
+    // const [rankboardID3, setRankboardID3] = useState(0);
+    //
+    // const [ranktitle1, setRanktitle1] = useState("");
+    // const [ranktitle2, setRanktitle2] = useState("");
+    // const [ranktitle3, setRanktitle3] = useState("");
+    //
+    // const [rankuserID1, setRankuserID1] = useState(0);
+    // const [rankuserID2, setRankuserID2] = useState(0);
+    // const [rankuserID3, setRankuserID3] = useState(0);
+
+    const [rankimg1, setRankimg1] = useState("");
+    const [rankimg2, setRankimg2] = useState("");
+    const [rankimg3, setRankimg3] = useState("");
 
     const [recentSearch1, setRecentSearch1] = useState([null]);
     const [recentSearch2, setRecentSearch2] = useState([null]);
@@ -113,6 +138,10 @@ export default function MainCotainer() {
     const refreshToken = Cookies.get('refresh_token');
 
 
+    const onClickImg1 = () => {
+        window.location.href = `http://localhost:3000/styleBoard/${rank1boardID}`;
+    }
+
     // * -------------------------------------------- DB에서 get하기 -----------------------------------------------
 
 
@@ -126,10 +155,209 @@ export default function MainCotainer() {
     const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
     const [isPopularSearchLoaded, setIsPopularSearchLoaded] = useState(false);
     const [isRecommendSearchLoaded, setIsRecommendSearchLoaded] = useState(false);
+    const [isRankLoaded, setIsRankLoaded] = useState(false);
     // const [isStyleRankLoaded, setIsStyleRankLoaded] = useState(false);
+
+
+
+    const fetchData = async () => {
+        try {
+            // 이미지 및 게시물 데이터를 병렬로 불러오기
+            const imageResponse = await axios.get("http://127.0.0.1:8000/board/stylerank/1/", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+
+
+            // 이미지 URL이 상대 경로로 저장되어 있으므로, 기본 URL과 결합하여 전체 URL 생성
+            const baseURL = 'http://127.0.0.1:8000';
+            const fullURL = baseURL + imageResponse.data.image;
+
+            // 이미지를 불러오기
+            const imageBlobResponse = await axios.get(fullURL, {
+                responseType: 'arraybuffer',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (imageBlobResponse.status === 200) {
+                const contentType = imageBlobResponse.headers['content-type'];
+                const blob = new Blob([imageBlobResponse.data], {type: contentType});
+
+                // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
+                const objectURL = URL.createObjectURL(blob);
+                setImageURL(objectURL);
+            } else {
+                console.error('Failed to fetch image');
+            }
+
+            console.log("imageResponse.data")
+            console.log(imageResponse.data)
+
+
+            setDataLoaded(true);
+
+            // Fetch user data
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+        useEffect(() => {
+            if (accessToken && !dataLoaded) {
+                fetchData();
+            }
+        }, [accessToken, dataLoaded])
+
+
+        useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/board/stylerank/2/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                console.log("rank2")
+                console.log(response.data.image)
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+        };
+
+        fetchData();
+    }, [accessToken]);
 
     useEffect(() => {
         const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/board/stylerank/3/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                console.log("rank3")
+                console.log(response.data.image)
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+        };
+
+        fetchData();
+    }, [accessToken]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/board/stylerank/4/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                console.log("rank4")
+                console.log(response.data.image)
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+        };
+
+        fetchData();
+    }, [accessToken]);
+
+
+
+    //rank1boardID 가져오는 코드. 아래 두 useEffect가 해당됨
+    useEffect(() => {
+        console.log("board 값");
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/board/stylerank/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                const temp1 = response.data[0].boardID;
+
+                setRank1boardID(temp1);
+                setRank1title(response.data[0].title);
+                setRank1userID(response.data[0].userID);
+                setIsRankLoaded(true);
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+        };
+
+        fetchData();
+    }, [accessToken]);
+
+// useEffect 내부에서 rank1boardID 값이 변경될 때마다 동작하는 코드 추가
+    useEffect(() => {
+        console.log('Rank1boardID:', rank1boardID);
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/board/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                console.log("board 값");
+                console.log(response.data[0].boardID);
+                console.log(rank1boardID);
+
+                if (response.data[0].boardID === rank1boardID) {
+                    console.log("5번");
+                    console.log(response.data[0].image);
+
+                    setRank1image(response.data[0].image);
+
+                    // setRank1image 이후의 상태를 확인
+
+                }
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+        };
+
+
+        fetchData();
+    }, [rank1boardID, accessToken]);
+    console.log("6번");
+    console.log(rank1image);
+
+
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:8000/board/stylerank/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                console.log("board 값");
+                const temp1 = response.data[0].boardID;
+                console.log(temp1);
+
+                setRank1boardID(temp1);
+                setRank1title(response.data[0].title);
+                setRank1userID(response.data[0].userID);
+
+                console.log(rank1boardID)
+
+                // 여기서 추가: setRank1boardID가 완료된 후에 작업을 수행
+                // 이제 rank1boardID 값이 업데이트된 것을 보장
+                setIsRankLoaded(true);
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+
             const result = await axios.get("http://127.0.0.1:8000/boardType/1/", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -190,7 +418,7 @@ export default function MainCotainer() {
 
                 setIsRecentSearch1Loaded(true);
             } catch (error) {
-                console.error('서버 요청 오류:', error);
+                console.error('서버 요청! 오류:', error);
             }
             try {
                 const response = await axios.get('http://127.0.0.1:8000/search/popular/', {
@@ -221,42 +449,136 @@ export default function MainCotainer() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
-            try {
-                const response = await axios.get('http://localhost:8000/board/stylerank', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
+            // try {
+            //     const response = await axios.get('http://localhost:8000/board/stylerank', {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            //
+            //
+            //
+            //     // 변수 선언과 값 할당
+            //     const boardID1 = response.data[0].boardID;
+            //     const userID1 = response.data[0].userID;
+            //     setBoardID1(boardID1);
+            //
+            //     const boardID2 = response.data[1].boardID;
+            //     const userID2 = response.data[1].userID;
+            //     setBoardID2(boardID2);
+            //
+            //     const boardID3 = response.data[2].boardID;
+            //     const userID3 = response.data[2].userID;
+            //     setBoardID3(boardID3);
+            //
+            //     const boardID4 = response.data[3].boardID;
+            //     const userID4 = response.data[3].userID;
+            //     setBoardID4(boardID4);
+            //
+            //     // 로그 출력
+            //     console.log("스타일랭크 response.data[0].boardID:", boardID1);
+            //     console.log("스타일랭크 response.data[0].userID:", userID1);
+            //     console.log("스타일랭크 response.data[1].boardID:", boardID2);
+            //     console.log("스타일랭크 response.data[1].userID:", userID2);
+            //     console.log("스타일랭크 response.data[2].boardID:", boardID3);
+            //     console.log("스타일랭크 response.data[2].userID:", userID3);
+            //     console.log("스타일랭크 response.data[3].boardID:", boardID4);
+            //     console.log("스타일랭크 response.data[3].userID:", userID4);
+            // } catch (error) {
+            //     console.error('서버 요청 오류:', error);
+            // }
 
-                // 변수 선언과 값 할당
-                const boardID1 = response.data[0].boardID;
-                const userID1 = response.data[0].userID;
-                setBoardID1(boardID1);
-
-                const boardID2 = response.data[1].boardID;
-                const userID2 = response.data[1].userID;
-                setBoardID2(boardID2);
-
-                const boardID3 = response.data[2].boardID;
-                const userID3 = response.data[2].userID;
-                setBoardID3(boardID3);
-
-                const boardID4 = response.data[3].boardID;
-                const userID4 = response.data[3].userID;
-                setBoardID4(boardID4);
-
-                // 로그 출력
-                console.log("스타일랭크 response.data[0].boardID:", boardID1);
-                console.log("스타일랭크 response.data[0].userID:", userID1);
-                console.log("스타일랭크 response.data[1].boardID:", boardID2);
-                console.log("스타일랭크 response.data[1].userID:", userID2);
-                console.log("스타일랭크 response.data[2].boardID:", boardID3);
-                console.log("스타일랭크 response.data[2].userID:", userID3);
-                console.log("스타일랭크 response.data[3].boardID:", boardID4);
-                console.log("스타일랭크 response.data[3].userID:", userID4);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
+            // try {
+            //     const response = await axios.get('http://127.0.0.1:8000/board/', {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            //     setBoardID1(async prevBoardID1 => {
+            //         console.log("boardID1")
+            //         console.log(prevBoardID1);
+            //         const targetBoard = response.data.find(board => board.boardID === prevBoardID1);
+            //
+            //         if (targetBoard) {
+            //             await setTitleID1(targetBoard.title);
+            //         } else {
+            //             console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID1})를 찾을 수 없습니다.`);
+            //         }
+            //
+            //         return prevBoardID1;
+            //     });
+            //     setBoardID2(async prevBoardID2 => {
+            //         console.log("boardID2")
+            //         console.log(prevBoardID2);
+            //         const targetBoard = response.data.find(board => board.boardID === prevBoardID2);
+            //
+            //         if (targetBoard) {
+            //             await setTitleID2(targetBoard.title);
+            //         } else {
+            //             console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID2})를 찾을 수 없습니다.`);
+            //         }
+            //         return prevBoardID2;
+            //     });
+            //     setBoardID3(async prevBoardID3 => {
+            //         console.log("boardID3")
+            //         console.log(prevBoardID3);
+            //         const targetBoard = response.data.find(board => board.boardID === prevBoardID3);
+            //
+            //         if (targetBoard) {
+            //             await setTitleID3(targetBoard.title);
+            //         } else {
+            //             console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID3})를 찾을 수 없습니다.`);
+            //         }
+            //         return prevBoardID3;
+            //     });
+            //     setBoardID4(async prevBoardID4 => {
+            //         console.log("boardID4")
+            //         console.log(prevBoardID4);
+            //         const targetBoard = response.data.find(board => board.boardID === prevBoardID4);
+            //
+            //         if (targetBoard) {
+            //             await setTitleID4(targetBoard.title);
+            //         } else {
+            //             console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID4})를 찾을 수 없습니다.`);
+            //         }
+            //         return prevBoardID4;
+            //     });
+            // } catch (error) {
+            //     console.error('서버 요청 오류:', error);
+            // }
+            // try {
+            //     const response = await axios.get('http://127.0.0.1:8000/board/', {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            //     console.log("board 값")
+            //     console.log(response.data[0].boardID)
+            //     //
+            //     // const setBoardTitle = async (prevBoardID, setTitleID) => {
+            //     //     console.log(`boardID${prevBoardID}`);
+            //     //     console.log(prevBoardID);
+            //     //
+            //     //     const targetBoard = response.data.find((board) => board.boardID === prevBoardID);
+            //     //
+            //     //     if (targetBoard) {
+            //     //         await setTitleID(targetBoard.title);
+            //     //     } else {
+            //     //         console.log(`보드 읽어오기 실패: 해당하는 boardID(${prevBoardID})를 찾을 수 없습니다.`);
+            //     //     }
+            //     //
+            //     //     return prevBoardID;
+            //     // };
+            //     //
+            //     // setBoardID1(async (prevBoardID1) => await setBoardTitle(prevBoardID1, setTitleID1));
+            //     // setBoardID2(async (prevBoardID2) => await setBoardTitle(prevBoardID2, setTitleID2));
+            //     // setBoardID3(async (prevBoardID3) => await setBoardTitle(prevBoardID3, setTitleID3));
+            //     // setBoardID4(async (prevBoardID4) => await setBoardTitle(prevBoardID4, setTitleID4));
+            //     // console.log("뜨나?")
+            //     // console.log(boardID1)
+            // } catch (error) {
+            //     console.error('서버 요청 오류:', error);
+            // }
 
             try {
                 const response = await axios.get('http://127.0.0.1:8000/board/', {
@@ -318,6 +640,10 @@ export default function MainCotainer() {
             }
 
 
+
+
+
+
             try {
                 const response = await axios.get(`http://127.0.0.1:8000/userinfo/?userID=${styleRank1user}`, {
                     headers: {
@@ -365,7 +691,17 @@ export default function MainCotainer() {
 
 
             try {
-                const response = await axios.get('http://127.0.0.1:8000/user_image/?user_id=${styleRank1user}', {
+                const imageResponse = await axios.get('http://127.0.0.1:8000/styleRank/1/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                const baseURL = 'http://127.0.0.1:8000';
+                const fullURL = baseURL + response.data.image;
+
+                const imageBlobResponse = await axios.get(fullURL, {
+                    responseType: 'arraybuffer',
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -380,15 +716,31 @@ export default function MainCotainer() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+            // try {
+            //     const response = await axios.get(`http://127.0.0.1:8000/styleBoard/${rank1boardID}`, {
+            //         headers: {
+            //             Authorization: `Bearer ${accessToken}`,
+            //         },
+            //     });
+            //
+            //     console.log("사진가져오자");
+            //     console.log(response.data);
+            //
+            //
+            //     // setProfileImage1(response.data.);
+            //     setIsUserDataLoaded1(true);
+            // } catch (error) {
+            //     console.error('서버 요청 오류:', error);
+            // }
 
 
         };
 
-        if (accessToken && !username && !isUserDataLoaded0 && !isUserDataLoaded && !isUserDataLoaded1 && !isUserDataLoaded2 && !isUserDataLoaded3 && !isUserDataLoaded4 && !isRecentSearch1Loaded && !isPopularSearchLoaded && !isRecommendSearchLoaded) {
+        if (accessToken && !username && !isUserDataLoaded0 && !isUserDataLoaded && !isUserDataLoaded1 && !isUserDataLoaded2 && !isUserDataLoaded3 && !isUserDataLoaded4 && !isRecentSearch1Loaded && !isPopularSearchLoaded && !isRecommendSearchLoaded && !isRankLoaded) {
             fetchData();
         }
 
-    }, [accessToken, username, isUserDataLoaded0, isUserDataLoaded, isUserDataLoaded1, isUserDataLoaded2, isUserDataLoaded3, isUserDataLoaded4, isRecentSearch1Loaded, isPopularSearchLoaded, isRecommendSearchLoaded]);
+    }, [accessToken, username, isUserDataLoaded0, isUserDataLoaded, isUserDataLoaded1, isUserDataLoaded2, isUserDataLoaded3, isUserDataLoaded4, isRecentSearch1Loaded, isPopularSearchLoaded, isRecommendSearchLoaded, isRankLoaded]);
 
     function handleError(error) {
         if (error.response) {
@@ -528,10 +880,14 @@ export default function MainCotainer() {
         setIsModalOpen(false);
     };
 
+    const onClickFashion = () => {
+        window.location.href = "http://localhost:3000/styleBoard/"
+    }
     return (
 
         <>
             <Wrapper>
+                {rankimg1}
                 <ConsentWrapper>
                     <Top>
                         <SearchInput onClick={openModal} onKeyPress={onEnterSubmit} onChange={onChangeSearch} type="text" placeholder="검색어를 입력하세요.">
@@ -673,7 +1029,7 @@ export default function MainCotainer() {
                         <TopButton onClick={onClickMyPage}>My Page</TopButton>
 
                         <Popover content="✨✨ 궁금해? 들어와보던가 ♡🌷💕" styles={{marginTop:"30px"}}>
-                            <FashionBtn>Fashion★</FashionBtn>
+                            <FashionBtn onClick={onClickFashion}>Fashion★</FashionBtn>
                         </Popover>
                     </Top>
                     <Divide/>
@@ -684,55 +1040,23 @@ export default function MainCotainer() {
 
                                 <Styles>
                                     <StylesImgWrapper>
-                                        <StylesImg onClick={onClickImg1} src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg" />
+                                        <StylesImg src={"https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"} />
                                     </StylesImgWrapper>
-                                    <StylesUserWrapper>
-                                        <StylesUserImg src={profileImage1 || "images/nothingImg.png"}/>
-                                        <StylesTitle>{titleID1}</StylesTitle>
-                                        <StylesUserName>{styleRank1username}</StylesUserName>
-                                    </StylesUserWrapper>
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
-                                        <StylesImg src="https://cdn.imweb.me/upload/S201612025840bcf9c3866/4f56d1796c287.jpeg"/>
+                                        <StylesImg src={"https://cdn.imweb.me/upload/S201612025840bcf9c3866/4f56d1796c287.jpeg"}/>
                                     </StylesImgWrapper>
-                                    <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID2}</StylesTitle>
-                                        <StylesUserName>{styleRank2username}</StylesUserName>
-                                    </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
                                         <StylesImg src="https://img.allurekorea.com/allure/2023/03/style_641ae6d429619-560x700.jpg"/>
                                     </StylesImgWrapper>
-                                    <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID3}</StylesTitle>
-                                        <StylesUserName>{styleRank3username}</StylesUserName>
-                                    </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                                 <Styles>
                                     <StylesImgWrapper>
                                         <StylesImg src="https://i0.codibook.net/files/1980071220075/2d55f946cdfb98/1120481683.jpg"/>
                                     </StylesImgWrapper>
-                                    <StylesUserWrapper>
-                                        <StylesUserImg src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg"/>
-                                        <StylesTitle>{titleID4}</StylesTitle>
-                                        <StylesUserName>{styleRank4username}</StylesUserName>
-                                    </StylesUserWrapper>
-                                    {/*<StylesTagWrapper>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*    <StylesTag onClick={onTagClickSubmit} data-text="태그">#태그</StylesTag>*/}
-                                    {/*</StylesTagWrapper>*/}
                                 </Styles>
                             </StylesWrapper>
                         </Left>
