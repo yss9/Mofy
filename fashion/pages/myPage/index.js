@@ -12,6 +12,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
+import ReportList from "../../src/repostListPage/reportListPage";
 // import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
 // import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
 
@@ -28,12 +29,16 @@ const onClickEdit = () => {
 const Popup = ({ onClose }) => {
     return (
         <ReportWrapper>
-            <ReportTop>
-                <ReportText>Report List</ReportText>
-                <ReportExitButton onClick={onClose}>X</ReportExitButton>
-            </ReportTop>
 
-            <ReportListWrapper></ReportListWrapper>
+                <ReportExitButton onClick={onClose}>X</ReportExitButton>
+                <ReportText>
+                    Report List
+                    <ReportList/>
+                </ReportText>
+
+
+
+
 
         </ReportWrapper>
     );

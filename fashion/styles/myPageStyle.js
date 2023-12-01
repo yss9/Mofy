@@ -323,7 +323,7 @@ export const SellList = styled.button`
   }
 `
 export const ReportWrapper = styled.div`
-  width: 500px;
+  width: 1000px;
   height: 500px;
   background-color: white;
   position: fixed;
@@ -335,13 +335,11 @@ export const ReportWrapper = styled.div`
   border-radius: 10px;
 `
 export const ReportText = styled.div`
-  width: 200px;
-  height: 50px;
+  width: 100px;
   font-size: 30px;
   font-weight: bold;
   //background-color: indianred;
-  margin-left: 170px;
-  margin-top: 20px;
+ margin-left: 200px;
   float: left;
   color: #966a9b;
 `
@@ -351,7 +349,8 @@ export const ReportExitButton = styled.button`
   float: right;
   font-weight: bold;
   color: #966a9b;
-  margin: 25px 25px;
+  margin-top: 10px;
+  margin-left: 700px;
   background-color: white;
   border-radius: 30px;
   border: 2px solid rgba(151, 106, 156, 0.52);
@@ -368,8 +367,4 @@ export const ReportListWrapper = styled.div`
   margin: 10px 25px;
   //background-color: pink;
   border-top: 2px dotted #b2a4b5;
-`
-export const ReportTop = styled.div`
-  width: 500px;
-  height: 70px;
 `
