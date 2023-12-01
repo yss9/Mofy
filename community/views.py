@@ -211,18 +211,23 @@ class LikeDetail(APIView):
 
 
 class Report(APIView):
+
     permission_classes = [IsAdminUser]
-    def get(self, request,pk):
+    def get(self, request, pk):
         reportList = ReportBoardList.objects.all()
         reportList_serializer = ReportBoardListSerializers(reportList, many=True)
         return Response(reportList_serializer.data,status=status.HTTP_200_OK)
 
+
     permission_classes = [IsAuthenticated]
     def post(self, request, pk):
         board = Board.objects.get(boardID = pk)
-        reported_user = board.userID
-        ReportBoardList.objects.create(boardID=board,userID=reported_user)
-        return Response(status=status.HTTP_200_OK)
+        user = board.userID
+        report = ReportBoardList()
+        report.userID = user
+        report.boardID = board
+        report.save()
+        return Response(status = status.HTTP_200_OK)
 
 
 
@@ -250,6 +255,8 @@ class GetMyLikeBoard(APIView):
     def get(self, request):
         id = request.user.id
         like = Like.objects.filter(userID = id)
-        serializer = LikeSerializers(like, many = True)
+        board_ids = like.values_list('boardID', flat=True)
+        liked_boards = Board.objects.filter(boardID__in = board_ids)
+        serializer = BoardSerializers(liked_boards, many = True)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
