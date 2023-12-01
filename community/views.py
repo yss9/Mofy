@@ -7,10 +7,11 @@ import extcolors
 
 
 from rest_framework import status
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from accounts.models import User
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
@@ -66,7 +67,7 @@ class Test(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-
+@authentication_classes([JWTAuthentication])
 class BoardList(APIView):
     permission_classes = [AllowAny]
     def get(self, request):
@@ -101,7 +102,8 @@ class BoardList(APIView):
         else:
             return Response({'error': 'User is not authenticated.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class TagDetail(APIView):
     def get(self,request,pk):
         tagd = TagBoard.objects.filter(boardID=pk)
@@ -113,14 +115,15 @@ class TagDetail(APIView):
         return Response(serializers.data, status=status.HTTP_200_OK)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([AllowAny])
 class SelectBoardType(APIView):
-    permission_classes = [AllowAny]
     def get(self, request, pk, format=None):
         board = Board.objects.filter(boardType=pk)
         serializer = BoardSerializers(board, many=True)
         return Response(serializer.data)
 
-
+@authentication_classes([JWTAuthentication])
 class BoardDetail(APIView):
     permission_classes = [AllowAny]
     def get(self, request, pk, format=None):
@@ -161,9 +164,9 @@ class BoardDetail(APIView):
 
 
 
-
+@authentication_classes([JWTAuthentication])
+@permission_classes([AllowAny])
 class CommentDetail(APIView):
-    permission_classes = [AllowAny]
     def get(self, request, pk, format=None):
         board = Board.objects.get(pk=pk)
         boardID = board.boardID
@@ -171,7 +174,7 @@ class CommentDetail(APIView):
         comment_serializer = CommentSerializers(comment, many=True)
         return Response(comment_serializer.data)
 
-
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 class CommentPutDel(APIView):
     def put(self, request, pk, format=None):
@@ -190,16 +193,14 @@ class CommentPutDel(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class LikeDetail(APIView):
-    permission_classes = [IsAuthenticated]
     def get(self, request, pk, format=None):
         like = Like.objects.filter(boardID=pk)
         like_serializer = LikeSerializers(like, many=True)
         return Response(like_serializer.data)
 
-
-    permission_classes = [IsAuthenticated]
     def post(self, request, pk, format=None):
         board = Board.objects.get(boardID=pk)
         user = User.objects.get(id=request.user.id)
@@ -212,9 +213,9 @@ class LikeDetail(APIView):
             return Response(status=status.HTTP_201_CREATED)
 
 
-
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAdminUser])
 class ReportList(APIView):
-    permission_classes = [IsAdminUser]
 
     def get(self, request):
         reportList = ReportBoardList.objects.all()
@@ -224,9 +225,9 @@ class ReportList(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class Report(APIView):
-
-    permission_classes = [IsAuthenticated]
     def post(self, request, pk):
         board = Board.objects.get(boardID = pk)
         user = board.userID
@@ -237,7 +238,7 @@ class Report(APIView):
         return Response(status = status.HTTP_200_OK)
 
 
-
+@authentication_classes([JWTAuthentication])
 @permission_classes([AllowAny])
 class StyleRankView(APIView):
     def get(self, request):
@@ -247,8 +248,9 @@ class StyleRankView(APIView):
         return Response(serializers.data, status=status.HTTP_200_OK)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class GetMyBoard(APIView):
-    permission_classes = [IsAuthenticated]
     def get(self, request, pk):
         boardType = pk
         id = request.user.id
@@ -257,8 +259,9 @@ class GetMyBoard(APIView):
         return Response(serializer.data, status = status.HTTP_200_OK)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class GetMyLikeBoard(APIView):
-    permission_classes = [IsAuthenticated]
     def get(self, request):
         id = request.user.id
         like = Like.objects.filter(userID = id)
@@ -267,8 +270,9 @@ class GetMyLikeBoard(APIView):
         serializer = BoardSerializers(liked_boards, many = True)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class Chat(APIView):
-    permission_classes = [IsAuthenticated]
     def post(self, request):
         board = Board.objects.get(boardID = 1)
         receive_id = request.data['receiveID']
@@ -281,9 +285,10 @@ class Chat(APIView):
         messaged.save()
         return Response(status=status.HTTP_200_OK)
 
-class MessageBox(APIView):
-    permission_classes = [IsAuthenticated]
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class MessageBox(APIView):
     def get(self, request, pk):
         us_msg = request.user.id
         if pk == 1:
@@ -297,8 +302,9 @@ class MessageBox(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 class MessageDetail(APIView):
-    permission_classes = [IsAuthenticated]
     def get(self, request, pk):
         message = Message.objects.get(id = pk)
         serializers = MessageSerializers(message)
