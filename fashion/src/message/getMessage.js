@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import {
     Wrapper,
     ConsentWrapper,
@@ -8,20 +8,36 @@ import {
     NoteItem,
     AddNoteButton,AddNoteButtonWrapper,
     Line,
-} from '../../../styles/styles/BoardsMessage'
+} from '../../styles/styles/BoardsMessage'
+import Cookies from "js-cookie";
+import axios from "axios";
 
 export default function BoardsNotePage() {
-    const [notes, setNotes] = useState([]);
+    const [message, setMessage] = useState([]);
+    const accessToken = Cookies.get('access_token');
+
+    const fetchMessage = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/message_box/2/", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            setMessage(response.data);
+        } catch (error) {
+            console.error("서버 요청 오류:", error);
+        }
+    };
 
     const addNote = () => {
-        const newNote = {
-            id: notes.length + 1,
-            userName: `사용자${notes.length + 1}`, // 사용자 이름 예시
-            content: `쪽지 내용 ${notes.length + 1}`,
-        };
-
-        setNotes([...notes, newNote]);
+        fetchMessage();
     };
+
+    useEffect(() => {
+        if (accessToken) {
+            fetchMessage();
+        }
+    }, [accessToken]);
 
     return (
         <>
@@ -34,12 +50,11 @@ export default function BoardsNotePage() {
                         </AddNoteButtonWrapper>
                     </TitleWrapper>
                     <NoteList>
-                        {notes.map((note, index) => (
-                            <React.Fragment key={note.id}>
-                                <NoteItem>
-                                    <strong>{note.userName}:</strong> {note.content}
-                                </NoteItem>
-                                {index !== notes.length - 1 && <Line />}
+                        {message.map((message, index) => (
+                            <React.Fragment key={message.id}>
+                                <NoteItem>{message.sendID}</NoteItem>
+                                <NoteItem>{message.message}</NoteItem>
+                                {index !== message.length - 1 && <Line />}
                             </React.Fragment>
                         ))}
                     </NoteList>
