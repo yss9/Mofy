@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import {getDate} from "../../commons/libraries/utils";
 import React from 'react';
 import { Tag, Button } from 'antd';
+import Cookies from "js-cookie";
 
 
 
@@ -15,18 +16,32 @@ export default function ColorPaletteDetail() {
     const [imageURL2, setImageURL2] = useState(null);
     const [imageURL3, setImageURL3] = useState(null);
 
+    const accessToken = Cookies.get('access_token')
+    const refreshToken = Cookies.get('refresh_token')
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 // Fetch data for the first image
-                const imageResponse = await axios.get(`http://127.0.0.1:8000/Test/`);
+                const imageResponse = await axios.get(`http://127.0.0.1:8000/Test/`,{
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
 
                 // Fetch data for the second image
-                const imageResponse2 = await axios.get(`http://127.0.0.1:8000/Test/`); // Replace 'secondImage' with the actual endpoint for the second image
+                const imageResponse2 = await axios.get(`http://127.0.0.1:8000/Test/`,{
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }); // Replace 'secondImage' with the actual endpoint for the second image
 
                 // Fetch data for the third image
-                const imageResponse3 = await axios.get(`http://127.0.0.1:8000/Test/`); // Replace 'thirdImage' with the actual endpoint for the third image
+                const imageResponse3 = await axios.get(`http://127.0.0.1:8000/Test/`,{
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }); // Replace 'thirdImage' with the actual endpoint for the third image
 
                 // Process data for the first image
                 const baseURL = 'http://127.0.0.1:8000';
