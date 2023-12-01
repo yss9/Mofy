@@ -11,6 +11,7 @@ import {
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
+import ReportList from "../../src/repostListPage/reportListPage";
 
 const onClickLogout = () => {
     window.location.href = "http://localhost:3000/mainPage/notLogin";
@@ -25,7 +26,10 @@ const Popup = ({ onClose }) => {
     return (
         <ReportWrapper>
             <ReportTop>
-                <ReportText>Report List</ReportText>
+                <ReportText>
+                    Report List
+                    <ReportList/>
+                </ReportText>
                 <ReportExitButton onClick={onClose}>X</ReportExitButton>
             </ReportTop>
 
