@@ -474,33 +474,6 @@ export default function BoardNewPage() {
                             </div>
 
                         </MyMofyWrapper>
-                        <YourMofyWrapper>
-                            <YourMofyText>Your MOFY</YourMofyText>
-                            <MofyImg/><MofyImg/><MofyImg/>
-                        </YourMofyWrapper>
-                        <MyCommunityListWrapper>
-                            <MyCommunityListText>My Community List</MyCommunityListText>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                            <CommunityList>내용</CommunityList>
-                        </MyCommunityListWrapper>
-                        <SellListWrapper>
-                            <SellListText>Sell List</SellListText>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                            <SellList>내용</SellList>
-                        </SellListWrapper>
-
                     </Bottom>
                 </ConsentWrapper>
             </Wrapper>
