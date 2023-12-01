@@ -230,51 +230,51 @@ export default function BoardNewPage() {
 
     const onClicknormal = () => {
         if (!normal){
-            setnormal(!normal);
+            setnormal(true);
         }
         else{
-            setnormal(!normal);
+            setnormal(false);
         }
     }
     const onClickdry = () => {
         if (!dry){
-            setdry(!dry);
+            setdry(true);
         }
         else{
-            setdry(!dry);
+            setdry(false);
         }
     }
     const onClickoily = () => {
         if (!oily){
-            setoily(!oily);
+            setoily(true);
         }
         else{
-            setoily(!oily);
+            setoily(false);
         }
     }
     const onClickcombination = () => {
         if (!combination){
-            setcombination(!combination);
+            setcombination(true);
         }
         else{
-            setcombination(!combination);
+            setcombination(false);
         }
     }
     const onClicksensitive = () => {
         if (!sensitive){
-            setsensitive(!sensitive);
+            setsensitive(true);
         }
         else{
-            setsensitive(!sensitive);
+            setsensitive(false);
         }
     }
 
     const onClickacne = () => {
         if (!acne){
-            setacne(!acne);
+            setacne(true);
         }
         else{
-            setacne(!acne);
+            setacne(false);
         }
 
     }
@@ -292,7 +292,7 @@ export default function BoardNewPage() {
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');
     const onClickSave = () => {
-        // window.location.href="http://localhost:3000/myPage"
+
         console.log(simple)
         console.log(modern)
         console.log(feminine)
@@ -385,6 +385,8 @@ export default function BoardNewPage() {
                 console.error('서버 요청 오류:', error);
             });
 
+        window.location.href="http://localhost:3000/myPage"
+
     }
 
 
@@ -435,7 +437,7 @@ export default function BoardNewPage() {
                     <Mid>
                         <EditText>프로필 수정</EditText>
                         <EditImgWrapper>
-                            <UserImg src={imgFile ? imgFile :"images/firstImg.png"}/>
+                            <UserImg src={imgFile ? imgFile :"images/firstImg.jpg"}/>
                             <label>
                                 <OverlayImage src={"https://cdn-icons-png.flaticon.com/512/5218/5218413.png"}/>
                                 <OverlayImageInput type="file" accept="image/*" onChange={saveImgFile} ref={imgRef}/>
@@ -458,28 +460,103 @@ export default function BoardNewPage() {
                         <EditClothTypeWrapper>
                             <EditClothTypeText>옷 타입</EditClothTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton id={"simple"} onClick={onClickSimple}>#Simple</EditTypeButton>
-                                <EditTypeButton id={"modern"} onClick={onClickModern}>#Modern</EditTypeButton>
-                                <EditTypeButton id={"feminine"} onClick={onClickFeminine}>#Feminine</EditTypeButton>
-                                <EditTypeButton id={"dandy"} onClick={onClickDandy}>#Dandy</EditTypeButton>
-                                <EditTypeButton id={"retro"} onClick={onClickRetro}>#Retro</EditTypeButton>
-                                <EditTypeButton id={"minimal"} onClick={onClickMinimal}>#Minimal</EditTypeButton>
-                                <EditTypeButton id={"casual"} onClick={onClickCasual}>#Casual</EditTypeButton>
-                                <EditTypeButton id={"street"} onClick={onClickStreet}>#Street</EditTypeButton>
-                                <EditTypeButton id={"sporty"} onClick={onClickSporty}>#Sporty</EditTypeButton>
-                                <EditTypeButton id={"urban"} onClick={onClickUrban}>#Urban</EditTypeButton>
-                                <EditTypeButton id={"classic"} onClick={onClickClassic}>#Classic</EditTypeButton>
+                                <EditTypeButton
+                                    id={"simple"}
+                                    onClick={onClickSimple}
+                                    style={!simple ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Simple
+                                </EditTypeButton>
+                                <EditTypeButton
+                                    id={"modern"}
+                                    onClick={onClickModern}
+                                    style={!modern ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Modern</EditTypeButton>
+                                <EditTypeButton
+                                    id={"feminine"}
+                                    onClick={onClickFeminine}
+                                    style={!feminine ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Feminine</EditTypeButton>
+                                <EditTypeButton
+                                    id={"dandy"}
+                                    onClick={onClickDandy}
+                                    style={!dandy ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Dandy</EditTypeButton>
+                                <EditTypeButton
+                                    id={"retro"}
+                                    onClick={onClickRetro}
+                                    style={!retro ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Retro</EditTypeButton>
+                                <EditTypeButton
+                                    id={"minimal"}
+                                    onClick={onClickMinimal}
+                                    style={!minimal ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Minimal</EditTypeButton>
+                                <EditTypeButton
+                                    id={"casual"}
+                                    onClick={onClickCasual}
+                                    style={!casual ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Casual</EditTypeButton>
+                                <EditTypeButton
+                                    id={"street"}
+                                    onClick={onClickStreet}
+                                    style={!street ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Street</EditTypeButton>
+                                <EditTypeButton
+                                    id={"sporty"}
+                                    onClick={onClickSporty}
+                                    style={!sporty ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Sporty</EditTypeButton>
+                                <EditTypeButton
+                                    id={"urban"}
+                                    onClick={onClickUrban}
+                                    style={!urban ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Urban</EditTypeButton>
+                                <EditTypeButton
+                                    id={"classic"}
+                                    onClick={onClickClassic}
+                                    style={!classic ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}>
+                                    #Classic</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditClothTypeWrapper>
                         <EditSkinTypeWrapper>
                             <EditSkinTypeText>피부 타입</EditSkinTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton id={"normal"} onClick={onClicknormal}>보통</EditTypeButton>
-                                <EditTypeButton id={"dry"} onClick={onClickdry}>건성</EditTypeButton>
-                                <EditTypeButton id={"oily"} onClick={onClickoily}>지성</EditTypeButton>
-                                <EditTypeButton id={"sensitive"} onClick={onClickcombination}>복합성</EditTypeButton>
-                                <EditTypeButton id={"combination"} onClick={onClicksensitive}>민감성</EditTypeButton>
-                                <EditTypeButton id={"acne"} onClick={onClickacne}>여드름</EditTypeButton>
+                                <EditTypeButton
+                                    id={"normal"}
+                                    onClick={onClicknormal}
+                                    style={!normal ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}
+                                    >
+                                    보통</EditTypeButton>
+                                <EditTypeButton
+                                    id={"dry"}
+                                    onClick={onClickdry}
+                                    style={!dry ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}
+                                    >
+                                    건성</EditTypeButton>
+                                <EditTypeButton
+                                    id={"oily"}
+                                    onClick={onClickoily}
+                                    style={!oily ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}
+                                    >
+                                    지성</EditTypeButton>
+                                <EditTypeButton
+                                    id={"sensitive"}
+                                    onClick={onClickcombination}
+                                    style={!sensitive ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}
+                                    >
+                                    복합성</EditTypeButton>
+                                <EditTypeButton
+                                    id={"combination"}
+                                    onClick={onClicksensitive}
+                                    style={!combination ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}
+                                    >
+                                    민감성</EditTypeButton>
+                                <EditTypeButton
+                                    id={"acne"}
+                                    onClick={onClickacne}
+                                    style={!acne ? { backgroundColor: 'white' } : { backgroundColor: 'pink' }}
+                                    >
+                                    여드름</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditSkinTypeWrapper>
                         <EditUserSizeWrapper>
