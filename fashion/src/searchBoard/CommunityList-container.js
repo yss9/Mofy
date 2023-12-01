@@ -1,13 +1,13 @@
-//나은 원본 코드
+// 내 검색
 
 import { useRouter } from "next/router";
 import {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import * as S from "../../../src/community/list/CommunityList-styles";
-import {FireFilledIcon, Searchbar, SearchbarInput} from "../searchbars/01/Searchbars01-styles";
+import * as S from "../community/list/CommunityList-styles";
+import {FireFilledIcon, Searchbar, SearchbarInput} from "../community/searchbars/01/Searchbars01-styles";
 import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
-import {getDate} from "../../commons/libraries/utils";
+import {getDate} from "../commons/libraries/utils";
 import Cookies from "js-cookie"
 
 const SECRET = "!@#$";
@@ -28,8 +28,8 @@ export default function CommunityList() {
 
     const[dataLoaded, setDataLoaded] = useState(false)
 
-
-
+    const [recentSearch1, setRecentSearch1] = useState([null]);
+    const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
 
     useEffect(()=>{
         const fetchData = async () => {
@@ -51,6 +51,27 @@ export default function CommunityList() {
                 .catch(function (error) {
                     console.log(error);
                 });
+            const response = await axios.get('http://127.0.0.1:8000/search/history/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((response) => {
+
+
+
+                    setKeyword(response.data[0].query);
+                    setRecentSearch1(response.data[0].query);
+
+
+                    console.log(response.data[0].query);
+
+                    setDataLoaded(true)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         }
 
         if(accessToken && !dataLoaded){
@@ -74,22 +95,22 @@ export default function CommunityList() {
 
 
     const onClickMoveToBoardNew = () => {
-    router.push("/community/new");
-  }
+        router.push("/community/new");
+    }
 
-  let eventData ;
+    let eventData ;
 
-  const onClickMoveToBoardDetail = (event) => {
-    router.push(`/community/${event.target.id}`);
-    console.log(event.target.id)
-
-
-  };
+    const onClickMoveToBoardDetail = (event) => {
+        router.push(`/community/${event.target.id}`);
+        console.log(event.target.id)
 
 
-  const onChangeKeyword = (value) => {
-    setKeyword(value);
-  };
+    };
+
+
+    const onChangeKeyword = (value) => {
+        setKeyword(value);
+    };
 
 
     return (
@@ -97,7 +118,7 @@ export default function CommunityList() {
             <Searchbar>
                 <FireFilledIcon />
                 <SearchbarInput
-                    placeholder="검색어를 입력해 주세요."
+                    placeholder={recentSearch1}
                     onChange={handleChange}
                 />
             </Searchbar>
@@ -113,23 +134,23 @@ export default function CommunityList() {
 
 
             {reqData.filter(el => el.title.includes(keyword)).map(el => (
-                    <S.Row key={el.boardID}>
+                <S.Row key={el.boardID}>
 
-                        <S.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
+                    <S.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
 
-                            {el.title
-                                .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
-                                .split(SECRET)
-                                .map((el, index) => (
-                                    <S.TextToken key={uuidv4()} isMatched={keyword === el}>
-                                        {el}
-                                    </S.TextToken>
-                                ))}
-                        </S.ColumnTitle>
-                       <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
-                    </S.Row>
+                        {el.title
+                            .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
+                            .split(SECRET)
+                            .map((el, index) => (
+                                <S.TextToken key={uuidv4()} isMatched={keyword === el}>
+                                    {el}
+                                </S.TextToken>
+                            ))}
+                    </S.ColumnTitle>
+                    <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
+                </S.Row>
 
-                ))}
+            ))}
 
 
             <S.TableBottom />

@@ -13,10 +13,14 @@ export default function CommunityDetail() {
 
     const {boardID} = router.query
 
+    //보드 타입
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [datetime, setDatetime] = useState(null)
+
+    // 계정 타입
     const [username, setUsername] = useState("");
+    const [userID, setUserID] = useState(0)
 
     const accessToken = Cookies.get('access_token')
     const refreshToken = Cookies.get('refresh_token')
@@ -95,6 +99,7 @@ export default function CommunityDetail() {
             router.push("/community/");
             alert("게시물 삭제가 정상적으로 완료되었습니다!");
             setDeleteLoaded(true);
+
         } catch (error) {
             console.log(error);
         }

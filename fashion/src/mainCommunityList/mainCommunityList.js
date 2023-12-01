@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import * as S from "../../src/community/list/CommunityList-styles";
+import * as S from "./mainCommunityList-styles";
 import {getDate} from "../../src/commons/libraries/utils";
 import Cookies from "js-cookie"
 
@@ -18,7 +18,7 @@ export default function CommunityList() {
         const fetchData = async () => {
             console.log("마운트가 완료되었디!");
             try {
-                const response = await axios.get("http://127.0.0.1:8000/board/reportlist/", {
+                const response = await axios.get("http://127.0.0.1:8000/boardType/1/", {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },

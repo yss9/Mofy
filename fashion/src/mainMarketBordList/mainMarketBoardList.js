@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import * as S from "../../src/community/list/CommunityList-styles";
+import * as S from "./mainMarketBoardList-styles";
 import {getDate} from "../../src/commons/libraries/utils";
 import Cookies from "js-cookie"
 
 
-export default function CommunityList() {
+export default function MainMarketBoardList() {
     const router = useRouter();
 
     const [reqData, setReqData] = useState([]);
@@ -18,7 +18,7 @@ export default function CommunityList() {
         const fetchData = async () => {
             console.log("마운트가 완료되었디!");
             try {
-                const response = await axios.get("http://127.0.0.1:8000/board/reportlist/", {
+                const response = await axios.get("http://127.0.0.1:8000/boardType/3/", {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -48,9 +48,14 @@ export default function CommunityList() {
         <S.Wrapper>
             <S.TableTop />
             <S.Row>
-                <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
+                <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
                 <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
+                <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
+                {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
+                <S.ColumnHeaderBasic>가격</S.ColumnHeaderBasic>
+                <S.ColumnHeaderBasic>판매상태</S.ColumnHeaderBasic>
             </S.Row>
+
 
             {reqData.map((el) => (
                 <S.Row key={el.boardID}>
@@ -61,11 +66,13 @@ export default function CommunityList() {
                     >
                         {el.title}
                     </S.ColumnTitle>
-                    <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
+                    <S.ColumnBasic>{el.price}원</S.ColumnBasic>
+                    <S.ColumnBasic>{el.state ? "판매중" : "판매완료"}</S.ColumnBasic>
                 </S.Row>
             ))}
 
-            <S.TableBottom />
+            <S.TableBottom/>
+
         </S.Wrapper>
     );
 }

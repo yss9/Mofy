@@ -49,6 +49,7 @@ export default function BoardNewPage() {
     const [skinType, setSkinType] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
 
+<<<<<<< HEAD
 
 
     const [normal, setnormal] = useState(false);
@@ -62,6 +63,8 @@ export default function BoardNewPage() {
 
     const[userID, setUserID] = useState(0)
 
+=======
+>>>>>>> b44ec82e2c50b1a82e445e0c2df3c99984ca7b77
     const [isPopupOpen, setPopupOpen] = useState(false);
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');

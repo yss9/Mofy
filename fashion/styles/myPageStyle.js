@@ -39,40 +39,77 @@ export const ProfileText = styled.div`
   //background-color: darkslateblue;
 `
 export const ProfileImg = styled.img`
-    width: 200px;
+  width: 200px;
   height: 200px;
   border-radius: 100px;
   object-fit: cover;
   float: left;
   margin-left: 50px;
+  border: 2px solid rgba(151, 106, 156, 0.26);
 `
 export const ProfileName = styled.div`
   //float: left;
   margin-left: 300px;
-  margin-top: 30px;
+  //margin-top: 10px;
+  margin-bottom: 5px;
   font-size: 40px;
+  font-weight: bold;
   color: #5e464c;
   //font-weight: bold;
 `
-export const ProfileTag = styled.button`
+export const ProfileTag = styled.div`
   font-size: 25px;
-  color: #91526c;
+  color: rgba(145, 82, 108, 0.78);
+  font-weight: bold;
+  margin-left: 20px;
+  //margin-top: 20px;
+  float: left;
+  //background-color: rgb(168, 102, 102);
+  border: none;
+  //cursor: pointer;
+
+`
+export const ProfileValueWrapper = styled.div`
+  height: 50px;
+  //background-color: grey;
+  float: left;
+  margin-right: 60px;
+`
+export const ProfileTagValue = styled.div`
+  //width: 150px;
+  height: 50px;
+  font-size: 25px;
+  font-weight: normal;
+  color: rgba(145, 82, 108, 0.78);
+  margin-left: 7px;
+  //margin-top: 20px;
+  float: left;
+  //background-color: rgb(35, 7, 7);
+  border: none;
+  //cursor: pointer;
+
+`
+export const ProfileArrayTag = styled.div`
+  width: 400px;
+  height: 100px;
+
+  font-size: 25px;
+  font-weight: bold;
+  color: rgba(145, 82, 108, 0.78);
   margin-left: 20px;
   margin-top: 20px;
   float: left;
-  background-color: rgba(255, 255, 255, 0);
+  //background-color: rgb(145, 0, 0);
   border: none;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
+  //cursor: pointer;
+
 `
 export const ProfileTagWrapper = styled.div`
-  width: 500px;
-  height: 70px;
+  width: 850px;
+  height: 180px;
   //background-color: darkgray;
   margin-left: 280px;
-  padding-top: 30px;
+  //padding-top: 30px;
   
 `
 export const ProfileEdit = styled.button`
@@ -229,13 +266,33 @@ export const SellListText = styled.div`
   margin-top: 10px;
   margin-bottom: 30px;
 `
-export const MofyImg = styled.div`
+export const MofyImgDiv = styled.div`
   width: 230px;
   height: 350px;
   //background-color: lightcoral;
   margin-bottom: 50px;
   margin-right: 30px;
   border: 2px solid rgba(220, 127, 148, 0.38);
+  border-radius: 10px;
+  float: left;
+`
+export const MofyImg = styled.img`
+  width: 230px;
+  height: 350px;
+  //background-color: lightcoral;
+  margin-bottom: 50px;
+  margin-right: 30px;
+  border: 2px solid rgba(220, 127, 148, 0.38);
+  border-radius: 10px;
+  float: left;
+`
+export const MoImg = styled.img`
+  width: 230px;
+  height: 350px;
+  //background-color: lightcoral;
+  margin-bottom: 50px;
+  margin-right: 30px;
+  //border: 2px solid rgba(220, 127, 148, 0.38);
   border-radius: 10px;
   float: left;
 `

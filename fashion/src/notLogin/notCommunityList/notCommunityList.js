@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import {useEffect, useState, useCallback} from "react";
 import axios from "axios";
-import * as S from "../../src/community/list/CommunityList-styles";
-import {getDate} from "../../src/commons/libraries/utils";
-import Cookies from "js-cookie"
+import * as S from "./notCommunityList-styles";
+import {getDate} from "../../commons/libraries/utils";
+
 
 
 export default function CommunityList() {
@@ -12,30 +12,20 @@ export default function CommunityList() {
     const [reqData, setReqData] = useState([]);
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    const accessToken = Cookies.get("access_token");
 
     useEffect(() => {
         const fetchData = async () => {
             console.log("마운트가 완료되었디!");
-            try {
-                const response = await axios.get("http://127.0.0.1:8000/board/reportlist/", {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
 
-                setReqData([...response.data]);
-                console.log(response.data);
-                setDataLoaded(true);
-            } catch (error) {
-                console.error(error);
-            }
-        };
+            const response = await axios.get("http://127.0.0.1:8000/boardType/1/");
 
-        if (accessToken && !dataLoaded) {
-            fetchData();
+            setReqData([...response.data]);
+            console.log(response.data);
+            setDataLoaded(true);
         }
-    }, [accessToken, dataLoaded]);
+
+
+    }, []);
 
 
 
