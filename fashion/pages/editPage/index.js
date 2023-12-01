@@ -435,7 +435,7 @@ export default function BoardNewPage() {
                     <Mid>
                         <EditText>프로필 수정</EditText>
                         <EditImgWrapper>
-                            <UserImg src={imgFile ? imgFile :"images/nothingImg.png"}/>
+                            <UserImg src={imgFile ? imgFile :"images/firstImg.png"}/>
                             <label>
                                 <OverlayImage src={"https://cdn-icons-png.flaticon.com/512/5218/5218413.png"}/>
                                 <OverlayImageInput type="file" accept="image/*" onChange={saveImgFile} ref={imgRef}/>

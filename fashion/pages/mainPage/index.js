@@ -682,7 +682,7 @@ export default function MainCotainer() {
                                         <StylesImg onClick={onClickImg1} src="https://vitnal.co.kr/web/product/big/202306/8406b7a565956a108ef183f93e8b6fbc.jpg" />
                                     </StylesImgWrapper>
                                     <StylesUserWrapper>
-                                        <StylesUserImg src={profileImage1 || "images/nothingImg.png"}/>
+                                        <StylesUserImg src={profileImage1 || "images/firstImg.png"}/>
                                         <StylesTitle>{titleID1}</StylesTitle>
                                         <StylesUserName>{styleRank1username}</StylesUserName>
                                     </StylesUserWrapper>

@@ -39,6 +39,14 @@ const Popup = ({ onClose }) => {
     );
 };
 export default function BoardNewPage() {
+
+    const tempArray = [];
+    const [myArray, setMyArray] = useState([])
+    const tempArray2 = [];
+    const [myArray2, setMyArray2] = useState([])
+    console.log(myArray)
+
+
     const [username, setUsername] = useState(null);
     const [weight, setWeight] = useState(null);
     const [height, setHeight] = useState(null);
@@ -46,6 +54,14 @@ export default function BoardNewPage() {
     const [clothType, setClothType] = useState(null);
     const [skinType, setSkinType] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
+
+    const [normal, setnormal] = useState(false);
+    const [dry, setdry] = useState(false);
+    const [oily, setoily] = useState(false);
+    const [combination, setcombination] = useState(false);
+    const [sensitive, setsensitive] = useState(false);
+    const [acne, setacne] = useState(false);
+
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
@@ -177,30 +193,133 @@ export default function BoardNewPage() {
             }
 
             try {
-                const response = await axios.get('http://127.0.0.1:8000/userinfo5/', {
+                const response = await axios.get('http://127.0.0.1:8000/clothTypeView/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                });
+                })
+                console.log("true값 확인")
+                console.log(response.data.Simple)
+                if(response.data.Simple === true){
+                    console.log("simple 추가")
+                    tempArray.push("#Simple     ")
+                }
 
-                setClothType(response.data);
-                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+                if(response.data.Modern === true){
+                    console.log("modern 추가")
+                    tempArray.push("#Modern     ")
+                }
+
+                if(response.data.Feminine === true){
+                    console.log("feminine 추가")
+                    tempArray.push("#Feminine     ")
+                }
+
+                if(response.data.Dandy === true){
+                    console.log("dandy 추가")
+                    tempArray.push("#Dandy     ")
+                }
+
+                if(response.data.Retro === true){
+                    console.log("Retro 추가")
+                    tempArray.push("#Retro     ")
+                }
+
+                if(response.data.Minimal === true){
+                    console.log("minimal 추가")
+                    tempArray.push("#Minimal     ")
+                }
+
+                if(response.data.Casual === true){
+                    console.log("casual 추가")
+                    tempArray.push("#Casual     ")
+                }
+
+                if(response.data.Street === true){
+                    console.log("street 추가")
+                    tempArray.push("#Street     ")
+                }
+
+                if(response.data.Sporty === true){
+                    console.log("sporty 추가")
+                    tempArray.push("#Sporty     ")
+                }
+
+                if(response.data.Urban === true){
+                    console.log("urban 추가")
+                    tempArray.push("#Urban     ")
+                }
+
+                if(response.data.Classic === true){
+                    console.log("classic 추가")
+                    tempArray.push("#Classic     ")
+                }
+
+
+                console.log("tempArray")
+                console.log(tempArray)
+
+                setMyArray(tempArray)
+                console.log("myArray")
+                console.log(myArray)
+
+                setIsArrayLoaded(true); // Set the flag to indicate that data has been loaded
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+
 
             try {
-                const response = await axios.get('http://127.0.0.1:8000/userinfo6/', {
+                const response = await axios.get('http://127.0.0.1:8000/skinTypeView/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                });
+                })
+                console.log("skin true값 확인")
+                console.log(response.data.normal)
+                if(response.data.normal === true){
+                    console.log("normal 추가")
+                    tempArray2.push("#normal")
+                }
 
-                setSkinType(response.data);
-                setIsUserDataLoaded(true); // Set the flag to indicate that data has been loaded
+                if(response.data.dry === true){
+                    console.log("dry 추가")
+                    tempArray2.push("#dry")
+                }
+
+                if(response.data.oily === true){
+                    console.log("oily 추가")
+                    tempArray2.push("#oily")
+                }
+
+                if(response.data.combination === true){
+                    console.log("combination 추가")
+                    tempArray2.push("#combination")
+                }
+
+                if(response.data.sensitive === true){
+                    console.log("sensitive 추가")
+                    tempArray2.push("#sensitive")
+                }
+
+                if(response.data.acne === true){
+                    console.log("acne 추가")
+                    tempArray2.push("#acne")
+                }
+
+
+                console.log("tempArray2")
+                console.log(tempArray2)
+
+                setMyArray2(tempArray2)
+                console.log("myArray2")
+                console.log(myArray2)
+
+                setIsArrayLoaded(true); // Set the flag to indicate that data has been loaded
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
+
 
             try {
                 const response = await axios.get('http://127.0.0.1:8000/user_image/', {
@@ -263,7 +382,7 @@ export default function BoardNewPage() {
                             {/*<ProfileText>내 정보</ProfileText>*/}
                             <ProfileUserWrapper>
                                 <ProfileText>내 정보</ProfileText>
-                                <ProfileImg src={profileImage || "images/nothingImg.png"}></ProfileImg>
+                                <ProfileImg src={profileImage || "images/firstImg.png"}></ProfileImg>
                                 <ProfileName>
                                     {username ? (
                                         <div>{username.username}</div>
@@ -272,26 +391,18 @@ export default function BoardNewPage() {
                                     )}
                                 </ProfileName>
                                 <ProfileTagWrapper>
-                                    <ProfileArrayTag>Cloth Type
-                                        {clothType ? (
-                                            <div>
-                                                <h1>{clothType.clothType}</h1>
-
-                                            </div>
-                                        ) : (
-                                            <div>
-                                            </div>
-                                        )}</ProfileArrayTag>
-                                    <ProfileArrayTag>Skin Type
-                                        {skinType ? (
-                                            <div>
-                                                <h1>{skinType.skinType}</h1>
-
-                                            </div>
-                                        ) : (
-                                            <div>
-                                            </div>
-                                        )}</ProfileArrayTag>
+                                    <ProfileArrayTag>
+                                        Cloth Type
+                                        <div>
+                                            <ProfileTagValue>{myArray}</ProfileTagValue>
+                                        </div>
+                                    </ProfileArrayTag>
+                                    <ProfileArrayTag>
+                                        Cloth Type
+                                        <div>
+                                            <ProfileTagValue>{myArray}</ProfileTagValue>
+                                        </div>
+                                    </ProfileArrayTag>
                                     <ProfileValueWrapper>
                                         <ProfileTag>키</ProfileTag>
                                         <ProfileTag>
