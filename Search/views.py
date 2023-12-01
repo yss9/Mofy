@@ -16,7 +16,7 @@ from django.db.models import F, Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
+from django.utils import timezone
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -37,6 +37,7 @@ class PostSearchView(APIView):
         if existing_search_history:
             # Increment the count for the existing search history
             existing_search_history.count = F('count') + 1
+            existing_search_history.searched_at = timezone.now()  # 현재 시간으로 갱신
             existing_search_history.save()
         else:
             # Save a new search history for the user and query
@@ -46,6 +47,66 @@ class PostSearchView(APIView):
         serializer = BoardSerializers(search_results, many=True)
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+class PostSearchView(APIView):
+    def post(self, request):
+        query = request.data.get('query')
+
+        if not query:
+            return Response({"success": False, "message": "검색어가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+
+        search_results = Board.objects.filter(Q(title__icontains=query) | Q(tags__icontains=query)).distinct()
+
+        # Check if the user has searched the same query before
+        existing_search_history = SearchHistory.objects.filter(user=user, query=query).first()
+
+        if existing_search_history:
+            # Increment the count for the existing search history
+            existing_search_history.count = F('count') + 1
+            existing_search_history.searched_at = timezone.now()  # 현재 시간으로 갱신
+            existing_search_history.save()
+        else:
+            # Save a new search history for the user and query
+            SearchHistory.objects.create(user=user, query=query)
+
+        # Board 모델의 title로 검색
+        serializer = BoardSerializers(search_results, many=True)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+# @authentication_classes([JWTAuthentication])
+# @permission_classes([IsAuthenticated])
+# class PostSearchView(APIView):
+#     def post(self, request):
+#         query = request.data.get('query')
+#
+#         if not query:
+#             return Response({"success": False, "message": "검색어가 필요합니다."}, status=status.HTTP_400_BAD_REQUEST)
+#
+#         user = request.user
+#
+#         search_results = Board.objects.filter(Q(title__icontains=query) | Q(tags__icontains=query)).distinct()
+#
+#         # Check if the user has searched the same query before
+#         existing_search_history = SearchHistory.objects.filter(user=user, query=query).first()
+#
+#         if existing_search_history:
+#             # Increment the count for the existing search history
+#             existing_search_history.count = F('count') + 1
+#             existing_search_history.save()
+#         else:
+#             # Save a new search history for the user and query
+#             SearchHistory.objects.create(user=user, query=query)
+#
+#         # Board 모델의 title로 검색
+#         serializer = BoardSerializers(search_results, many=True)
+#
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 # class SearchHistoryView(APIView):
