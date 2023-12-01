@@ -203,20 +203,23 @@ class LikeDetail(APIView):
 
     def post(self, request, pk, format=None):
         board = Board.objects.get(boardID=pk)
-        user = User.objects.get(id=request.user.id)
+        user = request.user
         like = Like.objects.filter(boardID=board, userID=user)
         if like:
             like.delete()
+            board.like_num -= 1
+            board.save()
             return Response(status=status.HTTP_200_OK)
         else:
             Like.objects.create(boardID=board, userID=user)
+            board.like_num += 1
+            board.save()
             return Response(status=status.HTTP_201_CREATED)
 
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAdminUser])
 class ReportList(APIView):
-
     def get(self, request):
         reportList = ReportBoardList.objects.all()
         board_ids = reportList.values_list('boardID', flat=True)
@@ -309,3 +312,16 @@ class MessageDetail(APIView):
         message = Message.objects.get(id = pk)
         serializers = MessageSerializers(message)
         return Response(serializers.data, status = status.HTTP_200_OK)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([AllowAny])
+class SearchTag(APIView):
+    def post(self, request):
+        tag = request.data['tag']
+        tag_id = TagName.objects.get(tagName=tag)
+        tags = TagBoard.objects.filter(tagID = tag_id)
+        board_ids = tags.values_list('boardID', flat=True)
+        taged_boards = Board.objects.filter(boardID__in = board_ids)
+        serializer = BoardSerializers(taged_boards, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
