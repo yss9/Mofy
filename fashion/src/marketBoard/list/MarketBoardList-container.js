@@ -95,7 +95,7 @@ export default function MarketBoardList() {
   };
 
   const onClickChat = () => {
-      window.location.href = "http://localhost:3000/mks/writeMessage/"
+      window.location.href = "http://localhost:3000/mks/welcomeMessage/"
   }
 
     return (

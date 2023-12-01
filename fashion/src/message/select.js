@@ -19,10 +19,10 @@ export default function MessageSelectPage(){
         window.location.href="http://localhost:3000/mks/writeMessage";
     }
     const onClickGoSend=()=>{
-        window.location.href="http://localhost:3000/mks/message/sendMessage";
+        window.location.href="http://localhost:3000/mks/mySendMessage";
     }
     const onClickGoGet=()=>{
-        window.location.href="http://localhost:3000/mks/message/getMessage";
+        window.location.href="http://localhost:3000/mks/myGetMessage";
     }
 
     return(
