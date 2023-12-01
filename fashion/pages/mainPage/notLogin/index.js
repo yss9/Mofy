@@ -21,7 +21,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from "js-cookie";
-import NotCommunityList from "../../../src/notLogin/notCommunityList/notCommunityList";
+import MainCommunityList from "../../../src/mainCommunityList/mainCommunityList";
+import MainMarketBoardList from "../../../src/mainMarketBordList/mainMarketBoardList";
 // import {WeatherApp} from './WeatherApp'
 
 
@@ -334,11 +335,14 @@ export default function BoardNewPage() {
                         <CommunityWrapper>
                             <CommunityText>
                                 Community
-                                <NotCommunityList/>
+                                <MainCommunityList/>
                             </CommunityText>
                         </CommunityWrapper>
                         <TradeWrapper>
-                            <TradeText>Market</TradeText>
+                            <TradeText>
+                                Market
+                                <MainMarketBoardList/>
+                            </TradeText>
                         </TradeWrapper>
                     </Bottom>
                 </ConsentWrapper>
