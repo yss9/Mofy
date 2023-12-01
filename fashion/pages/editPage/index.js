@@ -140,10 +140,6 @@ export default function BoardNewPage() {
     }
     const onClickSimple = () => {
         if (!simple){
-            setSimple(!simple);
-        }
-        else{
-            setSimple(!simple);
             setSimple(true);
         }
         else{
@@ -152,10 +148,6 @@ export default function BoardNewPage() {
     }
     const onClickModern = () => {
         if (!modern){
-            setModern(!modern);
-        }
-        else{
-            setModern(!modern);
             setModern(true);
         }
         else{
@@ -164,10 +156,6 @@ export default function BoardNewPage() {
     }
     const onClickFeminine = () => {
         if (!feminine){
-            setFeminine(!feminine);
-        }
-        else{
-            setFeminine(!feminine);
             setFeminine(true);
         }
         else{
@@ -176,10 +164,6 @@ export default function BoardNewPage() {
     }
     const onClickDandy = () => {
         if (!dandy){
-            setDandy(!dandy);
-        }
-        else{
-            setDandy(!dandy);
             setDandy(true);
         }
         else{
@@ -188,10 +172,6 @@ export default function BoardNewPage() {
     }
     const onClickRetro = () => {
         if (!retro){
-            setRetro(!retro);
-        }
-        else{
-            setRetro(!retro);
             setRetro(true);
         }
         else{
@@ -200,10 +180,6 @@ export default function BoardNewPage() {
     }
     const onClickMinimal = () => {
         if (!minimal){
-            setMinimal(!minimal);
-        }
-        else{
-            setMinimal(!minimal);
             setMinimal(true);
         }
         else{
@@ -212,10 +188,6 @@ export default function BoardNewPage() {
     }
     const onClickCasual = () => {
         if (!casual){
-            setCasual(!casual);
-        }
-        else{
-            setCasual(!casual);
             setCasual(true);
         }
         else{
@@ -224,10 +196,6 @@ export default function BoardNewPage() {
     }
     const onClickStreet = () => {
         if (!street){
-            setStreet(!street);
-        }
-        else{
-            setStreet(!street);
             setStreet(true);
         }
         else{
@@ -236,10 +204,6 @@ export default function BoardNewPage() {
     }
     const onClickSporty = () => {
         if (!sporty){
-            setSporty(!sporty);
-        }
-        else{
-            setSporty(!sporty);
             setSporty(true);
         }
         else{
@@ -248,10 +212,6 @@ export default function BoardNewPage() {
     }
     const onClickUrban = () => {
         if (!urban){
-            setUrban(!urban);
-        }
-        else{
-            setUrban(!urban);
             setUrban(true);
         }
         else{
@@ -260,12 +220,13 @@ export default function BoardNewPage() {
     }
     const onClickClassic = () => {
         if (!classic){
-            setClassic(!classic);
+            setClassic(true);
         }
         else{
-            setClassic(!classic);
+            setClassic(false);
         }
     }
+
 
     const onClicknormal = () => {
         if (!normal){
@@ -314,11 +275,8 @@ export default function BoardNewPage() {
         }
         else{
             setacne(!acne);
-            setClassic(true);
         }
-        else{
-            setClassic(false);
-        }
+
     }
 
     // const [clothTypes, setClothTypes] = useState(["Shirt", "Pants", "Jacket"]);
