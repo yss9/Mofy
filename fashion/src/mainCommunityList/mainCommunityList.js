@@ -6,7 +6,7 @@ import {getDate} from "../../src/commons/libraries/utils";
 import Cookies from "js-cookie"
 
 
-export default function CommunityList() {
+export default function MainCommunityList() {
     const router = useRouter();
 
     const [reqData, setReqData] = useState([]);
