@@ -40,7 +40,7 @@ export default function BoardCommentWrite(){
         }, axiosConfig)
             .then(function (response) {
                 console.log(response.data.boardID);
-                alert("댓글 등록이 정상적으로 완료되었습니다!")
+                alert("댓글 등록이 정상적으로 완료되었습니다!(페이지를 나갔다 다시 들어오세요)")
                 setComment("")
 
 
