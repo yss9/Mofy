@@ -7,6 +7,8 @@ import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils"
 import Cookies from "js-cookie";
+import React from 'react';
+import { FloatButton } from 'antd';
 
 const SECRET = "!@#$";
 
@@ -94,6 +96,11 @@ export default function StyleBoardList() {
     setKeyword(value);
   };
 
+    const onClickPalette = () => {
+        router.push("colorPalette/new")
+
+    }
+
 
     return (
         <S.Wrapper>
@@ -104,7 +111,8 @@ export default function StyleBoardList() {
                     onChange={handleChange}
                 />
             </Searchbar>
-            스타일보드
+
+            <h2>스타일보드</h2>
 
             <S.TableTop />
             <S.Row>
@@ -143,6 +151,9 @@ export default function StyleBoardList() {
                     게시물 등록하기
                 </S.Button>
             </S.Footer>
+
+
+          <FloatButton tooltip={<div>컬러 팔레트 하러가기</div>} style={{width: "80px" ,height: "80px"}} onClick={onClickPalette}/>
         </S.Wrapper>
     );
 

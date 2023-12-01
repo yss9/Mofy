@@ -103,7 +103,8 @@ export default function MarketBoardList() {
                     onChange={handleChange}
                 />
             </Searchbar>
-            중고마켓
+
+            <h2>중고마켓</h2>
 
             <S.TableTop />
             <S.Row>

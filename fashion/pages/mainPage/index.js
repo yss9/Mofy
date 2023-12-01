@@ -326,6 +326,7 @@ export default function MainCotainer() {
 
 
 
+
     const openModal = () => {
         setIsModalOpen(true);
     };

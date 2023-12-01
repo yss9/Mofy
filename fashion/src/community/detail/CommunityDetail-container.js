@@ -9,6 +9,7 @@ import Cookies from "js-cookie"
 
 
 export default function CommunityDetail() {
+
     const router = useRouter();
 
     const {boardID} = router.query
