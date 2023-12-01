@@ -23,6 +23,7 @@ export default function MarketBoardDetail() {
     const [state, setState] = useState(false)
     const [imageURL, setImageURL] = useState(null);
     const [address, setAddress] = useState("")
+    const [userID, setUserID] = useState(0)
 
     const [username, setUsername] = useState("");
 

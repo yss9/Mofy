@@ -4,7 +4,7 @@ export const Wrapper = styled.div``;
 
 export const ConsentWrapper = styled.div`
   width: 300px;
-  height: 500px;
+  height: 400px;
   background-color: white;
   border: 1px solid black;
   overflow-y: auto; /* 세로 스크롤이 필요한 경우 자동으로 스크롤바 생성 */
@@ -13,12 +13,32 @@ export const ConsentWrapper = styled.div`
 export const TitleWrapper = styled.div`
   display: flex;
   border-bottom: 1px solid black;
+  background-image: linear-gradient(to right, #b987d2, lightcoral);
 `;
 
 export const Title = styled.div`
   flex: 1;
   padding: 10px;
+  font-weight: 900;
 `;
+
+export const SubtitleWrapper=styled.div`
+  display: flex;
+  border-bottom: 1px solid black;
+  height: 40px;
+  //background-color: red;
+`
+
+export const SubTitle=styled.input`
+    height: 95%;
+  width: 100%;
+  border: none;
+  
+  ::placeholder{
+    color: black;
+    font-weight: 900;
+  }
+`
 export const BtnWrapper=styled.div`
     //background-color: red;
   text-align: right;
@@ -26,10 +46,13 @@ export const BtnWrapper=styled.div`
   margin-right: 10px;
 `
 export const SendBtn=styled.button`
-    border-radius: 20px;
+  border-radius: 20px;
   font-size: 15px;
-  
-  
+  background-color: #dcabca;
+  font-weight: 900;
+  cursor: pointer;
+  border: 1px solid gray;
+
 `
 export const NoteList = styled.div`
   border-bottom: 1px solid black;
@@ -61,8 +84,9 @@ export const Line = styled.hr`
 `;
 
 export const TextWrapper=styled.div`
+  margin-top: 5px;
   width: 100%;
-  height: 80%;
+  height: 70%;
 `
 export const Text =styled.textarea`
     width: 98%;

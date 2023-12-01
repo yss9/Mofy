@@ -6,14 +6,11 @@ import {
     MyMofyText, YourMofyText, SellListText, MyCommunityListText, MofyImg,
     CommunityList, SellList, ReportButton, ReportButtonWrapper,
     ReportImg, ReportWrapper, ReportText, ReportListWrapper, ReportExitButton,
-    ReportTop, ConsentWrapper, ProfileArrayTag, ProfileTagValue,
-    ProfileValueWrapper, MofyImgDiv, MoImg
+    ReportTop, ConsentWrapper
 } from '../../styles/myPageStyle'
 import React, { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 import axios from "axios";
-// import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
-// import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
 
 const onClickLogout = () => {
     window.location.href = "http://localhost:3000/mainPage/notLogin";
@@ -24,7 +21,6 @@ const onClickHome = () => {
 const onClickEdit = () => {
     window.location.href = "http://localhost:3000/editPage";
 }
-
 const Popup = ({ onClose }) => {
     return (
         <ReportWrapper>
@@ -47,87 +43,15 @@ export default function BoardNewPage() {
     const [skinType, setSkinType] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
 
-    const [title, setTitle] = useState("")
-    const [content, setContent] = useState("")
-    const [datetime, setDatetime] = useState(null)
-    const [imageURL, setImageURL] = useState(null);
-    const [tags, setTags] = useState("")
-
-    const[userID, setUserID] = useState(0)
-
-    // const [imageURL, setImageURL] = useState(null);
-
     const [isPopupOpen, setPopupOpen] = useState(false);
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');
 
-    const [dataLoaded, setDataLoaded] = useState(false)
-    const [isImgDataLoaded, setIsImgDataLoaded] = useState(false);
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-
             try {
-                // 이미지 및 게시물 데이터를 병렬로 불러오기
-                const imageResponse= await axios.get(`http://127.0.0.1:8000/board/6/`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-
-
-
-                // 이미지 URL이 상대 경로로 저장되어 있으므로, 기본 URL과 결합하여 전체 URL 생성
-                const baseURL = 'http://127.0.0.1:8000';
-                const fullURL = baseURL + imageResponse.data.image;
-
-                // 이미지를 불러오기
-                const imageBlobResponse = await axios.get(fullURL, {
-                    responseType: 'arraybuffer',
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                if (imageBlobResponse.status === 200) {
-                    const contentType = imageBlobResponse.headers['content-type'];
-                    const blob = new Blob([imageBlobResponse.data], {type: contentType});
-
-                    // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
-                    const objectURL = URL.createObjectURL(blob);
-                    setImageURL(objectURL);
-                } else {
-                    console.error('Failed to fetch image');
-                }
-
-
-                console.log(imageResponse.data)
-
-                // 게시물 데이터 설정
-                setTitle(imageResponse.data.title);
-                setContent(imageResponse.data.content);
-                setDatetime(imageResponse.data.datetime);
-                setTags(imageResponse.data.tags)
-                setDataLoaded(true);
-
-                // Fetch user data
-                const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                setUsername(userResponse.data);
-                setIsUserDataLoaded(true);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-
-
-
-            try {
-
                 const response = await axios.get('http://127.0.0.1:8000/userinfo/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -151,7 +75,7 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
-            try {
+            try { // 키
                 const response = await axios.get('http://127.0.0.1:8000/userinfo3/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -213,17 +137,6 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/user_image/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setProfileImage(response.data.profile_image_url);
-                setIsUserDataLoaded(true);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
         };
 
         if (accessToken && !username && !isUserDataLoaded) {
@@ -238,16 +151,9 @@ export default function BoardNewPage() {
     const onClosePopup = () => {
         setPopupOpen(false);
     };
-
-    const onClickMyMofy = () => {
-
-    }
     return (
         <>
             <Wrapper>
-
-
-
                 <ConsentWrapper>
                     <Top>
                         <TitleWrapper>
@@ -255,7 +161,7 @@ export default function BoardNewPage() {
                         </TitleWrapper>
 
                         {/*<Title>Title</Title>*/}
-                        <TopButton onClick={onClickLogout}>Log Out</TopButton>
+                        <TopButton>Log Out</TopButton>
                     </Top>
                     <Divide/>
                     <Mid>
@@ -263,16 +169,18 @@ export default function BoardNewPage() {
                             {/*<ProfileText>내 정보</ProfileText>*/}
                             <ProfileUserWrapper>
                                 <ProfileText>내 정보</ProfileText>
-                                <ProfileImg src={profileImage || "images/nothingImg.png"}></ProfileImg>
+                                <ProfileImg src={profileImage || "https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"}></ProfileImg>
                                 <ProfileName>
                                     {username ? (
                                         <div>{username.username}</div>
                                     ) : (
-                                        <div></div>
+                                        <div>Loading...</div>
                                     )}
                                 </ProfileName>
                                 <ProfileTagWrapper>
-                                    <ProfileArrayTag>Cloth Type
+                                    <ProfileTag>#모던</ProfileTag>
+                                    <ProfileTag>#심플</ProfileTag>
+                                    <ProfileTag>#페미닌
                                         {clothType ? (
                                             <div>
                                                 <h1>{clothType.clothType}</h1>
@@ -280,60 +188,43 @@ export default function BoardNewPage() {
                                             </div>
                                         ) : (
                                             <div>
+                                                <p>Loading...</p>
                                             </div>
-                                        )}</ProfileArrayTag>
-                                    <ProfileArrayTag>Skin Type
-                                        {skinType ? (
+                                        )}</ProfileTag>
+                                    <ProfileTag>키
+                                        {height ? (
                                             <div>
-                                                <h1>{skinType.skinType}</h1>
-
+                                                <h1>{height.height}</h1>
                                             </div>
                                         ) : (
                                             <div>
+                                                <p>Loading...</p>
                                             </div>
-                                        )}</ProfileArrayTag>
-                                    <ProfileValueWrapper>
-                                        <ProfileTag>키</ProfileTag>
-                                        <ProfileTag>
-                                            {height ? (
-                                                <ProfileTagValue>
-                                                    {height.height}
-                                                </ProfileTagValue>
-                                            ) : (
-                                                <div>
-                                                </div>
-                                            )}
-                                        </ProfileTag>
-                                        <ProfileTag>cm</ProfileTag>
-                                    </ProfileValueWrapper>
-                                    <ProfileValueWrapper>
-                                        <ProfileTag>몸무게</ProfileTag>
-                                        <ProfileTag>
-                                            {weight ? (
-                                                <ProfileTagValue>
-                                                    {weight.weight}
-                                                </ProfileTagValue>
-                                            ) : (
-                                                <div>
-                                                </div>
-                                            )}
-                                        </ProfileTag>
-                                        <ProfileTag>kg</ProfileTag>
-                                    </ProfileValueWrapper>
-                                    <ProfileValueWrapper>
-                                        <ProfileTag>발사이즈</ProfileTag>
-                                        <ProfileTag>
-                                            {shoeSize ? (
-                                                <ProfileTagValue>
-                                                    {shoeSize.shoeSize}
-                                                </ProfileTagValue>
-                                            ) : (
-                                                <div>
-                                                </div>
-                                            )}
-                                        </ProfileTag>
-                                        <ProfileTag>mm</ProfileTag>
-                                    </ProfileValueWrapper>
+                                        )}
+                                    </ProfileTag>
+                                    <ProfileTag>몸무게
+                                        {weight ? (
+                                            <div>
+                                                <h1>{weight.weight}</h1>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p>Loading...</p>
+                                            </div>
+                                        )}
+                                    </ProfileTag>
+                                    <ProfileTag>발사이즈
+                                        {shoeSize ? (
+                                            <div>
+                                                <h1>{shoeSize.shoeSize}</h1>
+                                            </div>
+                                        ) : (
+                                            <div>
+                                                <p>Loading...</p>
+                                            </div>
+                                        )}
+                                    </ProfileTag>
+
                                 </ProfileTagWrapper>
 
                             </ProfileUserWrapper>
@@ -349,12 +240,8 @@ export default function BoardNewPage() {
                     <Bottom>
                         <MyMofyWrapper>
                             <MyMofyText>My MOFY</MyMofyText>
-                            <MofyImgDiv>
-                                {imageURL && <MoImg src={imageURL} alt="Fetched" />}
-                            </MofyImgDiv>
-                            {/*<div>{imageURL && <img src={imageURL} alt="Fetched" />}</div>*/}
-                            <MofyImgDiv/><MofyImgDiv/>
-                            <MofyImgDiv/><MofyImgDiv/><MofyImgDiv/>
+                            <MofyImg/><MofyImg/><MofyImg/>
+                            <MofyImg/><MofyImg/><MofyImg/>
                         </MyMofyWrapper>
                         <YourMofyWrapper>
                             <YourMofyText>Your MOFY</YourMofyText>
