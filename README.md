@@ -29,9 +29,12 @@ pip install rembg
 
 5. 프로젝트 파일경로 터미널에서
 
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
+python manage.py makemigrations  
+
+python manage.py migrate  
+
+python manage.py runserver  
+
 
 작성 시 서버 실행
 
@@ -40,7 +43,9 @@ python manage.py runserver
 1. 프로젝트 파일열기
 2. yarn 설치 후 실행
 yarn install
-yarn dev
+
+yarn dev  
+
 
 
 서버 실행 후 http://localhost:3000/mainPage 로 웹사이트 접속 후 기능 수행
