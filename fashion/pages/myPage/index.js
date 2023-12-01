@@ -461,15 +461,15 @@ export default function BoardNewPage() {
                         <MyMofyWrapper>
                             <MyMofyText>My MOFY</MyMofyText>
                             <div>
-                                1
+                                <h3>커뮤니티</h3>
                                 <MyBoardList1/>
                             </div>
                             <div>
-                                2
+                                <h3>스타일보드</h3>
                                 <MyBoardList2/>
                             </div>
                             <div>
-                                3
+                                <h3>중고마켓</h3>
                                 <MyBoardList3/>
                             </div>
 
