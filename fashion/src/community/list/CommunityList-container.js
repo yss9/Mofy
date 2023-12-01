@@ -108,7 +108,7 @@ export default function CommunityList() {
 
             <S.TableTop />
             <S.Row>
-                <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
+                <S.C디olumnHeaderTitle>제목</S.C디olumnHeaderTitle>
                 {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
                 <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
             </S.Row>

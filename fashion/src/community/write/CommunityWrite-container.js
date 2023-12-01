@@ -12,6 +12,7 @@ export default function CommunityWrite(props){
 
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
+
     const [boardID, setBoardID] =  useState(0)
 
     const [isActive, setIsActive] = useState(false);
@@ -82,7 +83,6 @@ export default function CommunityWrite(props){
                     title: title,
                     content: content,
                     boardType: 1,
-                    userID: 1,
 
                 }, axiosConfig)
 
@@ -128,7 +128,6 @@ export default function CommunityWrite(props){
 
             const result = await axios.put(`http://127.0.0.1:8000/board/${boardID}/`, {
                 boardType: 1,
-                userID: 1,
                 title: updateBoardInput.title,
                 content:updateBoardInput.content,
             }, axiosConfig)
