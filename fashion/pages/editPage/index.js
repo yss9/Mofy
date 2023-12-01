@@ -37,6 +37,27 @@ export default function BoardNewPage() {
     const [weight, setWeight] = useState("");
     const [shoeSize, setShoeSize] = useState("");
 
+    const [simple, setSimple] = useState(false);
+    const [modern, setModern] = useState(false);
+    const [feminine, setFeminine] = useState(false);
+    const [dandy, setDandy] = useState(false);
+    const [retro, setRetro] = useState(false);
+    const [minimal, setMinimal] = useState(false);
+    const [casual, setCasual] = useState(false);
+    const [street, setStreet] = useState(false);
+    const [sporty, setSporty] = useState(false);
+    const [urban, setUrban] = useState(false);
+    const [classic, setClassic] = useState(false);
+    // const [modern, setModern] = useState(false);
+
+    const [normal, setnormal] = useState(false);
+    const [dry, setdry] = useState(false);
+    const [oily, setoily] = useState(false);
+    const [combination, setcombination] = useState(false);
+    const [sensitive, setsensitive] = useState(false);
+    const [acne, setacne] = useState(false);
+
+
     const [nameError, setNameError] = useState("");
     const [pwError, setPwError] = useState("");
     const [heightError, setHeightError] = useState("");
@@ -117,6 +138,144 @@ export default function BoardNewPage() {
             setShoeSizeError("")
         }
     }
+    const onClickSimple = () => {
+        if (!simple){
+            setSimple(!simple);
+        }
+        else{
+            setSimple(!simple);
+        }
+    }
+    const onClickModern = () => {
+        if (!modern){
+            setModern(!modern);
+        }
+        else{
+            setModern(!modern);
+        }
+    }
+    const onClickFeminine = () => {
+        if (!feminine){
+            setFeminine(!feminine);
+        }
+        else{
+            setFeminine(!feminine);
+        }
+    }
+    const onClickDandy = () => {
+        if (!dandy){
+            setDandy(!dandy);
+        }
+        else{
+            setDandy(!dandy);
+        }
+    }
+    const onClickRetro = () => {
+        if (!retro){
+            setRetro(!retro);
+        }
+        else{
+            setRetro(!retro);
+        }
+    }
+    const onClickMinimal = () => {
+        if (!minimal){
+            setMinimal(!minimal);
+        }
+        else{
+            setMinimal(!minimal);
+        }
+    }
+    const onClickCasual = () => {
+        if (!casual){
+            setCasual(!casual);
+        }
+        else{
+            setCasual(!casual);
+        }
+    }
+    const onClickStreet = () => {
+        if (!street){
+            setStreet(!street);
+        }
+        else{
+            setStreet(!street);
+        }
+    }
+    const onClickSporty = () => {
+        if (!sporty){
+            setSporty(!sporty);
+        }
+        else{
+            setSporty(!sporty);
+        }
+    }
+    const onClickUrban = () => {
+        if (!urban){
+            setUrban(!urban);
+        }
+        else{
+            setUrban(!urban);
+        }
+    }
+    const onClickClassic = () => {
+        if (!classic){
+            setClassic(!classic);
+        }
+        else{
+            setClassic(!classic);
+        }
+    }
+
+    const onClicknormal = () => {
+        if (!normal){
+            setnormal(!normal);
+        }
+        else{
+            setnormal(!normal);
+        }
+    }
+    const onClickdry = () => {
+        if (!dry){
+            setdry(!dry);
+        }
+        else{
+            setdry(!dry);
+        }
+    }
+    const onClickoily = () => {
+        if (!oily){
+            setoily(!oily);
+        }
+        else{
+            setoily(!oily);
+        }
+    }
+    const onClickcombination = () => {
+        if (!combination){
+            setcombination(!combination);
+        }
+        else{
+            setcombination(!combination);
+        }
+    }
+    const onClicksensitive = () => {
+        if (!sensitive){
+            setsensitive(!sensitive);
+        }
+        else{
+            setsensitive(!sensitive);
+        }
+    }
+
+    const onClickacne = () => {
+        if (!acne){
+            setacne(!acne);
+        }
+        else{
+            setacne(!acne);
+        }
+    }
 
     // const [clothTypes, setClothTypes] = useState(["Shirt", "Pants", "Jacket"]);
 
@@ -131,7 +290,19 @@ export default function BoardNewPage() {
     const accessToken = Cookies.get('access_token');
     const refreshToken = Cookies.get('refresh_token');
     const onClickSave = () => {
-        window.location.href="http://localhost:3000/myPage"
+        // window.location.href="http://localhost:3000/myPage"
+        console.log(simple)
+        console.log(modern)
+        console.log(feminine)
+        console.log(dandy)
+        console.log(retro)
+        console.log(minimal)
+        console.log(casual)
+        console.log(street)
+        console.log(sporty)
+        console.log(urban)
+        console.log(classic)
+
 
         axios.post('http://127.0.0.1:8000/useredit/', {
             name: name,
@@ -139,8 +310,8 @@ export default function BoardNewPage() {
             weight: weight,
             height: height,
             shoeSize: shoeSize,
-            clothType: Array.from(clothTypeArray),
-            skinType: Array.from(skinTypeArray),
+
+            // skinType: Array.from(skinTypeArray),
         }, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -148,29 +319,65 @@ export default function BoardNewPage() {
             },
         })
 
+
+
             .catch(error => {
                 console.error('서버 요청 오류:', error);
             });
+
+
+        axios.post('http://127.0.0.1:8000/clothTypeSet/', {
+            Simple: simple,
+            Modern: modern,
+            Feminine: feminine,
+            Dandy: dandy,
+            Retro: retro,
+            Minimal: minimal,
+            Casual: casual,
+            Street: street,
+            Sporty: sporty,
+            Urban: urban,
+            Classic: classic,
+
+            // skinType: Array.from(skinTypeArray),
+        }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+        })
+
+
+
+            .catch(error => {
+                console.error('서버 요청 오류:', error);
+            });
+
+        axios.post('http://127.0.0.1:8000/skinTypeSet/', {
+            normal: normal,
+            dry: dry,
+            oily: oily,
+            combination: combination,
+            sensitive: sensitive,
+            acne: acne,
+
+            // skinType: Array.from(skinTypeArray),
+        }, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json',
+            },
+        })
+
+
+
+            .catch(error => {
+                console.error('서버 요청 오류:', error);
+            });
+
     }
-    // if (accessToken) {
-    //     // 서버로 토큰과 함께 요청을 보냄
-    //     axios.post('http://127.0.0.1:8000/userinfo/', {
-    //         headers: {
-    //             Authorization: `Bearer ${accessToken}`,
-    //         },
-    //         userID:setId ,
-    //         password: setPw,
-    //         weight: setWeight,
-    //         height: setHeight
-    //     })
-    //         .then(response => {
-    //             // 서버에서 받은 사용자 정보를 상태에 저장
-    //             setUsername(response.data.username);
-    //         })
-    //         .catch(error => {
-    //             console.error('서버 요청 오류:', error);
-    //         });
-    // }
+
+
     const handleClick = () => {
         // 클릭 상태를 반전시킵니다.
         setClicked(!isClicked);
@@ -218,7 +425,7 @@ export default function BoardNewPage() {
                     <Mid>
                         <EditText>프로필 수정</EditText>
                         <EditImgWrapper>
-                            <UserImg src={imgFile ? imgFile :"https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202304/07/kinolights/20230407081026931lbzg.jpg"}/>
+                            <UserImg src={imgFile ? imgFile :"images/nothingImg.png"}/>
                             <label>
                                 <OverlayImage src={"https://cdn-icons-png.flaticon.com/512/5218/5218413.png"}/>
                                 <OverlayImageInput type="file" accept="image/*" onChange={saveImgFile} ref={imgRef}/>
@@ -241,32 +448,28 @@ export default function BoardNewPage() {
                         <EditClothTypeWrapper>
                             <EditClothTypeText>옷 타입</EditClothTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton onClick={handleClick}>
-                                    #Simple
-                                    {/*{isClicked ? '클릭됨' : '클릭 안됨'}*/}
-
-                                </EditTypeButton>
-                                <EditTypeButton id={"modern"} onClick={ClothTypeIsClicked}>#Modern</EditTypeButton>
-                                <EditTypeButton id={"feminine"} onClick={ClothTypeIsClicked}>#Feminine</EditTypeButton>
-                                <EditTypeButton id={"dandy"} onClick={ClothTypeIsClicked}>#Dandy</EditTypeButton>
-                                <EditTypeButton id={"retro"} onClick={ClothTypeIsClicked}>#Retro</EditTypeButton>
-                                <EditTypeButton id={"minimal"} onClick={ClothTypeIsClicked}>#Minimal</EditTypeButton>
-                                <EditTypeButton id={"casual"} onClick={ClothTypeIsClicked}>#Casual</EditTypeButton>
-                                <EditTypeButton id={"street"} onClick={ClothTypeIsClicked}>#Street</EditTypeButton>
-                                <EditTypeButton id={"sporty"} onClick={ClothTypeIsClicked}>#Sporty</EditTypeButton>
-                                <EditTypeButton id={"urban"} onClick={ClothTypeIsClicked}>#Urban</EditTypeButton>
-                                <EditTypeButton id={"classic"} onClick={ClothTypeIsClicked}>#Classic</EditTypeButton>
+                                <EditTypeButton id={"simple"} onClick={onClickSimple}>#Simple</EditTypeButton>
+                                <EditTypeButton id={"modern"} onClick={onClickModern}>#Modern</EditTypeButton>
+                                <EditTypeButton id={"feminine"} onClick={onClickFeminine}>#Feminine</EditTypeButton>
+                                <EditTypeButton id={"dandy"} onClick={onClickDandy}>#Dandy</EditTypeButton>
+                                <EditTypeButton id={"retro"} onClick={onClickRetro}>#Retro</EditTypeButton>
+                                <EditTypeButton id={"minimal"} onClick={onClickMinimal}>#Minimal</EditTypeButton>
+                                <EditTypeButton id={"casual"} onClick={onClickCasual}>#Casual</EditTypeButton>
+                                <EditTypeButton id={"street"} onClick={onClickStreet}>#Street</EditTypeButton>
+                                <EditTypeButton id={"sporty"} onClick={onClickSporty}>#Sporty</EditTypeButton>
+                                <EditTypeButton id={"urban"} onClick={onClickUrban}>#Urban</EditTypeButton>
+                                <EditTypeButton id={"classic"} onClick={onClickClassic}>#Classic</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditClothTypeWrapper>
                         <EditSkinTypeWrapper>
                             <EditSkinTypeText>피부 타입</EditSkinTypeText>
                             <EditTypeButtonWrapper>
-                                <EditTypeButton id={"normal"} onClick={SkinTypeIsClicked}>보통</EditTypeButton>
-                                <EditTypeButton id={"dry"} onClick={SkinTypeIsClicked}>건성</EditTypeButton>
-                                <EditTypeButton id={"oily"} onClick={SkinTypeIsClicked}>지성</EditTypeButton>
-                                <EditTypeButton id={"sensitive"} onClick={SkinTypeIsClicked}>복합성</EditTypeButton>
-                                <EditTypeButton id={"combination"} onClick={SkinTypeIsClicked}>민감성</EditTypeButton>
-                                <EditTypeButton id={"acne"} onClick={SkinTypeIsClicked}>여드름</EditTypeButton>
+                                <EditTypeButton id={"normal"} onClick={onClicknormal}>보통</EditTypeButton>
+                                <EditTypeButton id={"dry"} onClick={onClickdry}>건성</EditTypeButton>
+                                <EditTypeButton id={"oily"} onClick={onClickoily}>지성</EditTypeButton>
+                                <EditTypeButton id={"sensitive"} onClick={onClickcombination}>복합성</EditTypeButton>
+                                <EditTypeButton id={"combination"} onClick={onClicksensitive}>민감성</EditTypeButton>
+                                <EditTypeButton id={"acne"} onClick={onClickacne}>여드름</EditTypeButton>
                             </EditTypeButtonWrapper>
                         </EditSkinTypeWrapper>
                         <EditUserSizeWrapper>
