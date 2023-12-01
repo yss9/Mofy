@@ -16,11 +16,13 @@ export default function BoardCommentList(){
 
     const accessToken = Cookies.get('access_token')
     const refreshToken = Cookies.get('refresh_token')
+    const [username, setUsername] = useState("");
 
     const[dataLoaded, setDataLoaded] = useState(false)
+    const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
 
-    useEffect(()=>{
+
 
         const fetchData = async () => {
             console.log("마운트가 완료되었디!")
@@ -41,13 +43,31 @@ export default function BoardCommentList(){
                 .catch(function (error) {
                     console.log(error);
                 });
+
+            try{
+            // Fetch user data
+            const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            setUsername(userResponse.data);
+            setIsUserDataLoaded(true);
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
-        if(accessToken && !dataLoaded){
+
+
+        }
+
+    useEffect(() => {
+        if(accessToken && !dataLoaded && !isUserDataLoaded){
             fetchData()
         }
+    }, [accessToken, dataLoaded, isUserDataLoaded]);
 
 
-        },[accessToken, dataLoaded])
 
 
 
@@ -56,11 +76,11 @@ export default function BoardCommentList(){
    return(
         <div>
             {reqData?.map((el)=>(
-                <div>
-                    <Card title="작성자" size="small">
+                <div style={{marginTop:"50px",width:"800px", height:"100px", marginLeft:"300px"}}>
+                    <Card title={username.username} size="small">
                         <p style={{margin:"10px"}}>{el.comment}</p>
                     </Card>
-                    <button>삭제하기</button>
+                   {/* <button>삭제하기</button>*/}
                 </div>
             ))}
         </div>

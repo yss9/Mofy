@@ -61,7 +61,7 @@ export default function BoardCommentWrite(){
 
         return(
             <>
-                 작성자<br/>
+
                     <TextArea
                         showCount
                         maxLength={100}
@@ -71,6 +71,7 @@ export default function BoardCommentWrite(){
                             height: 200,
                             resize: 'none',
                             width: 800,
+                            marginLeft:"300px"
                         }}
                     />
            {/*   내용: <input type="text" id= "comment" onChange={onChangeComment}/>*/}
