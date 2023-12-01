@@ -1,6 +1,7 @@
 import os
 from datetime import date, timedelta, datetime
 
+from django.http import JsonResponse
 from rembg import remove
 from PIL import Image, ImageDraw
 import extcolors
@@ -249,6 +250,60 @@ class StyleRankView(APIView):
         styleranks = Board.objects.filter(datetime__gte=one_week).order_by('-like_num')[:4]
         serializers = BoardSerializers(styleranks, many=True)
         return Response(serializers.data, status=status.HTTP_200_OK)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([AllowAny])
+class StyleOne(APIView):
+    def get(self, request):
+        sorted_records = Board.objects.all().order_by('-like_num')
+        first_record = sorted_records[0]
+        image = first_record.image
+        data = {
+            'image': image.url
+        }
+        return JsonResponse(data)
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([AllowAny])
+class StyleTwo(APIView):
+    def get(self, request):
+        sorted_records = Board.objects.all().order_by('-like_num')
+        first_record = sorted_records[1]
+        image = first_record.image
+        data = {
+            'image': image.url
+        }
+        return JsonResponse(data)
+
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([AllowAny])
+class StyleThree(APIView):
+    def get(self, request):
+        sorted_records = Board.objects.all().order_by('-like_num')
+        first_record = sorted_records[2]
+        image = first_record.image
+        data = {
+            'image': image.url
+        }
+        return JsonResponse(data)
+
+
+
+@authentication_classes([JWTAuthentication])
+@permission_classes([AllowAny])
+class StyleFour(APIView):
+    def get(self, request):
+        sorted_records = Board.objects.all().order_by('-like_num')
+        first_record = sorted_records[3]
+        image = first_record.image
+        data = {
+            'image': image.url
+        }
+        return JsonResponse(data)
 
 
 @authentication_classes([JWTAuthentication])
