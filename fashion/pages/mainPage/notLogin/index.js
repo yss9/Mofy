@@ -21,6 +21,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from "js-cookie";
+import NotCommunityList from "../../../src/notLogin/notCommunityList/notCommunityList";
 // import {WeatherApp} from './WeatherApp'
 
 
@@ -331,7 +332,10 @@ export default function BoardNewPage() {
                     </Mid>
                     <Bottom>
                         <CommunityWrapper>
-                            <CommunityText>Community</CommunityText>
+                            <CommunityText>
+                                Community
+                                <NotCommunityList/>
+                            </CommunityText>
                         </CommunityWrapper>
                         <TradeWrapper>
                             <TradeText>Market</TradeText>

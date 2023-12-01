@@ -10,32 +10,25 @@ export default function CommunityList() {
     const router = useRouter();
 
     const [reqData, setReqData] = useState([]);
-    const [dataLoaded, setDataLoaded] = useState(false);
 
-    const accessToken = Cookies.get("access_token");
 
     useEffect(() => {
         const fetchData = async () => {
             console.log("마운트가 완료되었디!");
             try {
-                const response = await axios.get("http://127.0.0.1:8000/boardType/1/", {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
+                const response = await axios.get("http://127.0.0.1:8000/boardType/1/");
 
                 setReqData([...response.data]);
                 console.log(response.data);
-                setDataLoaded(true);
+
             } catch (error) {
                 console.error(error);
             }
         };
 
-        if (accessToken && !dataLoaded) {
             fetchData();
-        }
-    }, [accessToken, dataLoaded]);
+
+    }, []);
 
 
 
