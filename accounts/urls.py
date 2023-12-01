@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 from .views import UserInfoView, UserEdit, Userdelete, Userweight, Userheight, Usershoesize, UserclothType, \
-    UserskinType, upload_image, UserImage, Userid
+    UserskinType, upload_image, UserImage, Userid, ClothTypeSet, ClothTypeView, SkinTypeSet, SkinTypeView
 
 login_patterns = [
     path('normal/', views.login, name='login'),
@@ -27,5 +27,9 @@ urlpatterns = [
     path('userinfo6/', UserskinType.as_view(), name='user-info6'),
     path('upload_image/', views.upload_image, name='upload_image'),
     path('user_image/', UserImage.as_view(), name='user_image'),
+    path('clothTypeSet/', ClothTypeSet.as_view(), name='clothtype_set'),
+    path('clothTypeView/', ClothTypeView.as_view(), name='clothtype_view'),
+    path('skinTypeSet/', SkinTypeSet.as_view(), name='skintype_set'),
+    path('skinTypeView/', SkinTypeView.as_view(), name='skintype_view'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

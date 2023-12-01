@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
+
 class UserManager(BaseUserManager):
     def create_user(self, userID, email, name, password=None):
         user = self.model(
@@ -76,3 +77,62 @@ class UserData(models.Model):
 
     class Meta:
         db_table = 'userdata'
+
+
+class clothTypeManager(models.Manager):
+    pass
+
+
+class clothType(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    Simple = models.BooleanField(default=True)
+    Modern = models.BooleanField(default=False)
+    Feminine = models.BooleanField(default=False)
+    Dandy = models.BooleanField(default=False)
+    Retro = models.BooleanField(default=False)
+    Minimal = models.BooleanField(default=False)
+    Casual = models.BooleanField(default=False)
+    Street = models.BooleanField(default=False)
+    Sporty = models.BooleanField(default=False)
+    Urban = models.BooleanField(default=False)
+    Classic = models.BooleanField(default=False)
+
+    objects = clothTypeManager()
+
+    class Meta:
+        db_table = 'clothtype'
+
+
+class skinTypeManager(models.Manager):
+    pass
+
+
+class skinType(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    normal = models.BooleanField(default=True)
+    dry = models.BooleanField(default=False)
+    oily = models.BooleanField(default=False)
+    combination = models.BooleanField(default=False)
+    sensitive = models.BooleanField(default=False)
+    acne = models.BooleanField(default=False)
+
+    objects = skinTypeManager()
+
+    class Meta:
+        db_table = 'skintype'
+
+class MessageManager(models.Manager):
+    pass
+
+
+class Message(models.Model):
+    sender = models.ForeignKey(User, related_name='sent_messages', on_delete=models.CASCADE)
+    recipient = models.ForeignKey(User, related_name='received_messages', on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    objects = UserDataManager()
+
+    class Meta:
+        db_table = 'message'

@@ -4,6 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth import authenticate
@@ -11,7 +12,7 @@ from django.contrib.auth.models import update_last_login
 
 from .serializers import UserSerializer
 
-from .models import User, UserData
+from .models import User, UserData, Message, clothType, skinType
 from django.http import JsonResponse
 
 
@@ -239,18 +240,123 @@ class UserEdit(APIView):
             user_data.weight = edit_data['weight']
         if 'shoeSize' in edit_data and edit_data['shoeSize']:
             user_data.shoeType = edit_data['shoeSize']
-        cloth_type = edit_data.get('clothType')
-        skin_type = edit_data.get('skinType')
-
-        if cloth_type is not None:
-            user_data.clothType = cloth_type
-        if skin_type is not None:
-            user_data.skinType = skin_type
 
         user_data.save()
 
         return Response({"username": user.name}, status=status.HTTP_200_OK)
 
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class ClothTypeSet(APIView):
+    def post(self, request):
+        user = request.user  # 인증된 사용자 객체
+        clothtype, created = clothType.objects.get_or_create(user=user)
+
+        clothtype.Simple = False
+        clothtype.Modern = False
+        clothtype.Feminine = False
+        clothtype.Dandy = False
+        clothtype.Retro = False
+        clothtype.Minimal = False
+        clothtype.Casual = False
+        clothtype.Street = False
+        clothtype.Sporty = False
+        clothtype.Urban = False
+        clothtype.Classic = False
+
+        if 'Simple' in request.data and request.data['Simple']:
+            clothtype.Simple = True
+        if 'Modern' in request.data and request.data['Modern']:
+            clothtype.Modern = True
+        if 'Feminine' in request.data and request.data['Feminine']:
+            clothtype.Feminine = True
+        if 'Dandy' in request.data and request.data['Dandy']:
+            clothtype.Dandy = True
+        if 'Dandy' in request.data and request.data['Dandy']:
+            clothtype.Dandy = True
+        if 'Retro' in request.data and request.data['Retro']:
+            clothtype.Retro = True
+        if 'Minimal' in request.data and request.data['Minimal']:
+            clothtype.Minimal = True
+        if 'Casual' in request.data and request.data['Casual']:
+            clothtype.Casual = True
+        if 'Street' in request.data and request.data['Street']:
+            clothtype.Street = True
+        if 'Sporty' in request.data and request.data['Sporty']:
+            clothtype.Sporty = True
+        if 'Urban' in request.data and request.data['Urban']:
+            clothtype.Urban = True
+        if 'Classic' in request.data and request.data['Classic']:
+            clothtype.Classic = True
+
+        clothtype.save()
+
+        return Response({"success": "please"})
+
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class ClothTypeView(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        clothtype = clothType.objects.get(user=user)
+        return Response({"Simple": clothtype.Simple,
+                         "Modern": clothtype.Modern,
+                         "Feminine": clothtype.Feminine,
+                         "Dandy": clothtype.Dandy,
+                         "Retro": clothtype.Retro,
+                         "Minimal": clothtype.Minimal,
+                         "Casual": clothtype.Casual,
+                         "Street": clothtype.Street,
+                         "Sporty": clothtype.Sporty,
+                         "Urban": clothtype.Urban,
+                         "Classic": clothtype.Classic})
+
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class SkinTypeSet(APIView):
+    def post(self, request):
+        user = request.user  # 인증된 사용자 객체
+        skintype, created = skinType.objects.get_or_create(user=user)
+
+        skintype.normal = False
+        skintype.dry = False
+        skintype.oily = False
+        skintype.combination = False
+        skintype.sensitive = False
+        skintype.acne = False
+
+        if 'normal' in request.data and request.data['normal']:
+            skintype.normal = True
+        if 'dry' in request.data and request.data['dry']:
+            skintype.dry = True
+        if 'oily' in request.data and request.data['oily']:
+            skintype.oily = True
+        if 'combination' in request.data and request.data['combination']:
+            skintype.combination = True
+        if 'sensitive' in request.data and request.data['sensitive']:
+            skintype.sensitive = True
+        if 'acne' in request.data and request.data['acne']:
+            skintype.acne = True
+
+        skintype.save()
+        return Response({"success": "please"})
+
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class SkinTypeView(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        skintype = skinType.objects.get(user=user)
+        return Response({"normal": skintype.normal,
+                         "dry": skintype.dry,
+                         "oily": skintype.oily,
+                         "combination": skintype.combination,
+                         "sensitive": skintype.sensitive,
+                         "acne": skintype.acne})
 
 
 # @authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
@@ -345,3 +451,12 @@ class UserImage(APIView):
         user_data = UserData.objects.get(user=user)
         image_url = request.build_absolute_uri(user_data.image.url)
         return JsonResponse({"profile_image_url": image_url})
+
+
+@authentication_classes([JWTAuthentication])  # JWTAuthentication을 사용하여 토큰 검증
+@permission_classes([IsAuthenticated])  # 인증된 사용자만 접근 허용
+class MessageList(APIView):
+    def get(self, request):
+        user = request.user  # 인증된 사용자 객체
+        message = Message.objects.get(recipient=user)
+        return Response({"sender": message.sender_id})
