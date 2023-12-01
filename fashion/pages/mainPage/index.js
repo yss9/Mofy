@@ -528,6 +528,9 @@ export default function MainCotainer() {
         setIsModalOpen(false);
     };
 
+    const onClickFashion = () => {
+        window.location.href = "http://localhost:3000/styleBoard/"
+    }
     return (
 
         <>
@@ -673,7 +676,7 @@ export default function MainCotainer() {
                         <TopButton onClick={onClickMyPage}>My Page</TopButton>
 
                         <Popover content="✨✨ 궁금해? 들어와보던가 ♡🌷💕" styles={{marginTop:"30px"}}>
-                            <FashionBtn>Fashion★</FashionBtn>
+                            <FashionBtn onClick={onClickFashion}>Fashion★</FashionBtn>
                         </Popover>
                     </Top>
                     <Divide/>
