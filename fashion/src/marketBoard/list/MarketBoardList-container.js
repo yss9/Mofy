@@ -7,6 +7,7 @@ import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils";
 import Cookies from "js-cookie";
+import { Button } from 'antd';
 
 
 const SECRET = "!@#$";
@@ -93,6 +94,9 @@ export default function MarketBoardList() {
     setKeyword(value);
   };
 
+  const onClickChat = () => {
+      window.location.href = "http://localhost:3000/mks/writeMessage/"
+  }
 
     return (
         <S.Wrapper>
@@ -105,6 +109,7 @@ export default function MarketBoardList() {
             </Searchbar>
 
             <h2>중고마켓</h2>
+            <Button type="primary" onClick={onClickChat}>1:1 채팅하기</Button>
 
             <S.TableTop />
             <S.Row>
@@ -116,8 +121,11 @@ export default function MarketBoardList() {
             </S.Row>
 
 
+
+
             {reqData.filter(el => el.title.includes(keyword)).map(el => (
                     <S.Row key={el.boardID}>
+
 
 
                         <S.ColumnTitle id={el.boardID}  props ={eventData} onClick={onClickMoveToBoardDetail} >

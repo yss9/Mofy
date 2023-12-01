@@ -108,3 +108,6 @@ export const ViewTitle=styled.div`
   border: none;
   //background-color: red;
 `
+export const GoOutBtn=styled.button`
+  
+`

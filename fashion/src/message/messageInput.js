@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Wrapper, ConsentWrapper, Title, TitleWrapper,
     Text, TextWrapper,SendBtn, BtnWrapper, SubtitleWrapper,
-    SubTitle,
+    SubTitle, GoOutBtn
 
 } from '../../styles/styles/BoardsMessage'
 import axios from "axios";
@@ -72,6 +72,9 @@ export default function MessageInput() {
 
 
     };
+    const onClickMarket = () => {
+        window.location.href = "http://localhost:3000/marketBoard/"
+    }
 
     return(
         <>
@@ -79,6 +82,7 @@ export default function MessageInput() {
                 <ConsentWrapper>
                     <TitleWrapper>
                         <Title>쪽지 보내기</Title>
+                        <GoOutBtn onClick={onClickMarket}>x</GoOutBtn>
                     </TitleWrapper>
                     <SubtitleWrapper>
                         <SubTitle
