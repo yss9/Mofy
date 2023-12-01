@@ -214,8 +214,10 @@ class ReportList(APIView):
 
     def get(self, request):
         reportList = ReportBoardList.objects.all()
-        reportList_serializer = ReportBoardListSerializers(reportList, many=True)
-        return Response(reportList_serializer.data, status=status.HTTP_200_OK)
+        board_ids = reportList.values_list('boardID', flat=True)
+        report_boards = Board.objects.filter(boardID__in=board_ids)
+        serializer = BoardSerializers(report_boards, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class Report(APIView):
