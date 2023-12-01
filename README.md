@@ -6,15 +6,24 @@
 3. Venv의 Scripts 또는 bin 디렉토리에서 activate 실행
 4. 사용한 라이브러리 설치
 
-pip install django-rest-framework
-pip install djangorestframework-simplejwt
-pip install django-cors-headers
-pip install django-rest-authtoken
-pip install django-multiselectfield
-pip install channels
-pip install scikit-learn
-pip install extcolors
-pip install rembg
+pip install django-rest-framework  
+
+pip install djangorestframework-simplejwt  
+
+pip install django-cors-headers  
+
+pip install django-rest-authtoken  
+
+pip install django-multiselectfield  
+
+pip install channels  
+
+pip install scikit-learn  
+
+pip install extcolors  
+
+pip install rembg  
+
 
 터미널로 설치 후 설치가 안된다면 추가로 오류가 뜨는 라이브러리 설치
 
