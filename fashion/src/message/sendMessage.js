@@ -19,7 +19,7 @@ export default function MySendMessage() {
 
     const fetchMessages = async () => {
         try {
-            const response = await axios.get("백엔드에서_메세지_목록을_가져올_엔드포인트_URL", {
+            const response = await axios.get("http://localhost:8000/message_box/1/", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -49,7 +49,7 @@ export default function MySendMessage() {
                     <NoteList>
                         {messages.map((message, index) => (
                             <React.Fragment key={message.id}>
-                                <NoteItem>{message.content}</NoteItem>
+                                <NoteItem>{message.message}</NoteItem>
                                 {index !== messages.length - 1 && <Line />}
                             </React.Fragment>
                         ))}
