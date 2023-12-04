@@ -327,10 +327,6 @@ export default function BoardNewPage() {
                     tempArray2.push("#acne")
                 }
 
-
-                console.log("tempArray2")
-                console.log(tempArray2)
-
                 setMyArray2(tempArray2)
                 console.log("myArray2")
                 console.log(myArray2)
@@ -420,7 +416,7 @@ export default function BoardNewPage() {
                                     <ProfileArrayTag>
                                         Cloth Type
                                         <div>
-                                            <ProfileTagValue>{myArray}</ProfileTagValue>
+                                            <ProfileTagValue>{myArray2}</ProfileTagValue>
                                         </div>
                                     </ProfileArrayTag>
                                     <ProfileValueWrapper>

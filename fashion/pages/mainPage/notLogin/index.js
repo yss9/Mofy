@@ -276,9 +276,9 @@ export default function BoardNewPage() {
                             </StylesWrapper>
                         </Left>
                         <Right>
-                            <ProfileWrapper>
-                                <ProfileText>Login</ProfileText>
                                 <ProfileNonUserWrapper>
+                                <ProfileText>Login</ProfileText>
+
                                     <LoginWrapper>
                                         <LoginText>ID</LoginText>
                                         <LoginInput type="text" maxlength="11" size="44" placeholder="아이디" onChange={onChangeId} onKeyPress={enterKeyPress}></LoginInput>
@@ -302,7 +302,7 @@ export default function BoardNewPage() {
                                 </ProfileNonUserWrapper>
 
                                 {/*<ProfileEdit onClick={onClickEdit}>프로필 수정</ProfileEdit>*/}
-                            </ProfileWrapper>
+
                             <WeatherText>Today's Weather</WeatherText>
                             <WeatherWrapper>
                                 <TemInfo>

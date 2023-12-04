@@ -23,6 +23,7 @@ export const NotLoginWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  //margin-bottom: 20px;
 `
 export const ConsentWrapper = styled.div`
   
@@ -496,7 +497,7 @@ export const WeatherText = styled.div`
   font-size: 25px;
   font-weight: bold;
   color: #e4808e;
-  margin-top: 30px;
+  margin-top: 10px;
   //background-color: darkslateblue;
 `
 export const TemInfo = styled.div`
@@ -554,10 +555,11 @@ export const WeatherDetail = styled.div`
 export const ProfileNonUserWrapper = styled.div`
   //background-color: #efe4e4;
   width: 330px;
-  height: 170px;
+  height: 220px;
   //background-color: pink;
   //border-radius: 10px;
   border-bottom: 2px dotted rgba(201, 157, 178, 0.66);
+  //margin-bottom: 100px;
 `
 export const LoginText = styled.div`
   font-size: 20px;
