@@ -259,7 +259,9 @@ class StyleOne(APIView):
         sorted_records = Board.objects.all().order_by('-like_num')
         first_record = sorted_records[0]
         image = first_record.image
+        boardID = first_record.boardID
         data = {
+            'boardID': boardID,
             'image': image.url
         }
         return JsonResponse(data)
@@ -272,7 +274,9 @@ class StyleTwo(APIView):
         sorted_records = Board.objects.all().order_by('-like_num')
         first_record = sorted_records[1]
         image = first_record.image
+        boardID = first_record.boardID
         data = {
+            'boardID': boardID,
             'image': image.url
         }
         return JsonResponse(data)
@@ -286,7 +290,9 @@ class StyleThree(APIView):
         sorted_records = Board.objects.all().order_by('-like_num')
         first_record = sorted_records[2]
         image = first_record.image
+        boardID = first_record.boardID
         data = {
+            'boardID': boardID,
             'image': image.url
         }
         return JsonResponse(data)
@@ -300,7 +306,9 @@ class StyleFour(APIView):
         sorted_records = Board.objects.all().order_by('-like_num')
         first_record = sorted_records[3]
         image = first_record.image
+        boardID = first_record.boardID
         data = {
+            'boardID': boardID,
             'image': image.url
         }
         return JsonResponse(data)
