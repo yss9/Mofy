@@ -79,3 +79,9 @@ export const Button = styled.button`
 export const TextToken = styled.span`
   color: ${(props) => (props.isMatched ? "red" : "black")};
 `;
+
+
+export const GoToHome = styled.button`
+
+
+`

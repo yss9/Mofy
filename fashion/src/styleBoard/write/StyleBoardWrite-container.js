@@ -6,6 +6,7 @@ import {ImageBox} from "./StyleBoardWrite-styles";
 import { PlusOutlined } from '@ant-design/icons';
 import { Input, Space, Tag, theme, Tooltip } from 'antd';
 import Cookies from "js-cookie";
+import {CheckValidationFile} from "../../commons/validation/validation";
 
 export default function StyleBoardWrite(props){
     const router = useRouter()
@@ -89,6 +90,11 @@ export default function StyleBoardWrite(props){
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+
+        const isValid = CheckValidationFile(file);
+
+        if(!isValid) return;
+
         setImage(file);
     }
 
@@ -118,6 +124,9 @@ export default function StyleBoardWrite(props){
             formData.append('like_num', 0);
             formData.append('userID', 1);
             formData.append('tags', tags)
+
+
+
 
 
             const result = await axios.post("http://127.0.0.1:8000/board/", formData, {
@@ -173,7 +182,6 @@ export default function StyleBoardWrite(props){
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${accessToken}`,
-                   // 'Content-Type' : 'application/json'
                 }
 
             })

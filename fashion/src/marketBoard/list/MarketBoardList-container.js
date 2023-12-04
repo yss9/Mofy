@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import {useEffect, useState, useCallback} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import axios from "axios";
 import * as S from "./MarketBoardList-styles";
 import {FireFilledIcon, Searchbar, SearchbarInput} from "../../../src/community/searchbars/01/Searchbars01-styles";
@@ -7,13 +7,14 @@ import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils";
 import Cookies from "js-cookie";
-import { Button } from 'antd';
+import {Button, Tabs} from 'antd';
+
 
 
 const SECRET = "!@#$";
 
 
-export default function MarketBoardList() {
+export default function MarketBoardList(props) {
 
 
     const router = useRouter();
@@ -98,8 +99,13 @@ export default function MarketBoardList() {
       window.location.href = "http://localhost:3000/mks/welcomeMessage/"
   }
 
+  const onClickHome =() => {
+      window.location.href = "http://localhost:3000/mainPage/"
+  }
+
     return (
         <S.Wrapper>
+            <Button type="link" onClick={onClickHome} style={{marginBottom:"30px"}}>홈으로</Button>
             <Searchbar>
                 <FireFilledIcon />
                 <SearchbarInput

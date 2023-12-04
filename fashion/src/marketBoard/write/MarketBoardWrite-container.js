@@ -136,6 +136,11 @@ export default function MarketBoardWrite(props){
             setContentError("내용을 입력해주세요.");
         }
 
+        if (price == 0) {
+            setPriceError("가격을 유효한 숫자로 입력해주세요.");
+        }
+
+
         if (title !== "" && content !== "") {
 
 

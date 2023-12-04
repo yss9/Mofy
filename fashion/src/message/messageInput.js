@@ -19,6 +19,7 @@ export default function MessageInput() {
 
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -48,30 +49,38 @@ export default function MessageInput() {
 
 
     const handleSend = () => {
-            // 전송할 데이터를 준비합니다.
+        // 전송할 데이터를 준비합니다.
         const data = {
             receiveID: recipient,
             message: message,
         };
 
 
-        // 백엔드 엔드포인트로 POST 요청을 보냅니다.
-        axios.post("http://localhost:8000/chat/", data, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        })
-            .then((response) => {
-                // 성공적으로 처리되었을 때의 작업, 예를 들어 성공 메시지 표시
-                console.log("메시지 전송 성공:", response.data);
-            })
-            .catch((error) => {
-                // 에러 처리, 예를 들어 에러 메시지 표시
-                console.error("메시지 전송 중 오류:", error);
-            });
+
+            // 백엔드 엔드포인트로 POST 요청을 보냅니다.
+            axios.post("http://localhost:8000/chat/", data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            },)
+                .then((response) => {
+                    // 성공적으로 처리되었을 때의 작업, 예를 들어 성공 메시지 표시
+                    console.log("메시지 전송 성공:", response.data);
+                })
+                .catch((error) => {
+                    // 에러 처리, 예를 들어 에러 메시지 표시
+                    console.error("메시지 전송 중 오류:", error);
+                });
 
 
-    };
+        }
+
+
+
+
+
+
+
     const onClickMarket = () => {
         window.location.href = "http://localhost:3000/marketBoard/"
     }

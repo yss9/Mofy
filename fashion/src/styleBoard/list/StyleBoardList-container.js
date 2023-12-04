@@ -8,7 +8,7 @@ import{v4 as uuidv4} from "uuid"
 import {getDate} from "../../commons/libraries/utils"
 import Cookies from "js-cookie";
 import React from 'react';
-import { FloatButton } from 'antd';
+import {Button, FloatButton} from 'antd';
 
 const SECRET = "!@#$";
 
@@ -101,9 +101,14 @@ export default function StyleBoardList() {
 
     }
 
+    const onClickHome =() => {
+        window.location.href = "http://localhost:3000/mainPage/"
+    }
+
 
     return (
         <S.Wrapper>
+            <Button type="link" onClick={onClickHome} style={{marginBottom:"30px"}}>홈으로</Button>
             <Searchbar>
                 <FireFilledIcon />
                 <SearchbarInput
