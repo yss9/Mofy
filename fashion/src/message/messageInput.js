@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {Wrapper, ConsentWrapper, Title, TitleWrapper,
     Text, TextWrapper,SendBtn, BtnWrapper, SubtitleWrapper,
     SubTitle, GoOutBtn
-
 } from '../../styles/styles/BoardsMessage'
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -64,6 +63,11 @@ export default function MessageInput() {
             .then((response) => {
                 // 성공적으로 처리되었을 때의 작업, 예를 들어 성공 메시지 표시
                 console.log("메시지 전송 성공:", response.data);
+
+                alert("메시지가 성공적으로 전송되었습니다.");
+
+                setRecipient("");
+                setMessage("");
             })
             .catch((error) => {
                 // 에러 처리, 예를 들어 에러 메시지 표시
@@ -82,7 +86,7 @@ export default function MessageInput() {
                 <ConsentWrapper>
                     <TitleWrapper>
                         <Title>쪽지 보내기</Title>
-                        <GoOutBtn onClick={onClickMarket}>x</GoOutBtn>
+                        <GoOutBtn onClick={onClickMarket}>✕</GoOutBtn>
                     </TitleWrapper>
                     <SubtitleWrapper>
                         <SubTitle
