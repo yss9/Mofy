@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Wrapper, ConsentWrapper, Title, TitleWrapper,
     Text, TextWrapper,SendBtn, BtnWrapper, SubtitleWrapper,
-    SubTitle, GoOutBtn
-
+    SubTitle, GoOutBtn, MySendMsgBtn, MySendMsgBtnWrapper,
+    MyGetMsgBtn, MyGetMsgBtnWrapper, ButtonWrapper,
+    Imoticon,
 } from '../../styles/styles/BoardsMessage'
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -18,7 +19,6 @@ export default function MessageInput() {
     const refreshToken = Cookies.get('refresh_token');
 
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,40 +49,43 @@ export default function MessageInput() {
 
 
     const handleSend = () => {
-        // 전송할 데이터를 준비합니다.
+            // 전송할 데이터를 준비합니다.
         const data = {
             receiveID: recipient,
             message: message,
         };
 
 
+        // 백엔드 엔드포인트로 POST 요청을 보냅니다.
+        axios.post("http://localhost:8000/chat/", data, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+            .then((response) => {
+                // 성공적으로 처리되었을 때의 작업, 예를 들어 성공 메시지 표시
+                console.log("메시지 전송 성공:", response.data);
 
-            // 백엔드 엔드포인트로 POST 요청을 보냅니다.
-            axios.post("http://localhost:8000/chat/", data, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            },)
-                .then((response) => {
-                    // 성공적으로 처리되었을 때의 작업, 예를 들어 성공 메시지 표시
-                    console.log("메시지 전송 성공:", response.data);
-                })
-                .catch((error) => {
-                    // 에러 처리, 예를 들어 에러 메시지 표시
-                    console.error("메시지 전송 중 오류:", error);
-                });
+                alert("메시지가 성공적으로 전송되었습니다.");
 
-
-        }
-
-
-
+                setRecipient("");
+                setMessage("");
+            })
+            .catch((error) => {
+                // 에러 처리, 예를 들어 에러 메시지 표시
+                console.error("메시지 전송 중 오류:", error);
+            });
 
 
-
-
+    };
     const onClickMarket = () => {
         window.location.href = "http://localhost:3000/marketBoard/"
+    }
+    const onClickMySend = () => {
+        window.location.href = "http://localhost:3000/mks/mySendMessage"
+    }
+    const onClickMyGet = () => {
+        window.location.href = "http://localhost:3000/mks/myGetMessage"
     }
 
     return(
@@ -91,7 +94,7 @@ export default function MessageInput() {
                 <ConsentWrapper>
                     <TitleWrapper>
                         <Title>쪽지 보내기</Title>
-                        <GoOutBtn onClick={onClickMarket}>x</GoOutBtn>
+                        <GoOutBtn onClick={onClickMarket}>✕</GoOutBtn>
                     </TitleWrapper>
                     <SubtitleWrapper>
                         <SubTitle
@@ -112,6 +115,15 @@ export default function MessageInput() {
                     </BtnWrapper>
                 </ConsentWrapper>
             </Wrapper>
+            <ButtonWrapper>
+                <Imoticon>✉</Imoticon>
+                <MySendMsgBtnWrapper>
+                    <MySendMsgBtn onClick={onClickMySend}>보낸 메세지</MySendMsgBtn>
+                </MySendMsgBtnWrapper>
+                <MyGetMsgBtnWrapper>
+                    <MyGetMsgBtn onClick={onClickMyGet}>받은 메세지</MyGetMsgBtn>
+                </MyGetMsgBtnWrapper>
+            </ButtonWrapper>
         </>
     )
 }
