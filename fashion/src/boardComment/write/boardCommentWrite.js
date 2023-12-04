@@ -1,4 +1,3 @@
-
 import React, {useEffect} from 'react';
 import {useState} from "react";
 import axios from "axios";
@@ -33,6 +32,10 @@ export default function BoardCommentWrite(){
 
 
     const onClickSubmit = async () => {
+        if (comment.trim() === "") {
+            alert("댓글을 입력해주세요");
+            return;
+        }
         const result = await axios.post(`http://127.0.0.1:8000/board/${boardID}/`, {
             comment: comment,
             userID: 1,
@@ -54,12 +57,7 @@ export default function BoardCommentWrite(){
 
 
 
-
-
-
-
-
-        return(
+    return(
             <>
 
                     <TextArea
