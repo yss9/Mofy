@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Wrapper, ConsentWrapper, Title, TitleWrapper,
     Text, TextWrapper,SendBtn, BtnWrapper, SubtitleWrapper,
-    SubTitle, GoOutBtn
+    SubTitle, GoOutBtn, MySendMsgBtn, MySendMsgBtnWrapper,
+    MyGetMsgBtn, MyGetMsgBtnWrapper, ButtonWrapper,
+    Imoticon,
 } from '../../styles/styles/BoardsMessage'
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -79,6 +81,12 @@ export default function MessageInput() {
     const onClickMarket = () => {
         window.location.href = "http://localhost:3000/marketBoard/"
     }
+    const onClickMySend = () => {
+        window.location.href = "http://localhost:3000/mks/mySendMessage"
+    }
+    const onClickMyGet = () => {
+        window.location.href = "http://localhost:3000/mks/myGetMessage"
+    }
 
     return(
         <>
@@ -107,6 +115,15 @@ export default function MessageInput() {
                     </BtnWrapper>
                 </ConsentWrapper>
             </Wrapper>
+            <ButtonWrapper>
+                <Imoticon>✉</Imoticon>
+                <MySendMsgBtnWrapper>
+                    <MySendMsgBtn onClick={onClickMySend}>보낸 메세지</MySendMsgBtn>
+                </MySendMsgBtnWrapper>
+                <MyGetMsgBtnWrapper>
+                    <MyGetMsgBtn onClick={onClickMyGet}>받은 메세지</MyGetMsgBtn>
+                </MyGetMsgBtnWrapper>
+            </ButtonWrapper>
         </>
     )
 }

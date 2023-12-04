@@ -7,7 +7,7 @@ import {
     NoteList,
     NoteItem,
     AddNoteButton, AddNoteButtonWrapper,
-    Line, GoOutBtn,
+    Line, GoOutBtn, Imoticon, MySendMsgBtnWrapper, MySendMsgBtn, MyGetMsgBtnWrapper, MyGetMsgBtn, ButtonWrapper,
 } from '../../styles/styles/BoardsMessage'
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -42,6 +42,12 @@ export default function BoardsNotePage() {
     const onClickMarket = () => {
         window.location.href = "http://localhost:3000/marketBoard/"
     }
+    const onClickWriteMsg = () => {
+        window.location.href = "http://localhost:3000/mks/writeMessage"
+    }
+    const onClickSendMsg = () => {
+        window.location.href = "http://localhost:3000/mks/mySendMessage"
+    }
 
     return (
         <>
@@ -65,6 +71,15 @@ export default function BoardsNotePage() {
                     </NoteList>
                 </ConsentWrapper>
             </Wrapper>
+            <ButtonWrapper>
+                <Imoticon>✉</Imoticon>
+                <MySendMsgBtnWrapper>
+                    <MySendMsgBtn onClick={onClickWriteMsg}>메세지 쓰기</MySendMsgBtn>
+                </MySendMsgBtnWrapper>
+                <MyGetMsgBtnWrapper>
+                    <MyGetMsgBtn onClick={onClickSendMsg}>보낸 메세지</MyGetMsgBtn>
+                </MyGetMsgBtnWrapper>
+            </ButtonWrapper>
         </>
     );
 }
