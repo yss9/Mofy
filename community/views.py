@@ -147,7 +147,7 @@ class BoardDetail(APIView):
         request.data['userID'] = request.user.id
         board = Board.objects.get(pk=pk)
         serializer = BoardSerializers(board, data=request.data)
-        if board.userID == request.user.id:
+        if board.userID == request.user:
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
@@ -159,7 +159,7 @@ class BoardDetail(APIView):
     def delete(self, request, pk, format=None):
         request.data['userID'] = request.user.id
         board = Board.objects.get(pk=pk)
-        if board.userID == request.user.id:
+        if board.userID == request.user:
             board.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -378,7 +378,7 @@ class MessageDetail(APIView):
 
 
 
-'''
+
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([AllowAny])
@@ -391,4 +391,4 @@ class SearchTag(APIView):
         taged_boards = Board.objects.filter(boardID__in = board_ids)
         serializer = BoardSerializers(taged_boards, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-'''
+

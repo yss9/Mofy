@@ -3,7 +3,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from .views import BoardDetail, BoardList, CommentDetail, LikeDetail, CommentPutDel, Report, StyleRankView, Test, \
     SelectBoardType, GetMyBoard, GetMyLikeBoard, ReportList, Chat, MessageBox, MessageDetail, StyleOne, \
-    StyleTwo, StyleThree, StyleFour  # SearchTag
+    StyleTwo, StyleThree, StyleFour, SearchTag
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -23,7 +23,7 @@ urlpatterns = [
     path('boardType/<int:pk>/', SelectBoardType.as_view()),
     path('myboard/<int:pk>/', GetMyBoard.as_view()),
     path('mylike/', GetMyLikeBoard.as_view()),
-    # path('search/', SearchTag.as_view()),
+    path('search/', SearchTag.as_view()),
     path('chat/', Chat.as_view()),
     path('message_box/<int:pk>/', MessageBox.as_view()),
     path('message_detail/<int:pk>/',MessageDetail.as_view()),
