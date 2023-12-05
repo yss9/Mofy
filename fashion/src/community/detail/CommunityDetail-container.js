@@ -118,7 +118,7 @@ export default function CommunityDetail() {
                .then(function (response) {
                    console.log(response.data);
 
-                   alert("신고접수가 성공적으로 완료되었습니다!")
+                   alert("신고접수가 정상적으로 완료되었습니다")
 
 
                })

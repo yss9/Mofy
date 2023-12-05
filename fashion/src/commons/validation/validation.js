@@ -10,7 +10,7 @@ export const CheckValidationFile = (file) => {
     }
 
     const fileNameLowerCase = file.name.toLowerCase();
-    if (!fileNameLowerCase.endsWith(".jpeg") && !fileNameLowerCase.endsWith(".png")) {
+    if (!fileNameLowerCase.endsWith(".jpeg") && !fileNameLowerCase.endsWith(".png") && !fileNameLowerCase.endsWith(".jpg")){
         alert(".jpeg 또는 .png 파일만 업로드 가능합니다");
         return false;
     }

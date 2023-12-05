@@ -18,13 +18,11 @@ export default function BoardCommentList(){
     const refreshToken = Cookies.get('refresh_token')
     const [username, setUsername] = useState("");
 
-    const[dataLoaded, setDataLoaded] = useState(false)
+    const [dataLoaded, setDataLoaded] = useState(false)
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
 
 
-
-
-        const fetchData = async () => {
+    const fetchData = async () => {
             console.log("마운트가 완료되었디!")
             axios
                 .get(`http://127.0.0.1:8000/board/${boardID}/comment/`, {
@@ -69,11 +67,29 @@ export default function BoardCommentList(){
 
 
 
+  /*  const onClickCommentDelete = async () => {
+        try {
+            const response = await axios.delete(`http://127.0.0.1:8000/board/comment/${commentID}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            console.log(response.data.boardID);
+            router.push("/community/");
+            alert("게시물 삭제가 정상적으로 완료되었습니다!");
+            setDeleteLoaded(true);
+
+        } catch (error) {
+            console.log(error);
+        }
+    };*/
 
 
 
 
-   return(
+
+    return(
         <div>
             {reqData?.map((el)=>(
                 <div style={{marginTop:"50px",width:"800px", height:"100px", marginLeft:"300px"}}>

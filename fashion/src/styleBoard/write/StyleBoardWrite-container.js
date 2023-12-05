@@ -93,9 +93,11 @@ export default function StyleBoardWrite(props){
 
         const isValid = CheckValidationFile(file);
 
-        if(!isValid) return;
+        if(isValid === false)
+            return
 
-        setImage(file);
+        if(isValid === true)
+            setImage(file);
     }
 
 
@@ -109,7 +111,7 @@ export default function StyleBoardWrite(props){
         }
 
         if (!image) {
-            alert("사진을업로드하거리")
+            alert("사진을 업로드해주세요")
         }
 
         if (title !== "" && content !== "" && image) {

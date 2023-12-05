@@ -6,6 +6,7 @@ import { Switch } from 'antd';
 import DaumPostcodeEmbed from "react-daum-postcode";
 import {Modal, Button, Popover} from 'antd'
 import Cookies from "js-cookie";
+import {CheckValidationFile} from "../../commons/validation/validation";
 
 export default function MarketBoardWrite(props){
     const router = useRouter()
@@ -123,8 +124,15 @@ export default function MarketBoardWrite(props){
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        setImage(file);
-    };
+
+        const isValid = CheckValidationFile(file);
+
+        if(isValid === false)
+            return
+
+        if(isValid === true)
+            setImage(file);
+    }
 
 
 
@@ -136,9 +144,10 @@ export default function MarketBoardWrite(props){
             setContentError("내용을 입력해주세요.");
         }
 
-        if (price == 0) {
-            setPriceError("가격을 유효한 숫자로 입력해주세요.");
+        if (price === 0 || isNaN(price)) {
+            alert("가격을 유효한 숫자로 입력해주세요.");
         }
+
 
 
         if (title !== "" && content !== "") {
