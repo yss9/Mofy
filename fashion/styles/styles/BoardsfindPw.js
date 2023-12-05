@@ -9,6 +9,9 @@ export const Wrapper=styled.div`
 `
 
 export const ConsentWrapper = styled.div`
+  //background-color: red;
+ text-align: center;
+ align-items: center;
 `
 
 export const Title = styled.div`
@@ -16,10 +19,19 @@ export const Title = styled.div`
   margin-top: 45px;
   font-size: 60px;
   font-weight: bold;
-  background-image: linear-gradient(to right, #b987d2, lightcoral);
-  color: transparent;
-  -webkit-background-clip: text;
   cursor: pointer;
+`
+export const TitleWrapper=styled.div`
+ background-image: linear-gradient(to right, #b987d2, lightcoral);
+ //background-color: blue;
+ width: 200px;
+ color: transparent;
+ -webkit-background-clip: text;
+`
+export const TitleWrapperWrapper=styled.div`
+ // background-color: red;
+ display: grid;
+ place-items: center;
 `
 
 export const SubTitle=styled.div`

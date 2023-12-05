@@ -60,6 +60,7 @@ export default function BoardsLoginPage(){
             })
             .catch((error) => {
                 console.error("이메일 및 이름 확인 중 에러 발생", error);
+                alert("해당 이메일 및 이름과 부합하는 계정이 없습니다. 다시 확인해주세요.");
             });
     };
 
