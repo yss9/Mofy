@@ -47,7 +47,7 @@ class LikeSerializers(serializers.ModelSerializer):
 class MessageSerializers(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ('id', 'message', 'boardID', 'receiveID', 'sendID')
+        fields = ('id', 'message', 'receiveID', 'sendID', 'receive_name', 'send_name')
 
 
 

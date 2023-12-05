@@ -51,9 +51,10 @@ class Like(models.Model):
 
 
 class Message(models.Model):
-    boardID = models.ForeignKey(Board, on_delete=models.CASCADE, db_column='boardID')
     sendID = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sendID')
     receiveID = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiveID')
+    receive_name = models.TextField(max_length=100)
+    send_name = models.TextField(max_length=100)
     message = models.TextField(max_length=100)
 
 

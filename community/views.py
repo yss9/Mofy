@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from accounts.models import User
+from accounts.models import User, UserData
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
     ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers, MessageSerializers
 from .models import Board, Comment, Like, TagName, ReportBoardList, TagBoard, PhotoSave, Message
@@ -101,7 +101,7 @@ class BoardList(APIView):
                 return Response(board_serializer.data, status=status.HTTP_201_CREATED)
             return Response(board_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({'error': 'User is not authenticated.'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -135,6 +135,7 @@ class BoardDetail(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, pk, format=None):
         request.data['userID'] = request.user.id
+        request.data['boardID'] = pk
         serializer = CommentSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -181,17 +182,23 @@ class CommentPutDel(APIView):
     def put(self, request, pk, format=None):
         request.data['userID'] = request.user.id
         comment = Comment.objects.get(pk=pk)
-        serializer = CommentSerializers(comment, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if comment.userID == request.user:
+            serializer = CommentSerializers(comment, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     def delete(self, request, pk, format=None):
         request.data['userID'] = request.user.id
         comment = Comment.objects.get(pk=pk)
-        comment.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if comment.userID == request.user:
+            comment.delete()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 @authentication_classes([JWTAuthentication])
@@ -260,7 +267,11 @@ class StyleOne(APIView):
         first_record = sorted_records[0]
         image = first_record.image
         boardID = first_record.boardID
+        user_id = first_record.userID_id
+        f_user = User.objects.get(id=user_id)
+        usr_name = f_user.name
         data = {
+            'usr_name': usr_name,
             'boardID': boardID,
             'image': image.url
         }
@@ -275,7 +286,11 @@ class StyleTwo(APIView):
         first_record = sorted_records[1]
         image = first_record.image
         boardID = first_record.boardID
+        user_id = first_record.userID_id
+        f_user = User.objects.get(id=user_id)
+        usr_name = f_user.name
         data = {
+            'usr_name': usr_name,
             'boardID': boardID,
             'image': image.url
         }
@@ -291,12 +306,15 @@ class StyleThree(APIView):
         first_record = sorted_records[2]
         image = first_record.image
         boardID = first_record.boardID
+        user_id = first_record.userID_id
+        f_user = User.objects.get(id=user_id)
+        usr_name = f_user.name
         data = {
+            'usr_name': usr_name,
             'boardID': boardID,
             'image': image.url
         }
         return JsonResponse(data)
-
 
 
 @authentication_classes([JWTAuthentication])
@@ -307,7 +325,11 @@ class StyleFour(APIView):
         first_record = sorted_records[3]
         image = first_record.image
         boardID = first_record.boardID
+        user_id = first_record.userID_id
+        f_user = User.objects.get(id=user_id)
+        usr_name = f_user.name
         data = {
+            'usr_name': usr_name,
             'boardID': boardID,
             'image': image.url
         }
@@ -340,13 +362,13 @@ class GetMyLikeBoard(APIView):
 @permission_classes([IsAuthenticated])
 class Chat(APIView):
     def post(self, request):
-        board = Board.objects.get(boardID = 1)
         receive_id = request.data['receiveID']
         re_user = User.objects.get(userID = receive_id)
         messaged = Message()
-        messaged.boardID = board
         messaged.sendID = request.user
         messaged.receiveID = re_user
+        messaged.send_name = request.user.name
+        messaged.receive_name = re_user.name
         messaged.message = request.data['message']
         messaged.save()
         return Response(status=status.HTTP_200_OK)

@@ -23,11 +23,11 @@ urlpatterns = [
     path('boardType/<int:pk>/', SelectBoardType.as_view()),
     path('myboard/<int:pk>/', GetMyBoard.as_view()),
     path('mylike/', GetMyLikeBoard.as_view()),
-    path('search/', SearchTag.as_view()),
+    path('searchTag/', SearchTag.as_view()),
     path('chat/', Chat.as_view()),
     path('message_box/<int:pk>/', MessageBox.as_view()),
     path('message_detail/<int:pk>/',MessageDetail.as_view()),
-    path('Test/', Test.as_view())
+    path('palcreate/', Test.as_view())
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
