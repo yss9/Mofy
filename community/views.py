@@ -367,8 +367,8 @@ class Chat(APIView):
         messaged = Message()
         messaged.sendID = request.user
         messaged.receiveID = re_user
-        messaged.send_name = request.user.name
-        messaged.receive_name = re_user.name
+        messaged.send_name = request.user.userID
+        messaged.receive_name = re_user.userID
         messaged.message = request.data['message']
         messaged.save()
         return Response(status=status.HTTP_200_OK)
