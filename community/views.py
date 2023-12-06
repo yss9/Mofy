@@ -148,11 +148,25 @@ class BoardDetail(APIView):
         request.data['userID'] = request.user.id
         board = Board.objects.get(pk=pk)
         serializer = BoardSerializers(board, data=request.data)
-        if board.userID == request.user:
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        tags = request.data.get('tags', '').split(',')
+        if serializer.is_valid():
+            serializer.save()
+            taged_board = TagBoard.objects.filter(boardID = board)
+            taged_board.delete()
+            for tag in tags:
+                tagname = TagName()
+                tag_valid = TagName.objects.filter(tagName=tag)
+                if tag_valid:
+                    tagn = TagName.objects.get(tagName=tag)
+                    tagboard = TagBoard(boardID=board, tagID=tagn)
+                else:
+                    tagname.tagName = tag
+                    tagname.save()
+                    tagn = TagName.objects.get(tagName=tag)
+                    tagboard = TagBoard(boardID=board, tagID=tagn)
+                tagboard.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -371,7 +385,7 @@ class Chat(APIView):
         messaged.receive_name = re_user.userID
         messaged.message = request.data['message']
         messaged.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response("complete message send", status=status.HTTP_200_OK)
 
 
 @authentication_classes([JWTAuthentication])
