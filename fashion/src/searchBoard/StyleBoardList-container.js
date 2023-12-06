@@ -23,7 +23,9 @@ export default function StyleBoardList() {
 
 
 
-    const [reqData, setReqData] = useState([])
+    const [reqDataS, setReqDataS] = useState([])
+    const [reqDataM, setReqDataM] = useState([])
+    const [reqDataC, setReqDataC] = useState([])
     const [keyword, setKeyword] = useState("")
 
     const accessToken = Cookies.get('access_token')
@@ -46,7 +48,7 @@ export default function StyleBoardList() {
                 }
             })
                 .then((response) => {
-                    setReqData([...response.data])
+                    setReqDataS([...response.data])
 
 
                     console.log(response.data);
@@ -62,7 +64,7 @@ export default function StyleBoardList() {
                 }
             })
                 .then((response) => {
-                    setReqData([...response.data])
+                    setReqDataM([...response.data])
 
 
                     console.log(response.data);
@@ -78,7 +80,7 @@ export default function StyleBoardList() {
                 }
             })
                 .then((response) => {
-                    setReqData([...response.data])
+                    setReqDataC([...response.data])
 
 
                     console.log(response.data);
@@ -179,7 +181,7 @@ export default function StyleBoardList() {
                 </S.Row>
 
 
-                {reqData.filter(el => el.title.includes(keyword)).map(el => (
+                {reqDataS.filter(el => el.title.includes(keyword)).map(el => (
                     <S.Row key={el.boardID}>
 
                         <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
@@ -228,7 +230,7 @@ export default function StyleBoardList() {
                 </C.Row>
 
 
-                {reqData.filter(el => el.title.includes(keyword)).map(el => (
+                {reqDataC.filter(el => el.title.includes(keyword)).map(el => (
                     <C.Row key={el.boardID}>
 
                         <C.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
@@ -279,7 +281,7 @@ export default function StyleBoardList() {
                 </M.Row>
 
 
-                {reqData.filter(el => el.title.includes(keyword)).map(el => (
+                {reqDataM.filter(el => el.title.includes(keyword)).map(el => (
                     <M.Row key={el.boardID}>
 
                         <M.ColumnBasic>{el.boardID}</M.ColumnBasic>
