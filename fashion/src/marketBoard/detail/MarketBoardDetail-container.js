@@ -116,10 +116,6 @@ export default function MarketBoardDetail() {
 
 
 
-    const onClickChatPage = () =>{
-        window.location.href = "http://localhost:3000/mks/messenger/chat";
-    }
-
 
     const onClickBoardDelete = async () => {
         try {

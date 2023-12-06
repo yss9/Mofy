@@ -18,7 +18,7 @@ export const ConsentWrapper=styled.div`
 export const TitleWrapper=styled.div`
   text-align: center;
   color: #544f4f;
-  margin-top: -30px;
+  margin-top: 20px;
   display: flex;
 `
 
@@ -116,5 +116,16 @@ export const GoGetMessageBtn=styled.button`
   :hover {
     background-color: #d09cec;
   }
+`
+export const BackBtn=styled.button`
+   //margin-left: 600px;
+  //margin-bottom: 500px;
+  margin-top: 80px;
+  background-color: transparent;
+  border:none;
+  font-weight: 900;
+  font-size: 18px;
+  cursor: pointer;
+    
 `
 

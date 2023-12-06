@@ -1,7 +1,8 @@
 import{Wrapper, TitleWrapper, GoLoginBtn,
     GoOptionBtn, ConsentWrapper, BtnWrapper,
     Title1, Title2, Title3, GoWriteBtn,
-    GoSendMessageBtn, GoGetMessageBtn
+    GoSendMessageBtn, GoGetMessageBtn,
+    BackBtn, ButtonWrapper
 
 } from '../../styles/styles/Boardswelcome'
 
@@ -19,10 +20,14 @@ export default function MessageSelectPage(){
         window.location.href="http://localhost:3000/mks/writeMessage";
     }
     const onClickGoSend=()=>{
-        window.location.href="http://localhost:3000/mks/message/sendMessage";
+        window.location.href="http://localhost:3000/mks/mySendMessage";
     }
     const onClickGoGet=()=>{
-        window.location.href="http://localhost:3000/mks/message/getMessage";
+        window.location.href="http://localhost:3000/mks/myGetMessage";
+    }
+
+    const onClickMarket=()=>{
+        window.location.href="http://localhost:3000/marketBoard/";
     }
 
     return(
@@ -44,6 +49,7 @@ export default function MessageSelectPage(){
                             내가 받은 쪽지
                         </GoGetMessageBtn>
                     </BtnWrapper>
+                    <BackBtn onClick={onClickMarket}>뒤로가기</BackBtn>
                 </ConsentWrapper>
             </Wrapper>
         </>

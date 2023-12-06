@@ -6,6 +6,7 @@ import {ImageBox} from "./StyleBoardWrite-styles";
 import { PlusOutlined } from '@ant-design/icons';
 import { Input, Space, Tag, theme, Tooltip } from 'antd';
 import Cookies from "js-cookie";
+import {CheckValidationFile} from "../../commons/validation/validation";
 
 export default function StyleBoardWrite(props){
     const router = useRouter()
@@ -89,7 +90,14 @@ export default function StyleBoardWrite(props){
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        setImage(file);
+
+        const isValid = CheckValidationFile(file);
+
+        if(isValid === false)
+            return
+
+        if(isValid === true)
+            setImage(file);
     }
 
 
@@ -103,7 +111,7 @@ export default function StyleBoardWrite(props){
         }
 
         if (!image) {
-            alert("사진을업로드하거리")
+            alert("사진을 업로드해주세요")
         }
 
         if (title !== "" && content !== "" && image) {
@@ -118,6 +126,9 @@ export default function StyleBoardWrite(props){
             formData.append('like_num', 0);
             formData.append('userID', 1);
             formData.append('tags', tags)
+
+
+
 
 
             const result = await axios.post("http://127.0.0.1:8000/board/", formData, {
@@ -173,7 +184,6 @@ export default function StyleBoardWrite(props){
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${accessToken}`,
-                   // 'Content-Type' : 'application/json'
                 }
 
             })

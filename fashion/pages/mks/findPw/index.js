@@ -1,7 +1,7 @@
 import {Wrapper, ConsentWrapper, Title, SubTitle,
     Inform, InputId, InputIdWrapper, NextButton,
     AskId, IfDontRemember, FindId, NextButtonWrapper,
-    Check, InputWrapper
+    Check, InputWrapper, TitleWrapper, TitleWrapperWrapper
 } from '../../../styles/styles/BoardsfindPw'
 
 import {useState} from "react";
@@ -41,6 +41,7 @@ export default function BoardsLoginPage(){
             })
             .catch((error) => {
                 console.error("비밀번호 재설정 요청 중 에러 발생", error);
+                alert("해당 아이디에 부합하는 계정이 없습니다. 다시 확인해주세요.");
             });
     };
 
@@ -56,9 +57,13 @@ export default function BoardsLoginPage(){
         <>
         <Wrapper>
             <ConsentWrapper>
-                <Title onClick={onClickHome}>
-                    MOFY
-                </Title>
+                <TitleWrapperWrapper>
+                    <TitleWrapper>
+                        <Title onClick={onClickHome}>
+                            MOFY
+                        </Title>
+                    </TitleWrapper>
+                </TitleWrapperWrapper>
                 <SubTitle>
                     My outfit of Yours
                 </SubTitle>
