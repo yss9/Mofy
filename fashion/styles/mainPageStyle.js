@@ -236,6 +236,15 @@ export const NotLoginTitle = styled.img`
     cursor: pointer;
   }
 `
+export const STitle = styled.img`
+  width: 220px;
+  height: auto;
+  margin-left: 520px;
+  //margin-top: 20px;
+  &:hover {
+    cursor: pointer;
+  }
+`
 export const Title = styled.img`
   width: 220px;
   height: auto;
