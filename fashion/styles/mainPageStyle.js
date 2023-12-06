@@ -348,6 +348,7 @@ export const Styles = styled.div`
 export const StylesImg = styled.img`
   //max-width: 100%;
   max-height: 300px;
+  cursor: pointer;
   //width: 170px;
   //background-color: red;
 `
@@ -359,6 +360,7 @@ export const StylesUserImg = styled.img`
   height: 40px;
   border-radius: 100px;
   object-fit: cover;
+  cursor: pointer;
 `
 
 export const ProfileWrapper = styled.div`
@@ -408,14 +410,24 @@ export const StylesUserWrapper = styled.div`
   //background-color: black;
 `
 export const StylesUserName = styled.button`
-  font-size: 12px;
+  font-size: 15px;
   color: #91526c;
-  margin-left: 10px;
-  margin-top: 3px;
+  margin-left: 13px;
+  margin-top: 13px;
   float: left;
   background-color: rgba(84, 66, 66, 0);
   border: none;
+  cursor: pointer;
+  font-style: oblique;
 
+`
+export const StylesRankNum = styled.div`
+  font-style: oblique;
+  float: left;
+  margin-left: 15px;
+  margin-top: 7px;
+  font-size: 20px;
+  color: #91526c;
 `
 export const StylesTag = styled.button`
   font-size: 12px;

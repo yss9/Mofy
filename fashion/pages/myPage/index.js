@@ -88,6 +88,7 @@ export default function BoardNewPage() {
     const [dataLoaded, setDataLoaded] = useState(false)
     const [isImgDataLoaded, setIsImgDataLoaded] = useState(false);
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
+    const [isArrayLoaded, setIsArrayLoaded] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -361,10 +362,10 @@ export default function BoardNewPage() {
             }
         };
 
-        if (accessToken && !username && !isUserDataLoaded) {
+        if (accessToken && !username && !isUserDataLoaded && !isArrayLoaded) {
             fetchData();
         }
-    }, [accessToken, username, isUserDataLoaded]);
+    }, [accessToken, username, isUserDataLoaded, isArrayLoaded]);
 
     const onClickButton = () => {
         setPopupOpen(true);
@@ -414,7 +415,7 @@ export default function BoardNewPage() {
                                         </div>
                                     </ProfileArrayTag>
                                     <ProfileArrayTag>
-                                        Cloth Type
+                                        Skin Type
                                         <div>
                                             <ProfileTagValue>{myArray2}</ProfileTagValue>
                                         </div>
