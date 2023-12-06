@@ -293,6 +293,14 @@ export const FashionBtn=styled.button`
   }
 
 `
+export const SDivide = styled.div`
+  width: 1200px;
+  height: 2px;
+  background-color: #b3a5b6;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+`
 export const Divide = styled.div`
   width: 1200px;
   height: 2px;

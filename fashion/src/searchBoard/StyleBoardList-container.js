@@ -11,7 +11,7 @@ import _ from "lodash";
 import{v4 as uuidv4} from "uuid"
 import {getDate} from "../commons/libraries/utils"
 import Cookies from "js-cookie";
-import {STitle, Divide} from "../../styles/mainPageStyle";
+import {STitle, SDivide} from "../../styles/mainPageStyle";
 
 const SECRET = "!@#$";
 
@@ -159,7 +159,7 @@ export default function StyleBoardList() {
     return (
         <>
             <STitle onClick={onClickHome} src="images/mofylogo.png"/>
-            <Divide/>
+            <SDivide/>
             <S.Wrapper>
                 <Searchbar>
                     <FireFilledIcon />
