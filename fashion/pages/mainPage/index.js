@@ -7,7 +7,8 @@ import {
     WeatherImg, WeatherDetail, TemInfo, ModalContent, ModalWrapper, RecentSearchWrapper,
     RecentSearchButton, RecentSearchText, Rate, PopularSearchText, PopularSearchItems, TagText,
     TagButton, MoreTagButton, PopularSearchItemsWrapper, PopularSearchWrapper, TagButtonWrapper,
-    TagWrapper, RecommendSearchWrapper, RecommendSearchText, RecommendSearchButton, FashionBtn, StylesRankNum
+    TagWrapper, RecommendSearchWrapper, RecommendSearchText, RecommendSearchButton, FashionBtn, StylesRankNum,
+    MessageButton
 } from '../../styles/mainPageStyle'
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -488,6 +489,9 @@ export default function MainCotainer() {
     const onClickRank4 = () => {
         router.push(`/styleBoard/${boardID4}`);
     }
+    const onClickMessage = () => {
+        window.location.href = "http://localhost:3000/mks/welcomeMessage"
+    }
     return (
 
         <>
@@ -636,6 +640,9 @@ export default function MainCotainer() {
 
                         <Popover content="✨✨ 궁금해? 들어와보던가 ♡🌷💕" styles={{marginTop:"30px"}}>
                             <FashionBtn onClick={onClickFashion}>Fashion★</FashionBtn>
+                        </Popover>
+                        <Popover content="🍎쪽지를 보내보세용🥕" styles={{marginTop:"10px"}}>
+                            <MessageButton onClick={onClickMessage}>🐰💬🗨️🐱</MessageButton>
                         </Popover>
                     </Top>
                     <Divide/>

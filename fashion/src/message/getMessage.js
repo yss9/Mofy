@@ -63,8 +63,7 @@ export default function BoardsNotePage() {
                     <NoteList>
                         {message.map((message, index) => (
                             <React.Fragment key={message.id}>
-                                <NoteItem>{message.sendID}</NoteItem>
-                                <NoteItem>{message.message}</NoteItem>
+                                <NoteItem>{message.send_name}: {message.message}</NoteItem>
                                 {index !== message.length - 1 && <Line />}
                             </React.Fragment>
                         ))}

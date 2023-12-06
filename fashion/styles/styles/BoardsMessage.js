@@ -80,7 +80,8 @@ export const SendBtn=styled.button`
   background-color: rgba(218, 112, 214, 0.24);
 `
 export const NoteList = styled.div`
-  border-bottom: 1px solid black;
+  //border-bottom: 1px solid black;
+  text-align: left;
 `;
 
 export const NoteItem = styled.div`

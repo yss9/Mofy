@@ -682,3 +682,17 @@ export const LoginOption = styled.div`
   margin-left: 10px;
   //background-color: darkslateblue;
 `
+
+export const MessageButton=styled.button`
+  width: 125px;
+  height: 28px;
+  margin-top: 122px;
+  margin-right: 15px;
+  float: right;
+  background-color: rgba(255, 192, 203, 0.31);
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 20px;
+
+`
