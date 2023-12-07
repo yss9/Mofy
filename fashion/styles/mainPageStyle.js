@@ -284,7 +284,7 @@ export const FashionBtn=styled.button`
   margin-right: 15px;
   float: right;
   background-color: #ffa5a5;
-  border: 1px solid mediumpurple;
+  border: none;
   border-radius: 50px;
   cursor: pointer;
   font-weight: bolder;

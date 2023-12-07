@@ -36,17 +36,17 @@ export default function MessageSelectPage(){
                 <ConsentWrapper>
                     <TitleWrapper>
                         <Title1>MOFY</Title1>
-                        <Title2>쪽지</Title2>
+                        <Title2>'s Message</Title2>
                     </TitleWrapper>
                     <BtnWrapper>
                         <GoWriteBtn onClick={onClickGoWirte}>
-                            쪽지쓰러 가기
+                            메세지 쓰러 가기
                         </GoWriteBtn>
                         <GoSendMessageBtn onClick={onClickGoSend}>
-                            내가 보낸 쪽지
+                            내가 보낸 메세지
                         </GoSendMessageBtn>
                         <GoGetMessageBtn onClick={onClickGoGet}>
-                            내가 받은 쪽지
+                            내가 받은 메세지
                         </GoGetMessageBtn>
                     </BtnWrapper>
                     <BackBtn onClick={onClickMarket}>뒤로가기</BackBtn>
