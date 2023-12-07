@@ -48,7 +48,7 @@ export default function BoardsFindIdPage() {
                         // getId 페이지로 이동
                         window.location.href = "http://localhost:3000/mks/findId/getId";
                     } else {
-                        alert("유저 정보가 일치하지 않습니다.");
+                        alert("가입되지 않은 사용자입니다!");
                     }
                 })
                 .catch((error) => {
