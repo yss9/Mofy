@@ -114,9 +114,10 @@ export const ImageWrapper = styled.div`
 `;
 
 export const Image = styled.img`
-  width: 996px;
-  height: 480px;
+  width: 900px;
+  height: 900px;
   margin-bottom: 30px;
+  margin-left: 35px;
 `;
 
 

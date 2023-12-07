@@ -177,7 +177,7 @@ export default function StyleBoardWrite(props){
             formData.append('boardType', 2);
             formData.append('userID', 1);
             formData.append('like_num', 0);
-
+            formData.append('tags', tags)
 
 
             const result = await axios.put(`http://127.0.0.1:8000/board/${boardID}/`, formData, {
