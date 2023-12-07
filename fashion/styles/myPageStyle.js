@@ -204,7 +204,7 @@ export const TopButton = styled.button`
   }
 `
 export const MyMofyWrapper = styled.div`
-  width: 850px;
+  width: 1100px;
   height: 850px;
   //background-color: aquamarine;
   float: left;

@@ -82,8 +82,8 @@ export default function StyleBoardList() {
                 .then((response) => {
                     setReqDataC([...response.data])
 
-
-                    console.log(response.data);
+                    console.log("검색 보드 get")
+                    console.log([...response.data]);
 
                     setDataLoaded(true)
                 })
@@ -97,8 +97,8 @@ export default function StyleBoardList() {
                 },
             })
                 .then((response) => {
-
-
+                    console.log("response.data")
+                    console.log(response.data)
 
                     setKeyword(response.data[0].query);
                     setRecentSearch1(response.data[0].query);

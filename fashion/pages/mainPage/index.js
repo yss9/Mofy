@@ -127,6 +127,25 @@ export default function MainCotainer() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const response = await axios.get('http://127.0.0.1:8000/search/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                console.log("태그")
+                console.log(response.data)
+
+            } catch (error) {
+                console.error('서버 요청 오류:', error);
+            }
+        };
+
+        fetchData();
+    }, [accessToken]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
                 const response = await axios.get('http://127.0.0.1:8000/board/stylerank/1/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -377,25 +396,29 @@ export default function MainCotainer() {
             console.log("Request Data:", { query: search });
             console.log("Request Headers:", axiosConfig.headers);
 
-            axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
-                .then((response) => {
-                    if (response.data) { // * 데이터 가져오는거 성공하면
 
-                        console.log("검색 결과:");
-                        console.log(response.data);
 
-                        renderSearchResults(response.data);
+                axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
+                    .then((response) => {
+                        if (response.data) { // * 데이터 가져오는거 성공하면
 
-                        window.location.href = "http://localhost:3000/searchPage";
-                    } else {
-                        // Handle API error
-                        console.error("검색 실패: " + response.data.message);
-                    }
-                })
-                .catch((error) => {
-                    // Handle general API error
-                    console.error("검색 API 호출 중 오류 발생:", error);
-                });
+                            console.log("검색 결과:");
+                            console.log(response.data);
+
+                            renderSearchResults(response.data);
+
+                            window.location.href = "http://localhost:3000/searchPage";
+                        } else {
+                            // Handle API error
+                            console.error("검색 실패: " + response.data.message);
+                        }
+                    })
+                    .catch((error) => {
+                        // Handle general API error
+                        console.error("검색 API 호출 중 오류 발생:", error);
+                    });
+
+
         }
     };
 
