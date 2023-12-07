@@ -6,8 +6,17 @@ import {
     TitleWrapper,
     NoteList,
     NoteItem,
-    AddNoteButton, AddNoteButtonWrapper,
-    Line, GoOutBtn, Imoticon, MySendMsgBtnWrapper, MySendMsgBtn, MyGetMsgBtnWrapper, MyGetMsgBtn, ButtonWrapper,
+    AddNoteButton,
+    AddNoteButtonWrapper,
+    Line,
+    GoOutBtn,
+    Imoticon,
+    MySendMsgBtnWrapper,
+    MySendMsgBtn,
+    MyGetMsgBtnWrapper,
+    MyGetMsgBtn,
+    ButtonWrapper,
+    BarTitle, BarTitleWrapper,
 } from '../../styles/styles/BoardsMessage'
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -49,8 +58,15 @@ export default function BoardsNotePage() {
         window.location.href = "http://localhost:3000/mks/mySendMessage"
     }
 
+    const onClickHome = () => {
+        window.location.href = "http://localhost:3000/mainPage"
+    }
+
     return (
         <>
+            <BarTitleWrapper>
+                <BarTitle onClick={onClickHome}>MOFY</BarTitle>
+            </BarTitleWrapper>
             <Wrapper>
                 <ConsentWrapper>
                     <TitleWrapper>

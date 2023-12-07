@@ -67,7 +67,7 @@ export default function BoardsLoginPage(){
     };
 
     const onClickHome = () => {
-        window.location.href = "https://www.google.com";
+        window.location.href = "http://localhost:3000/mainPage";
     };
 
     const enterKeyPress = (event) => {

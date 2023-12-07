@@ -10,7 +10,15 @@ import {
     NoteItem,
     AddNoteButton,
     AddNoteButtonWrapper,
-    Line, GoOutBtn, Imoticon, MySendMsgBtnWrapper, MySendMsgBtn, MyGetMsgBtnWrapper, MyGetMsgBtn, ButtonWrapper,
+    Line,
+    GoOutBtn,
+    Imoticon,
+    MySendMsgBtnWrapper,
+    MySendMsgBtn,
+    MyGetMsgBtnWrapper,
+    MyGetMsgBtn,
+    ButtonWrapper,
+    BarTitle, BarTitleWrapper,
 } from "../../styles/styles/BoardsMessage";
 
 export default function MySendMessage() {
@@ -45,9 +53,15 @@ export default function MySendMessage() {
     const onClickGetMsg = () => {
         window.location.href = "http://localhost:3000/mks/myGetMessage"
     }
+    const onClickHome = () => {
+        window.location.href = "http://localhost:3000/mainPage"
+    }
 
     return (
         <>
+            <BarTitleWrapper>
+                <BarTitle onClick={onClickHome}>MOFY</BarTitle>
+            </BarTitleWrapper>
             <Wrapper>
                 <ConsentWrapper>
                     <TitleWrapper>

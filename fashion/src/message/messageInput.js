@@ -3,7 +3,7 @@ import {Wrapper, ConsentWrapper, Title, TitleWrapper,
     Text, TextWrapper,SendBtn, BtnWrapper, SubtitleWrapper,
     SubTitle, GoOutBtn, MySendMsgBtn, MySendMsgBtnWrapper,
     MyGetMsgBtn, MyGetMsgBtnWrapper, ButtonWrapper,
-    Imoticon,
+    Imoticon, BarTitle, BarTitleWrapper
 } from '../../styles/styles/BoardsMessage'
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -88,8 +88,15 @@ export default function MessageInput() {
         window.location.href = "http://localhost:3000/mks/myGetMessage"
     }
 
+    const onClickHome = () => {
+        window.location.href = "http://localhost:3000/mainPage"
+    }
+
     return(
         <>
+            <BarTitleWrapper>
+                <BarTitle onClick={onClickHome}>MOFY</BarTitle>
+            </BarTitleWrapper>
             <Wrapper>
                 <ConsentWrapper>
                     <TitleWrapper>

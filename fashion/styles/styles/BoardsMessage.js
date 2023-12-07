@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   //text-align: center;
  // background-color: pink;
   position: absolute;
-  top: 50%;
+  top: 52%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
@@ -187,3 +187,22 @@ export const Imoticon=styled.div`
   background-image: pink;
   color: #d24e7a;
 `
+export const BarTitleWrapper=styled.div`
+  width: 100%;
+  background-color: #ffdfe9;
+  margin-top: 0;
+`
+
+export const BarTitle=styled.div`
+  width: 100px;
+  background-image: linear-gradient(to right, #b987d2, lightcoral);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-align: left;
+  margin-left: 5px;
+  font-size:30px;
+  font-weight: bold;
+  cursor: pointer;
+`
+
