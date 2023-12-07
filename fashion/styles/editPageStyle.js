@@ -203,13 +203,39 @@ export const EditSkinTypeInput = styled.input`
   border-right: none;
   border-bottom-color: rgba(189, 133, 199, 0.39);
 `
-export const EditUserSizeText = styled.div`
+export const EditUserSizeTextWrapper = styled.div`
+  width: 1100px;
+  height: 50px;
+`
+export const EditUserHeightText = styled.div`
   font-size: 20px;
   font-weight: bold;
   color: #c883b5;
   margin-left: 10px;
   margin-top: 5px;
   margin-bottom: 20px;
+  margin-right: 160px;
+  float: left;
+`
+export const EditUserWeightText = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: #c883b5;
+  margin-left: 25px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  margin-right: 150px;
+  float: left;
+`
+export const EditUserFootText = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: #c883b5;
+  //margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  margin-right: 160px;
+  float: left;
 `
 export const EditUserSizeInput = styled.input`
   width: 100px;

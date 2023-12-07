@@ -5,10 +5,11 @@ import {
     EditSkinTypeWrapper, EditUserSizeWrapper, DeleteUser,
     UserImg, EditNameText, EditNameInput, EditPWText,
     EditPWInput, EditUserSizeInput, EditClothTypeText,
-    EditSkinTypeText, EditUserSizeText, OverlayImage,
+    EditSkinTypeText, EditUserHeightText, EditUserWeightText,
+    EditUserFootText, OverlayImage,
     EditUser, EditTypeButtonWrapper, EditTypeButton,
     EditUserSizeSubText, EditUserSizeSubWrapper,
-    ConsentWrapper, OverlayImageInput, Check
+    ConsentWrapper, OverlayImageInput, Check, EditUserSizeTextWrapper
 } from '../../styles/editPageStyle'
 import {useRef, useState} from "react";
 import axios from 'axios';
@@ -560,7 +561,11 @@ export default function BoardNewPage() {
                             </EditTypeButtonWrapper>
                         </EditSkinTypeWrapper>
                         <EditUserSizeWrapper>
-                            <EditUserSizeText>몸무게</EditUserSizeText>
+                            <EditUserSizeTextWrapper>
+                                <EditUserHeightText>키</EditUserHeightText>
+                                <EditUserWeightText>몸무게</EditUserWeightText>
+                                <EditUserFootText>발 사이즈</EditUserFootText>
+                            </EditUserSizeTextWrapper>
                             <EditUserSizeSubWrapper>
                                 <EditUserSizeInput onChange={onChangeHeight}/>
                                 <Check>{heightError}</Check>
