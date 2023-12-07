@@ -54,6 +54,8 @@ export default function BoardsFindIdPage() {
                 .catch((error) => {
                     // 에러 처리
                     console.error("에러 발생:", error);
+                    alert("가입되지 않은 사용자입니다!");
+
                 });
         }
     }

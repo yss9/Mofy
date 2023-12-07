@@ -123,11 +123,10 @@ export const BackBtn=styled.button`
   //margin-left: 600px;
   //margin-bottom: 500px;
   margin-top: 80px;
-  background-color: #cbf1ff;
+  background-color: transparent;
   border: none;
   font-weight: 900;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
-
 `
 

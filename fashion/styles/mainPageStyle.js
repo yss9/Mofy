@@ -283,11 +283,12 @@ export const FashionBtn=styled.button`
   margin-top: 120px;
   margin-right: 15px;
   float: right;
-  background-color: #ffa5a5;
+  background-color: skyblue;
   border: none;
   border-radius: 50px;
   cursor: pointer;
-  font-weight: bolder;
+  font-size: 15px;
+  //font-weight: bolder;
   &:hover {
     background-color: rgba(232, 202, 239, 0.49);
   }

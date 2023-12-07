@@ -51,13 +51,13 @@ export default function MainMarketBoardList() {
                 <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
                 <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
                 {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
-                <S.ColumnHeaderBasic>가격</S.ColumnHeaderBasic>
-                <S.ColumnHeaderBasic>판매상태</S.ColumnHeaderBasic>
+                <S.ColumnHeaderBasicm>가격</S.ColumnHeaderBasicm>
+                <S.ColumnHeaderBasicp>판매상태</S.ColumnHeaderBasicp>
             </S.Row>
 
 
             {reqData.map((el) => (
-                <S.Row key={el.boardID}>
+                <S.Roww key={el.boardID}>
                     <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
                     <S.ColumnTitle
                         id={el.boardID}
@@ -66,9 +66,9 @@ export default function MainMarketBoardList() {
                     >
                         {el.title}
                     </S.ColumnTitle>
-                    <S.ColumnBasic>{el.price}원</S.ColumnBasic>
-                    <S.ColumnBasic>{el.state ? "판매중" : "판매완료"}</S.ColumnBasic>
-                </S.Row>
+                    <S.ColumnBasicm>{el.price}원</S.ColumnBasicm>
+                    <S.ColumnBasicp>{el.state ? "판매중" : "판매완료"}</S.ColumnBasicp>
+                </S.Roww>
             ))}
 
             <S.TableBottom/>

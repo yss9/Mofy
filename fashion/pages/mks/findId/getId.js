@@ -4,7 +4,7 @@ import {
     Wrapper, ConsentWrapper, Title, TitleWrapper,
     SubTitleWrapper, SubTitle, EmailAuthentication,
     ButtonWrapper, Bar, FindPw, GoLogin,
-    IdWrapper, LetID
+    IdWrapper, LetID, IdWrapperWrapper
 } from '../../../styles/styles/BoardsfindId';
 
 export default function BoardsFoundIdPage() {
@@ -50,11 +50,13 @@ export default function BoardsFoundIdPage() {
                     <EmailAuthentication>
                         고객님의 정보와 일치하는 아이디입니다.
                     </EmailAuthentication>
-                    <IdWrapper>
-                        <LetID>
-                            {userId}
-                        </LetID>
-                    </IdWrapper>
+                    <IdWrapperWrapper>
+                        <IdWrapper>
+                            <LetID>
+                                {userId}
+                            </LetID>
+                        </IdWrapper>
+                    </IdWrapperWrapper>
                 </ConsentWrapper>
                 <ButtonWrapper>
                     <GoLogin type="button" onClick={goLogin}>
