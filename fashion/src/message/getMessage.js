@@ -70,7 +70,7 @@ export default function BoardsNotePage() {
             <Wrapper>
                 <ConsentWrapper>
                     <TitleWrapper>
-                        <Title>받은 쪽지함</Title>
+                        <Title>받은 메세지함</Title>
                         <AddNoteButtonWrapper>
                             <AddNoteButton onClick={addNote}>새로고침</AddNoteButton>
                             <GoOutBtn onClick={onClickMarket}>✕</GoOutBtn>

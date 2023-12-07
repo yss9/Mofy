@@ -27,12 +27,14 @@ export const Title1=styled.div`
   color: transparent;
   -webkit-background-clip: text;
   background-clip: text;
-  font-size: 3em;
+  font-size: 3.5em;
   font-weight: bold;
 `
 
 export const Title2=styled.div`
-    font-size: 3em;
+    font-size: 3.5em;
+  font-weight: bold;
+  //margin-left: 10px;
 
 `
 export const Title12=styled.div`
@@ -118,14 +120,14 @@ export const GoGetMessageBtn=styled.button`
   }
 `
 export const BackBtn=styled.button`
-   //margin-left: 600px;
+  //margin-left: 600px;
   //margin-bottom: 500px;
   margin-top: 80px;
-  background-color: transparent;
-  border:none;
+  background-color: #cbf1ff;
+  border: none;
   font-weight: 900;
   font-size: 18px;
   cursor: pointer;
-    
+
 `
 
