@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from Search.models import SearchHistory
 from accounts.models import User, UserData
 from .serializers import BoardSerializers, CommentSerializers, LikeSerializers, TagNameSerializers, \
     ReportBoardListSerializers, TagBoardSerializers, PhotoSaveSerializers, MessageSerializers
@@ -416,15 +417,28 @@ class MessageDetail(APIView):
 
 
 
+
+
 @authentication_classes([JWTAuthentication])
 @permission_classes([AllowAny])
 class SearchTag(APIView):
+
     def post(self, request):
-        tag = request.data['tag']
+        tag = request.data['tag'].replace('#','')
         tag_id = TagName.objects.get(tagName=tag)
         tags = TagBoard.objects.filter(tagID = tag_id)
         board_ids = tags.values_list('boardID', flat=True)
         taged_boards = Board.objects.filter(boardID__in = board_ids)
+        serializer = BoardSerializers(taged_boards, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def get(self,request):
+        sh_las = SearchHistory.objects.last()
+        sh_obj = sh_las.query.replace('#','')
+        tag_id = TagName.objects.get(tagName=sh_obj)
+        tags = TagBoard.objects.filter(tagID=tag_id)
+        board_ids = tags.values_list('boardID', flat=True)
+        taged_boards = Board.objects.filter(boardID__in=board_ids)
         serializer = BoardSerializers(taged_boards, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
