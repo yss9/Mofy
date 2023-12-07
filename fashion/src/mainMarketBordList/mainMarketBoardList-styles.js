@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
   width: 550px;
-  font-size: 10px;
   
 `;
 
@@ -21,35 +20,79 @@ export const Row = styled.div`
   height: 52px;
   line-height: 52px;
   border-bottom: 1px solid gray;
-
+  
+`;
+export const Roww = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 52px;
+  line-height: 52px;
+  border-bottom: 1px solid gray;
   :hover {
-    color: fuchsia;
+    color: pink;
   }
 `;
 
 export const ColumnHeaderBasic = styled.div`
+  width: 25%;
+  text-align: center;
+  //background-color: red;
+  font-size: 15px;
+
+`;
+export const ColumnHeaderBasicm = styled.div`
+  width: 25%;
+  text-align: center;
+  //background-color: skyblue;
+  font-size: 15px;
+
+`;
+export const ColumnHeaderBasicp = styled.div`
   width: 10%;
   text-align: center;
-`;
+  //background-color: yellow;  
+  font-size: 10px;
 
+`;
 export const ColumnHeaderTitle = styled.div`
-  width: 70%;
+  width: 40%;
   text-align: center;
+  //background-color: orchid;
+  font-size: 15px;
+
 `;
 
 export const ColumnBasic = styled.div`
-  width: 10%;
+  width: 25%;
   text-align: center;
+  font-size: 15px;
+
 `;
 
 export const ColumnTitle = styled.div`
-  width: 70%;
+  width: 40%;
   text-align: center;
   cursor: pointer;
+  font-size: 15px;
+
 
   :hover {
-    color: fuchsia;
+    color: pink;
   }
+`;
+
+export const ColumnBasicm = styled.div`
+  width: 25%;
+  text-align: center;
+  font-size: 15px;
+
+`;
+
+export const ColumnBasicp = styled.div`
+  width: 10%;
+  text-align: center;
+  font-size: 10px;
+
 `;
 
 export const Footer = styled.div`

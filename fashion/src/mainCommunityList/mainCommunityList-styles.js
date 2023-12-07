@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
   width: 550px;
-  font-size: 20px;
+  font-size: 15px;
   
 `;
 
@@ -21,34 +21,48 @@ export const Row = styled.div`
   height: 52px;
   line-height: 52px;
   border-bottom: 1px solid gray;
-
-  :hover {
-    color: fuchsia;
-  }
+ // background-color:red;
+  
 `;
 
 export const ColumnHeaderBasic = styled.div`
-  width: 10%;
+  width: 50%;
   text-align: center;
+  //background-color: pink;
 `;
+export const Roww=styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 52px;
+  line-height: 52px;
+  border-bottom: 1px solid gray;
 
+  :hover {
+    color: pink;
+  }
+  
+`
 export const ColumnHeaderTitle = styled.div`
-  width: 70%;
+  width: 50%;
   text-align: center;
+  //background-color: skyblue;
 `;
 
 export const ColumnBasic = styled.div`
-  width: 10%;
+  width: 50%;
   text-align: center;
+  :hover {
+    color: pink;
+  }
 `;
 
 export const ColumnTitle = styled.div`
-  width: 70%;
+  width: 50%;
   text-align: center;
   cursor: pointer;
 
   :hover {
-    color: fuchsia;
+    color: pink;
   }
 `;
 

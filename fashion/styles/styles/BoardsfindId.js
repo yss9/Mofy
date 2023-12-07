@@ -234,9 +234,15 @@ export const IdWrapper=styled.div`
   justify-content: center;
   width: 400px;
   height: 105px;
-  margin-top: 75px;
-  margin-left: 180px;
-  border: 1px solid #c0c0c0;`
+  margin-top: 70px;
+  border: 1px solid #c0c0c0;
+`
+
+export const IdWrapperWrapper=styled.div`
+ display: flex;
+ align-items: center;
+ justify-content: center;
+`
 
 export const LetID=styled.div`
     color: black;

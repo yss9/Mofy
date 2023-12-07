@@ -46,7 +46,7 @@ export default function MainCommunityList() {
             </S.Row>
 
             {reqData.map((el) => (
-                <S.Row key={el.boardID}>
+                <S.Roww key={el.boardID}>
                     <S.ColumnTitle
                         id={el.boardID}
                         props={el}
@@ -55,7 +55,7 @@ export default function MainCommunityList() {
                         {el.title}
                     </S.ColumnTitle>
                     <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
-                </S.Row>
+                </S.Roww>
             ))}
 
             <S.TableBottom />

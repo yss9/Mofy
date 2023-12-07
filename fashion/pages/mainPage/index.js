@@ -702,7 +702,7 @@ export default function MainCotainer() {
                         <TopButton onClick={onClickMyPage}>My Page</TopButton>
 
                         <Popover content="✨✨ 궁금해? 들어와보던가 ♡🌷💕" styles={{marginTop:"30px"}}>
-                            <FashionBtn onClick={onClickFashion}>Fashion★</FashionBtn>
+                            <FashionBtn onClick={onClickFashion}>Fashion👚</FashionBtn>
                         </Popover>
                         <Popover content="🍎쪽지를 보내보세용🥕" styles={{marginTop:"10px"}}>
                             <MessageButton onClick={onClickMessage}>🐰💬🗨️🐱</MessageButton>
@@ -791,7 +791,7 @@ export default function MainCotainer() {
                     <Bottom>
                         <CommunityWrapper>
                             <CommunityText onClick={onClickCommunity}>
-                                Community
+                                Community 👪
                                 {/*{styleRank1 ? (*/}
                                 {/*    <div>{styleRank1.username}!</div>*/}
                                 {/*) : (*/}
@@ -804,7 +804,7 @@ export default function MainCotainer() {
                         </CommunityWrapper>
                         <TradeWrapper>
                             <TradeText onClick={onClickTrade}>
-                                Market
+                                Market 🛒
                                 <MainMarketBoardList/>
                             </TradeText>
                         </TradeWrapper>
