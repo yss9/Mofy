@@ -6,8 +6,17 @@ import {
     TitleWrapper,
     NoteList,
     NoteItem,
-    AddNoteButton, AddNoteButtonWrapper,
-    Line, GoOutBtn, Imoticon, MySendMsgBtnWrapper, MySendMsgBtn, MyGetMsgBtnWrapper, MyGetMsgBtn, ButtonWrapper,
+    AddNoteButton,
+    AddNoteButtonWrapper,
+    Line,
+    GoOutBtn,
+    Imoticon,
+    MySendMsgBtnWrapper,
+    MySendMsgBtn,
+    MyGetMsgBtnWrapper,
+    MyGetMsgBtn,
+    ButtonWrapper,
+    BarTitle, BarTitleWrapper,
 } from '../../styles/styles/BoardsMessage'
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -49,8 +58,15 @@ export default function BoardsNotePage() {
         window.location.href = "http://localhost:3000/mks/mySendMessage"
     }
 
+    const onClickHome = () => {
+        window.location.href = "http://localhost:3000/mainPage"
+    }
+
     return (
         <>
+            <BarTitleWrapper>
+                <BarTitle onClick={onClickHome}>MOFY</BarTitle>
+            </BarTitleWrapper>
             <Wrapper>
                 <ConsentWrapper>
                     <TitleWrapper>
@@ -63,8 +79,7 @@ export default function BoardsNotePage() {
                     <NoteList>
                         {message.map((message, index) => (
                             <React.Fragment key={message.id}>
-                                <NoteItem>{message.sendID}</NoteItem>
-                                <NoteItem>{message.message}</NoteItem>
+                                <NoteItem>{message.send_name}: {message.message}</NoteItem>
                                 {index !== message.length - 1 && <Line />}
                             </React.Fragment>
                         ))}

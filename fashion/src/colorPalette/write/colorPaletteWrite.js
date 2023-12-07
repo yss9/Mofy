@@ -43,7 +43,7 @@ export default function ColorPaletteWrite(props){
             formData.append('before_image', image);
 
 
-            const result = await axios.post("http://127.0.0.1:8000/Test/", formData, {
+            const result = await axios.post("http://127.0.0.1:8000/palcreate/", formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${accessToken}`,

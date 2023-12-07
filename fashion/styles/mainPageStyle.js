@@ -284,7 +284,7 @@ export const FashionBtn=styled.button`
   margin-right: 15px;
   float: right;
   background-color: #ffa5a5;
-  border: none;
+  border: 1px solid mediumpurple;
   border-radius: 50px;
   cursor: pointer;
   font-weight: bolder;
@@ -681,4 +681,18 @@ export const LoginOption = styled.div`
   margin-top: 15px;
   margin-left: 10px;
   //background-color: darkslateblue;
+`
+
+export const MessageButton=styled.button`
+  width: 125px;
+  height: 28px;
+  margin-top: 122px;
+  margin-right: 15px;
+  float: right;
+  background-color: rgba(255, 192, 203, 0.38);
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 20px;
+
 `

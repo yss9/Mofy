@@ -23,21 +23,21 @@ export default function ColorPaletteDetail() {
         const fetchData = async () => {
             try {
                 // Fetch data for the first image
-                const imageResponse = await axios.get(`http://127.0.0.1:8000/Test/`,{
+                const imageResponse = await axios.get(`http://127.0.0.1:8000/palcreate/`,{
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
 
                 // Fetch data for the second image
-                const imageResponse2 = await axios.get(`http://127.0.0.1:8000/Test/`,{
+                const imageResponse2 = await axios.get(`http://127.0.0.1:8000/palcreate/`,{
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 }); // Replace 'secondImage' with the actual endpoint for the second image
 
                 // Fetch data for the third image
-                const imageResponse3 = await axios.get(`http://127.0.0.1:8000/Test/`,{
+                const imageResponse3 = await axios.get(`http://127.0.0.1:8000/palcreate/`,{
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -106,10 +106,6 @@ export default function ColorPaletteDetail() {
                     <S.Header>
                         <S.AvatarWrapper>
                             {/*<S.Avatar src="/images/avatar.png" />*/}
-                            <S.Info>
-                                {/*<S.Writer>{props.data?.fetchBoard?.writer}</S.Writer>*/}
-                                <S.Writer>작성자</S.Writer>
-                            </S.Info>
                         </S.AvatarWrapper>
                     </S.Header>
 
