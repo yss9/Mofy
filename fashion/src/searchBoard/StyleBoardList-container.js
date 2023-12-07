@@ -26,6 +26,7 @@ export default function StyleBoardList() {
     const [reqDataS, setReqDataS] = useState([])
     const [reqDataM, setReqDataM] = useState([])
     const [reqDataC, setReqDataC] = useState([])
+    const [reqDataTag, setReqDataTag] = useState([])
     const [keyword, setKeyword] = useState("")
 
     const accessToken = Cookies.get('access_token')
@@ -36,10 +37,30 @@ export default function StyleBoardList() {
     const [recentSearch1, setRecentSearch1] = useState([null]);
     const [isRecentSearch1Loaded, setIsRecentSearch1Loaded] = useState(false);
 
+    const [isTag, setIsTag] = useState(false);
+
 
 
     useEffect(()=>{
         const fetchData = async () => {
+
+            const resultTag = await axios.get("http://127.0.0.1:8000/searchTag/", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                }
+            })
+                .then((response) => {
+                    // setReqDataS([...response.data])
+
+                    console.log("searchTag");
+                    console.log([...response.data]);
+                    setReqDataTag([...response.data])
+
+                    setDataLoaded(true)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
 
             console.log("마운트가 완료되었디!")
             const resultS = await axios.get("http://127.0.0.1:8000/boardType/2/", {
@@ -50,7 +71,7 @@ export default function StyleBoardList() {
                 .then((response) => {
                     setReqDataS([...response.data])
 
-
+                    console.log("스타일 게시판");
                     console.log(response.data);
 
                     setDataLoaded(true)
@@ -100,7 +121,16 @@ export default function StyleBoardList() {
                     console.log("response.data")
                     console.log(response.data)
 
-                    setKeyword(response.data[0].query);
+                    if (response.data[0].query.startsWith('#')) {
+                        console.log("#제거 된다!")
+                        const textWithoutHash = response.data[0].query.replace(/#/g, '');
+                        setKeyword(textWithoutHash)
+                        setIsTag(true)
+                    }
+                    else{
+                        setKeyword(response.data[0].query);
+                    }
+
                     setRecentSearch1(response.data[0].query);
 
 
@@ -130,6 +160,14 @@ export default function StyleBoardList() {
     const handleChange = (event) => {
         printValue(event.target.value);
         setKeyword(event.target.value);
+        if(event.target.value.startsWith('#')) {
+            const textWithoutHash = event.target.value.replace(/#/g, '');
+            setKeyword(textWithoutHash)
+            setIsTag(true)
+        }
+        else{
+            setIsTag(false)
+        }
     };
 
 
@@ -162,156 +200,212 @@ export default function StyleBoardList() {
         <>
             <STitle onClick={onClickHome} src="images/mofylogo.png"/>
             <SDivide/>
-            <S.Wrapper>
-                <Searchbar>
-                    <FireFilledIcon />
-                    <SearchbarInput
-                        placeholder={recentSearch1}
-                        onChange={handleChange}
-                    />
-                </Searchbar>
-                스타일보드
 
-                <S.TableTop />
-                <S.Row>
-                    <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
-                    <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
-                    {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
-                    <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
-                </S.Row>
+            {isTag ? (
+                <div>
+                    <S.Wrapper>
+                        <Searchbar>
+                            <FireFilledIcon />
+                            <SearchbarInput
+                                placeholder={recentSearch1}
+                                onChange={handleChange}
+                            />
+                        </Searchbar>
+                        스타일보드
 
+                        <S.TableTop />
+                        <S.Row>
+                            <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
+                            <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
+                            {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
+                            <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
+                        </S.Row>
 
-                {reqDataS.filter(el => el.title.includes(keyword)).map(el => (
-                    <S.Row key={el.boardID}>
+                        {reqDataTag.filter(el => el.tags.includes(keyword)).map(el => (
+                            <S.Row key={el.boardID}>
 
-                        <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
-                        <S.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
+                                <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
+                                <S.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
 
-                            {el.title
-                                .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
-                                .split(SECRET)
-                                .map((el, index) => (
-                                    <S.TextToken key={uuidv4()} isMatched={keyword === el}>
-                                        {el}
-                                    </S.TextToken>
-                                ))}
-                        </S.ColumnTitle>
-                        <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
-                    </S.Row>
-                ))}
-
-
-                <S.TableBottom />
-                {/*<S.Footer>*/}
-                {/*    /!*  <Paginations01 refetch={props.refetch} count={props.count} />*!/*/}
-                {/*    <S.Button onClick={onClickMoveToBoardNew}>*/}
-                {/*        /!*<S.PencilIcon src="/images/board/list/write.png" />*!/*/}
-                {/*        게시물 등록하기*/}
-                {/*    </S.Button>*/}
-                {/*</S.Footer>*/}
-            </S.Wrapper>
-
-            <C.Wrapper>
-                {/*<Searchbar>*/}
-                {/*    <FireFilledIcon />*/}
-                {/*    <SearchbarInput*/}
-                {/*        placeholder={recentSearch1}*/}
-                {/*        onChange={handleChange}*/}
-                {/*    />*/}
-                {/*</Searchbar>*/}
-
-                커뮤니티
-
-                <C.TableTop />
-                <C.Row>
-                    <C.ColumnHeaderTitle>제목</C.ColumnHeaderTitle>
-                    {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
-                    <C.ColumnHeaderBasic>날짜</C.ColumnHeaderBasic>
-                </C.Row>
+                                    {el.title
+                                        .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
+                                        .split(SECRET)
+                                        .map((el, index) => (
+                                            <S.TextToken key={uuidv4()} isMatched={keyword === el}>
+                                                {el}
+                                            </S.TextToken>
+                                        ))}
+                                </S.ColumnTitle>
+                                <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
+                            </S.Row>
+                        ))}
 
 
-                {reqDataC.filter(el => el.title.includes(keyword)).map(el => (
-                    <C.Row key={el.boardID}>
+                        <S.TableBottom />
+                        {/*<S.Footer>*/}
+                        {/*    /!*  <Paginations01 refetch={props.refetch} count={props.count} />*!/*/}
+                        {/*    <S.Button onClick={onClickMoveToBoardNew}>*/}
+                        {/*        /!*<S.PencilIcon src="/images/board/list/write.png" />*!/*/}
+                        {/*        게시물 등록하기*/}
+                        {/*    </S.Button>*/}
+                        {/*</S.Footer>*/}
+                    </S.Wrapper>
 
-                        <C.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
+            </div>) :
+                (<div>
+                    <S.Wrapper>
+                        <Searchbar>
+                            <FireFilledIcon />
+                            <SearchbarInput
+                                placeholder={recentSearch1}
+                                onChange={handleChange}
+                            />
+                        </Searchbar>
+                        스타일보드
 
-                            {el.title
-                                .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
-                                .split(SECRET)
-                                .map((el, index) => (
-                                    <C.TextToken key={uuidv4()} isMatched={keyword === el}>
-                                        {el}
-                                    </C.TextToken>
-                                ))}
-                        </C.ColumnTitle>
-                        <C.ColumnBasic>{getDate(el.datetime)}</C.ColumnBasic>
-                    </C.Row>
+                        <S.TableTop />
+                        <S.Row>
+                            <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
+                            <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
+                            {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
+                            <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
+                        </S.Row>
 
-                ))}
+                        {reqDataS.filter(el => el.title.includes(keyword)).map(el => (
+                            <S.Row key={el.boardID}>
 
+                                <S.ColumnBasic>{el.boardID}</S.ColumnBasic>
+                                <S.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
 
-                <C.TableBottom />
-                {/*<C.Footer>*/}
-                {/*    /!*  <Paginations01 refetch={props.refetch} count={props.count} />*!/*/}
-                {/*    <C.Button onClick={onClickMoveToBoardNew}>*/}
-                {/*        /!*<S.PencilIcon src="/images/board/list/write.png" />*!/*/}
-                {/*        게시물 등록하기*/}
-                {/*    </C.Button>*/}
-                {/*</C.Footer>*/}
-            </C.Wrapper>
-
-            <M.Wrapper>
-                {/*<Searchbar>*/}
-                {/*    <FireFilledIcon />*/}
-                {/*    <SearchbarInput*/}
-                {/*        placeholder={recentSearch1}*/}
-                {/*        onChange={handleChange}*/}
-                {/*    />*/}
-                {/*</Searchbar>*/}
-                중고마켓
-
-                <M.TableTop />
-                <M.Row>
-                    <M.ColumnHeaderBasic>ID</M.ColumnHeaderBasic>
-                    <M.ColumnHeaderBasic>날짜</M.ColumnHeaderBasic>
-                    <M.ColumnHeaderTitle>제목</M.ColumnHeaderTitle>
-                    {/*<M.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
-                    <M.ColumnHeaderBasic>가격</M.ColumnHeaderBasic>
-                    <M.ColumnHeaderBasic>판매상태</M.ColumnHeaderBasic>
-                </M.Row>
-
-
-                {reqDataM.filter(el => el.title.includes(keyword)).map(el => (
-                    <M.Row key={el.boardID}>
-
-                        <M.ColumnBasic>{el.boardID}</M.ColumnBasic>
-                        <M.ColumnBasic>{getDate(el.datetime)}</M.ColumnBasic>
-                        <M.ColumnTitle id={el.boardID}  props ={eventData} onClick={onClickMoveToBoardDetail} >
-
-                            {el.title
-                                .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
-                                .split(SECRET)
-                                .map((el, index) => (
-                                    <M.TextToken key={uuidv4()} isMatched={keyword === el}>
-                                        {el}
-                                    </M.TextToken>
-                                ))}
-                        </M.ColumnTitle>
-                        <M.ColumnBasic>{el.price}원</M.ColumnBasic>
-                        <M.ColumnBasic>{el.state ? "판매중" : "판매완료"}</M.ColumnBasic>
-                    </M.Row>
-                ))}
+                                    {el.title
+                                        .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
+                                        .split(SECRET)
+                                        .map((el, index) => (
+                                            <S.TextToken key={uuidv4()} isMatched={keyword === el}>
+                                                {el}
+                                            </S.TextToken>
+                                        ))}
+                                </S.ColumnTitle>
+                                <S.ColumnBasic>{getDate(el.datetime)}</S.ColumnBasic>
+                            </S.Row>
+                        ))}
 
 
-                <M.TableBottom />
-                {/*<M.Footer>*/}
-                {/*    /!*  <Paginations01 refetch={props.refetch} count={props.count} />*!/*/}
-                {/*    <M.Button onClick={onClickMoveToBoardNew}>*/}
-                {/*        /!*<S.PencilIcon src="/images/board/list/write.png" />*!/*/}
-                {/*        판매글 올리기*/}
-                {/*    </M.Button>*/}
-                {/*</M.Footer>*/}
-            </M.Wrapper>
+                        <S.TableBottom />
+                        {/*<S.Footer>*/}
+                        {/*    /!*  <Paginations01 refetch={props.refetch} count={props.count} />*!/*/}
+                        {/*    <S.Button onClick={onClickMoveToBoardNew}>*/}
+                        {/*        /!*<S.PencilIcon src="/images/board/list/write.png" />*!/*/}
+                        {/*        게시물 등록하기*/}
+                        {/*    </S.Button>*/}
+                        {/*</S.Footer>*/}
+                    </S.Wrapper>
+
+                    <C.Wrapper>
+                        {/*<Searchbar>*/}
+                        {/*    <FireFilledIcon />*/}
+                        {/*    <SearchbarInput*/}
+                        {/*        placeholder={recentSearch1}*/}
+                        {/*        onChange={handleChange}*/}
+                        {/*    />*/}
+                        {/*</Searchbar>*/}
+
+                        커뮤니티
+
+                        <C.TableTop />
+                        <C.Row>
+                            <C.ColumnHeaderTitle>제목</C.ColumnHeaderTitle>
+                            {/*<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
+                            <C.ColumnHeaderBasic>날짜</C.ColumnHeaderBasic>
+                        </C.Row>
+
+
+                        {reqDataC.filter(el => el.title.includes(keyword)).map(el => (
+                            <C.Row key={el.boardID}>
+
+                                <C.ColumnTitle id={el.boardID}  props = {eventData} onClick={onClickMoveToBoardDetail} >
+
+                                    {el.title
+                                        .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
+                                        .split(SECRET)
+                                        .map((el, index) => (
+                                            <C.TextToken key={uuidv4()} isMatched={keyword === el}>
+                                                {el}
+                                            </C.TextToken>
+                                        ))}
+                                </C.ColumnTitle>
+                                <C.ColumnBasic>{getDate(el.datetime)}</C.ColumnBasic>
+                            </C.Row>
+
+                        ))}
+
+
+
+                        <C.TableBottom />
+                        {/*<C.Footer>*/}
+                        {/*    /!*  <Paginations01 refetch={props.refetch} count={props.count} />*!/*/}
+                        {/*    <C.Button onClick={onClickMoveToBoardNew}>*/}
+                        {/*        /!*<S.PencilIcon src="/images/board/list/write.png" />*!/*/}
+                        {/*        게시물 등록하기*/}
+                        {/*    </C.Button>*/}
+                        {/*</C.Footer>*/}
+                    </C.Wrapper>
+
+                    <M.Wrapper>
+                        {/*<Searchbar>*/}
+                        {/*    <FireFilledIcon />*/}
+                        {/*    <SearchbarInput*/}
+                        {/*        placeholder={recentSearch1}*/}
+                        {/*        onChange={handleChange}*/}
+                        {/*    />*/}
+                        {/*</Searchbar>*/}
+                        중고마켓
+
+                        <M.TableTop />
+                        <M.Row>
+                            <M.ColumnHeaderBasic>ID</M.ColumnHeaderBasic>
+                            <M.ColumnHeaderBasic>날짜</M.ColumnHeaderBasic>
+                            <M.ColumnHeaderTitle>제목</M.ColumnHeaderTitle>
+                            {/*<M.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>*/}
+                            <M.ColumnHeaderBasic>가격</M.ColumnHeaderBasic>
+                            <M.ColumnHeaderBasic>판매상태</M.ColumnHeaderBasic>
+                        </M.Row>
+
+
+                        {reqDataM.filter(el => el.title.includes(keyword)).map(el => (
+                            <M.Row key={el.boardID}>
+
+                                <M.ColumnBasic>{el.boardID}</M.ColumnBasic>
+                                <M.ColumnBasic>{getDate(el.datetime)}</M.ColumnBasic>
+                                <M.ColumnTitle id={el.boardID}  props ={eventData} onClick={onClickMoveToBoardDetail} >
+
+                                    {el.title
+                                        .replaceAll(keyword, `${SECRET}${keyword}${SECRET}`)
+                                        .split(SECRET)
+                                        .map((el, index) => (
+                                            <M.TextToken key={uuidv4()} isMatched={keyword === el}>
+                                                {el}
+                                            </M.TextToken>
+                                        ))}
+                                </M.ColumnTitle>
+                                <M.ColumnBasic>{el.price}원</M.ColumnBasic>
+                                <M.ColumnBasic>{el.state ? "판매중" : "판매완료"}</M.ColumnBasic>
+                            </M.Row>
+                        ))}
+
+
+                        <M.TableBottom />
+                        {/*<M.Footer>*/}
+                        {/*    /!*  <Paginations01 refetch={props.refetch} count={props.count} />*!/*/}
+                        {/*    <M.Button onClick={onClickMoveToBoardNew}>*/}
+                        {/*        /!*<S.PencilIcon src="/images/board/list/write.png" />*!/*/}
+                        {/*        판매글 올리기*/}
+                        {/*    </M.Button>*/}
+                        {/*</M.Footer>*/}
+                    </M.Wrapper>
+            </div>)}
+
+
         </>
     )
 

@@ -109,14 +109,21 @@ export const DislikeCount = styled.div`
 export const LinkIcon = styled.img``;
 
 export const ImageWrapper = styled.div`
-  display: flex;
+  //display: flex;
+  //width: 406px;
+  //height: 800px;
   flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Image = styled.img`
-  width: 996px;
-  height: 480px;
+  //max-width: 800px;
+  max-height: 700px;
   margin-bottom: 30px;
+  overflow: hidden;
+  
 `;
 
 

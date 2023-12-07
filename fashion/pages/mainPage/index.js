@@ -396,8 +396,48 @@ export default function MainCotainer() {
             console.log("Request Data:", { query: search });
             console.log("Request Headers:", axiosConfig.headers);
 
+            if (search.startsWith('#')) {
+                axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
+                    .then((response) => {
+                        if (response.data) { // * 데이터 가져오는거 성공하면
 
+                            console.log("검색 결과:");
+                            console.log(response.data);
 
+                            renderSearchResults(response.data);
+
+                            // window.location.href = "http://localhost:3000/searchPage";
+                        } else {
+                            // Handle API error
+                            console.error("검색 실패: " + response.data.message);
+                        }
+                    })
+                    .catch((error) => {
+                        // Handle general API error
+                        console.error("검색 API 호출 중 오류 발생:", error);
+                    });
+                // axios.post("http://localhost:8000/searchTag/", { tag: search }, axiosConfig)
+                //     .then((response) => {
+                //         if (response.data) { // * 데이터 가져오는거 성공하면
+                //
+                //             console.log("검색 결과:");
+                //             console.log(response.data);
+                //
+                //             renderSearchResults(response.data);
+                //
+                //             window.location.href = "http://localhost:3000/searchPage";
+                //         } else {
+                //             // Handle API error
+                //             console.error("검색 실패: " + response.data.message);
+                //         }
+                //     })
+                //     .catch((error) => {
+                //         // Handle general API error
+                //         console.error("검색 API 호출 중 오류 발생:", error);
+                //     });
+            }
+
+            else{
                 axios.post("http://localhost:8000/search/", { query: search }, axiosConfig)
                     .then((response) => {
                         if (response.data) { // * 데이터 가져오는거 성공하면
@@ -417,7 +457,7 @@ export default function MainCotainer() {
                         // Handle general API error
                         console.error("검색 API 호출 중 오류 발생:", error);
                     });
-
+            }
 
         }
     };
