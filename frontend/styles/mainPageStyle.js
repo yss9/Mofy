@@ -423,7 +423,7 @@ export const StylesUserName = styled.button`
   font-size: 15px;
   color: #91526c;
   margin-left: 13px;
-  margin-top: 13px;
+  margin-top: 10px;
   float: left;
   background-color: rgba(84, 66, 66, 0);
   border: none;
@@ -435,7 +435,7 @@ export const StylesRankNum = styled.div`
   font-style: oblique;
   float: left;
   margin-left: 15px;
-  margin-top: 7px;
+  margin-top: 10px;
   font-size: 20px;
   color: #91526c;
 `

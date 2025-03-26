@@ -144,9 +144,6 @@ export default function MainCotainer() {
         fetchToken();
     }, [accessToken]);
 
-
-
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -313,7 +310,8 @@ export default function MainCotainer() {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
 
-                    const apiKey = '9ca687d0177634a47449391852d5e834'; // OpenWeatherMap API 키
+                    const apiKey = process.env.NEXT_PUBLIC_OPEN_WEATHER_MAP_API_KEY;
+                    console.log('apikey:',apiKey);
                     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
                     const response = await axios.get(apiUrl);
