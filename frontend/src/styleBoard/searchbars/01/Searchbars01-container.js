@@ -21,5 +21,4 @@ export default function Searchbars01(props) {
         />
       </Searchbar>
   );
-  )
 }

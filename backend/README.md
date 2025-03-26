@@ -24,6 +24,8 @@ pip install extcolors
 
 pip install rembg  
 
+pip install onnxruntime
+
 
 터미널로 설치 후 설치가 안된다면 추가로 오류가 뜨는 라이브러리 설치
 
