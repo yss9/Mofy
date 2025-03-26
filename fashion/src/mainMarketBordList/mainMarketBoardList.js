@@ -18,11 +18,7 @@ export default function MainMarketBoardList() {
         const fetchData = async () => {
             console.log("마운트가 완료되었디!");
             try {
-                const response = await axios.get("http://127.0.0.1:8000/boardType/3/", {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
+                const response = await axios.get("http://127.0.0.1:8000/boardType/3/");
 
                 setReqData([...response.data]);
                 console.log(response.data);
@@ -32,10 +28,9 @@ export default function MainMarketBoardList() {
             }
         };
 
-        if (accessToken && !dataLoaded) {
-            fetchData();
-        }
-    }, [accessToken, dataLoaded]);
+        fetchData();
+
+    }, []);
 
 
 

@@ -52,32 +52,27 @@ export const ModalWrapper = styled.div`
 
 export const ModalContent = styled.div`
   background: #fff9ff;
-  width: 700px;
-  height: 400px;
+  width: 600px;
+  height: auto;
   margin-top: 150px;
   margin-left: 50px;
   border-radius: 8px;
   border: 2px solid rgba(197, 131, 184, 0.58);
   font-size: 13px;
+  padding: 20px 20px;
 `;
 export const RecentSearchWrapper = styled.div`
-  margin-left: 20px;
+  
   width: 650px;
   height: 47px;
   overflow: hidden;
-  //margin-bottom: 10px;
-  margin-top: 20px;
-  //background-color: red;
   margin-bottom: 3px;
 `
 export const RecommendSearchWrapper = styled.div`
-  margin-left: 20px;
   width: 650px;
   height: 57px;
   overflow: hidden;
-  //margin-bottom: 10px;
   margin-top: 20px;
-  //background-color: red;
   margin-bottom: 3px;
 `
 export const RecentSearchText = styled.div`
@@ -135,9 +130,6 @@ export const RecommendSearchButton = styled.button`
 export const TagWrapper = styled.div`
   width: 645px;
   height: 65px;
-  //background-color: black;
-  margin-left: 20px;
-  //margin-top: 10px;
 `
 export const TagButtonWrapper = styled.div`
   width: 575px;
@@ -185,10 +177,8 @@ export const MoreTagButton = styled.button`
   }
 `
 export const PopularSearchWrapper = styled.div`
-  //background-color: gainsboro;
   width: 390px;
   height: 175px;
-  margin-left: 20px;
   overflow: hidden;
 `
 export const PopularSearchText = styled.div`
@@ -406,11 +396,11 @@ export const Mid = styled.div`
     //background-color: grey;
 `
 export const WeatherWrapper = styled.div`
-  width: 310px;
+  width: 300px;
   height: 90px;
   border-radius: 15px;
   border: 5px solid #ede2e2;
-  padding-left: 1px;
+  padding-left: 20px;
   padding-top: 12px;
   //background-color: grey;
 `
@@ -535,12 +525,12 @@ export const TemInfo = styled.div`
   height: 50px;
   // background-color: darkgray;
   font-size: 17px;
-  margin-top: 10px;
+  margin: 10px 10px 0 0;
   color: #311f20;
   float: left;
 `
 export const WeatherInfo = styled.div`
-  width: 170px;
+  width: 140px;
   height: 50px;
   // background-color: darkgray;
   font-size: 17px;

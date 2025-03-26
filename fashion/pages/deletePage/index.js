@@ -2,7 +2,11 @@ import {
     Wrapper, Title, ButtonWrapper,
     Warning, YesButton, NoButton, Ment
 } from '../../styles/deletePageStyle'
+import axios from "axios";
+import Cookies from "js-cookie";
 
+const accessToken = Cookies.get('access_token');
+const refreshToken = Cookies.get('refresh_token');
 const onClickBack = () => {
     window.location.href = "http://localhost:3000/myPage";
 }
@@ -10,14 +14,23 @@ const onClickDeleteUser = () => {
     const confirmDelete = window.confirm('정말 탈퇴하시겠습니까?');
 
     if (confirmDelete) {
-        // 사용자가 '예'를 선택한 경우
-        // 서버에 탈퇴 요청 보내기
+        try {
+            const response = axios.delete('http://127.0.0.1:8000/userdelete/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+        } catch (error) {
+            console.error('서버 요청 오류:', error);
+        }
+
         alert('탈퇴되었습니다.');
-        window.location.href = 'http://localhost:3000/mainPage';
+        // window.location.href = 'http://localhost:3000/mainPage';
 
     }
 }
 export default function BoardNewPage() {
+
     return (
         <>
             <Wrapper>

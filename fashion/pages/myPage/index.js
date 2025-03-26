@@ -2,9 +2,7 @@ import {
     Wrapper, Top, Mid, Bottom, ProfileEdit, ProfileImg, ProfileName,
     ProfileText, ProfileUserWrapper, ProfileWrapper, Title,
     TitleWrapper, TopButton, Divide, ProfileTag, ProfileTagWrapper,
-    MyMofyWrapper, YourMofyWrapper, MyCommunityListWrapper, SellListWrapper,
-    MyMofyText, YourMofyText, SellListText, MyCommunityListText, MofyImg,
-    CommunityList, SellList, ReportButton, ReportButtonWrapper,
+    MyMofyWrapper, ReportButton, ReportButtonWrapper, MyMofyText,
     ReportImg, ReportWrapper, ReportText, ReportListWrapper, ReportExitButton,
     ReportTop, ConsentWrapper, ProfileArrayTag, ProfileTagValue,
     ProfileValueWrapper, MofyImgDiv, MoImg
@@ -16,8 +14,6 @@ import ReportList from "../../src/repostListPage/reportListPage";
 import MyBoardList1 from "../../src/getMyBoard1/getMyBoard";
 import MyBoardList2 from "../../src/getMyBoard2/getMyBoard";
 import MyBoardList3 from "../../src/getMyBoard3/getMyBoard";
-// import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
-// import * as S from "@/src/styleBoard/detail/StyleBoardDetail-styles";
 
 const onClickLogout = () => {
     window.location.href = "http://localhost:3000/mainPage/notLogin";

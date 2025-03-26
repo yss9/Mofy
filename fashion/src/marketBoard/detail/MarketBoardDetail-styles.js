@@ -111,10 +111,14 @@ export const LinkIcon = styled.img``;
 export const ImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  width: 800px;
+  height: 800px;
+  margin: 0 auto;
 `;
 
 export const Image = styled.img`
-  width: 996px;
-  height: 480px;
+  
+  width: auto;
+  height: auto;
   margin-bottom: 30px;
 `;
