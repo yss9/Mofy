@@ -50,39 +50,15 @@ export default function BoardNewPage() {
     const [myArray2, setMyArray2] = useState([])
     console.log(myArray)
 
-
     const [username, setUsername] = useState(null);
     const [weight, setWeight] = useState(null);
     const [height, setHeight] = useState(null);
     const [shoeSize, setShoeSize] = useState(null);
-    const [clothType, setClothType] = useState(null);
-    const [skinType, setSkinType] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
-
-    const [normal, setnormal] = useState(false);
-    const [dry, setdry] = useState(false);
-    const [oily, setoily] = useState(false);
-    const [combination, setcombination] = useState(false);
-    const [sensitive, setsensitive] = useState(false);
-    const [acne, setacne] = useState(false);
-
-
-    const [title, setTitle] = useState("")
-    const [content, setContent] = useState("")
-    const [datetime, setDatetime] = useState(null)
-    const [imageURL, setImageURL] = useState(null);
-    const [tags, setTags] = useState("")
-
-    const[userID, setUserID] = useState(0)
-
-    // const [imageURL, setImageURL] = useState(null);
 
     const [isPopupOpen, setPopupOpen] = useState(false);
     const accessToken = Cookies.get('access_token');
-    const refreshToken = Cookies.get('refresh_token');
 
-    const [dataLoaded, setDataLoaded] = useState(false)
-    const [isImgDataLoaded, setIsImgDataLoaded] = useState(false);
     const [isUserDataLoaded, setIsUserDataLoaded] = useState(false);
     const [isArrayLoaded, setIsArrayLoaded] = useState(false);
 
@@ -97,40 +73,8 @@ export default function BoardNewPage() {
                     },
                 })
 
-
-
-                // 이미지 URL이 상대 경로로 저장되어 있으므로, 기본 URL과 결합하여 전체 URL 생성
-                const baseURL = 'http://127.0.0.1:8000';
-                const fullURL = baseURL + imageResponse.data.image;
-
-                // 이미지를 불러오기
-                const imageBlobResponse = await axios.get(fullURL, {
-                    responseType: 'arraybuffer',
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-
-                if (imageBlobResponse.status === 200) {
-                    const contentType = imageBlobResponse.headers['content-type'];
-                    const blob = new Blob([imageBlobResponse.data], {type: contentType});
-
-                    // Blob 데이터를 URL.createObjectURL을 사용하여 이미지 URL로 변환
-                    const objectURL = URL.createObjectURL(blob);
-                    setImageURL(objectURL);
-                } else {
-                    console.error('Failed to fetch image');
-                }
-
-
                 console.log(imageResponse.data)
 
-                // 게시물 데이터 설정
-                setTitle(imageResponse.data.title);
-                setContent(imageResponse.data.content);
-                setDatetime(imageResponse.data.datetime);
-                setTags(imageResponse.data.tags)
-                setDataLoaded(true);
 
                 // Fetch user data
                 const userResponse = await axios.get('http://127.0.0.1:8000/userinfo/', {
@@ -145,10 +89,7 @@ export default function BoardNewPage() {
                 console.error('Error fetching data:', error);
             }
 
-
-
             try {
-
                 const response = await axios.get('http://127.0.0.1:8000/userinfo/', {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -332,19 +273,6 @@ export default function BoardNewPage() {
             } catch (error) {
                 console.error('서버 요청 오류:', error);
             }
-
-
-            try {
-                const response = await axios.get('http://127.0.0.1:8000/user_image/', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setProfileImage(response.data.profile_image_url);
-                setIsUserDataLoaded(true);
-            } catch (error) {
-                console.error('서버 요청 오류:', error);
-            }
             try {
                 const response = await axios.get('http://127.0.0.1:8000/user_image/', {
                     headers: {
@@ -377,22 +305,16 @@ export default function BoardNewPage() {
     return (
         <>
             <Wrapper>
-
-
-
                 <ConsentWrapper>
                     <Top>
                         <TitleWrapper>
                             <Title onClick={onClickHome} src="images/mofylogo.png"/>
                         </TitleWrapper>
-
-                        {/*<Title>Title</Title>*/}
                         <TopButton onClick={onClickLogout}>Log Out</TopButton>
                     </Top>
                     <Divide/>
                     <Mid>
                         <ProfileWrapper>
-                            {/*<ProfileText>내 정보</ProfileText>*/}
                             <ProfileUserWrapper>
                                 <ProfileText>내 정보</ProfileText>
                                 <ProfileImg src={profileImage || "images/firstImg.png"}></ProfileImg>

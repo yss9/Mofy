@@ -150,12 +150,13 @@ export const EditNameInput = styled.input`
   width: 1000px;
   height: 30px;
   background: none;
-  text-decoration: underline;
   //border: none;
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom-color: rgba(189, 133, 199, 0.39);
+  font-size: 18px;
+  padding-left: 10px;
 `
 export const EditPWText = styled.div`
   font-size: 20px;
@@ -169,12 +170,13 @@ export const EditPWInput = styled.input`
   width: 1000px;
   height: 30px;
   background: none;
-  text-decoration: underline;
   //border: none;
   border-top: none;
   border-left: none;
   border-right: none;
   border-bottom-color: rgba(189, 133, 199, 0.39);
+  font-size: 18px;
+  padding-left: 10px;
 `
 export const EditClothTypeText = styled.div`
   font-size: 20px;
@@ -241,7 +243,6 @@ export const EditUserSizeInput = styled.input`
   width: 100px;
   height: 30px;
   background: none;
-  text-decoration: underline;
   //border: none;
   border-top: none;
   border-left: none;
@@ -249,6 +250,7 @@ export const EditUserSizeInput = styled.input`
   border-bottom-color: rgba(189, 133, 199, 0.39);
   margin-right: 10px;
   float: left;
+  font-size: 18px;
 `
 export const OverlayImage = styled.img`
   position: absolute;

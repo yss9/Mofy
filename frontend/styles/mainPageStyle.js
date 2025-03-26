@@ -338,11 +338,13 @@ export const TradeWrapper = styled.div`
   height: 650px;
   float: left;
 `
-export const StylesText = styled.h2`
+export const StylesText = styled.div`
   //background-color: white;
   margin-top: 20px;
   margin-bottom: 40px;
   color: #c784b9;
+  font-size: 25px;
+  font-weight: bold;
 `
 export const Styles = styled.div`
   width: 170px;
