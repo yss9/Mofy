@@ -7,7 +7,7 @@
 
 | 기간 | 팀 구성 | 내 역할 |
 | :-- | :-- | :-- |
-| 2023.09 ~ 2023.11 | 7인 팀 (팀 저장소 fork) | 사용자 메시지 기능 공동 구현 (DRF API · React 화면) |
+| 2023.09 ~ 2023.12 | 7인 팀 (팀 저장소 fork) | 사용자 메시지 기능 공동 구현 (DRF API · React 화면) |
 
 **링크** · [포트폴리오 상세](https://portfolio-sys13-9a4d.vercel.app/projects/mofy)
 
