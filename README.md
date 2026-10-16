@@ -53,7 +53,7 @@
 
 - 모든 메시지 API는 `JWTAuthentication` + `IsAuthenticated`로 로그인 사용자만 호출할 수 있습니다.
 - 프론트엔드는 쿠키의 `access_token`을 `Authorization: Bearer` 헤더에 담아 Axios로 호출하고, 응답을 목록으로 렌더링합니다.
-- 팀 저장소 커밋 `메세지기능-경서,영석`에서 화면을 실제 API에 연결했습니다.
+- 화면을 실제 API에 연결했습니다.
   보낸 메시지함의 임시 URL을 `/message_box/1/`로 바꾸고, 더미 데이터로 그리던 받은 메시지함을 `/message_box/2/` 응답으로 교체했으며, `/chat/` 전송 요청에 JWT 헤더를 추가했습니다.
 
 관련 코드
